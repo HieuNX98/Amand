@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout/masterlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Amand</title>
+</head>
+<body>
+<div class="slider" layout:fragment="slider">
+    <div class="content-slider">
+        <img th:src="@{/client/assets/img/aman.png}"  alt="" class="slider__img">
+    </div>
+</div>
+<div class="grid " layout:fragment="content">
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+                <h1 class="product__distance-name">T-SHIRST</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col l-4 m-6 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/amand8.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">White Leaves Pattern T-Shirt</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">600.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-6 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/amand.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Greek Printed Polo</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">500.000vnd</div>
+                </div>
+                <!-- <div class="product__item-favourate">
+                    <i class="fas fa-check"></i>
+                   <span> Yêu thích</span>
+                </div>-->
+            </a>
+        </div>
+
+        <div class="col l-4 m-6 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/amand2.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Horse & The Moon T-Shirt</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">550.000vnd</div>
+                </div>
+                <!-- <div class="product__item-favourate">
+                    <i class="fas fa-check"></i>
+                   <span> Yêu Thích</span>
+                </div> -->
+            </a>
+        </div>
+
+        <div class="col l-4 m-6 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/amand3.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Bandana Pattern Shirt</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">400.000vnd</div>
+                </div>
+                <!-- <div class="product__item-favourate">
+                    <i class="fas fa-check"></i>
+                   <span> Yêu Thích</span>
+                </div> -->
+            </a>>
+        </div>
+
+        <div class="col l-4 m-6 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/amand4.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Black Pattern T-Shirt</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">400.000vnd</div>
+                </div>
+                <!-- <div class="product__item-favourate">
+                    <i class="fas fa-check"></i>
+                   <span> Yêu Thích</span>
+                </div> -->
+            </a>
+        </div>
+
+        <div class="col l-4 m-6 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/amand5.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Leopard Patern Shirt</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">350.000vnd</div>
+                </div>
+                <!-- <div class="product__item-favourate">
+                    <i class="fas fa-check"></i>
+                   <span> Yêu Thích</span>
+                </div> -->
+            </a>
+        </div>
+
+
+
+    </div>
+    <footer class="footer__btn">
+        <a href="" class="footer__btn-xtc"> Xem tất Cả </a>
+    </footer>
+
+
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+                <h1 class="product__distance-name">SẢN PHẨM T-SHIRST NỔI BẬT</h1>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col l-9 l-o-2">
+            <div class="product__item-new">
+                <img th:src="@{/client/assets/img/amand8.png}" alt="" class="product__item-new-img">
+                <div class="product__item-info">
+                    <h3 class="product__item-heading">Cubban shirts white</h3>
+                    <div class="special__price">
+                        <span class="product__item-current">900.000vnd</span>
+                    </div>
+
+
+
+                    <div class="DIV">
+                        <p class="text">Kích Thước</p>
+                    </div>
+                    <div id="radiobut">
+
+                        <div class="abc">
+                            <div class="pretty p-icon p-curve p-tada" >
+                                <input type="radio" name="radio66">
+                                <div class="state p-primary-o">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label>S</label>
+                                </div>
+                            </div>
+
+                            <div class="pretty p-icon p-curve p-rotate">
+                                <input type="radio" name="radio66" >
+                                <div class="state p-success-o">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label> M</label>
+                                </div>
+                            </div>
+
+                            <div class="pretty p-icon p-curve p-pulse">
+                                <input type="radio" name="radio66">
+                                <div class="state p-info-o">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label> L</label>
+                                </div>
+                            </div>
+
+                            <div class="pretty p-icon p-curve p-jelly">
+                                <input type="radio" name="radio66">
+                                <div class="state p-warning">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label> XL</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="DIV2">
+                        <p class="text">Số Lượng </p>
+                    </div>
+                    <div class="quantity">
+                        <input onclick="var result = document.getElementById('quantity'); var qty = result.value; if( !isNaN(qty) &amp; qty > 1 ) result.value--;return false;" type='button' value='-' />
+                        <input id='quantity' min='1' name='quantity' type='text' value='1' />
+                        <input onclick="var result = document.getElementById('quantity'); var qty = result.value; if( !isNaN(qty)) result.value++;return false;" type='button' value='+' />
+                    </div>
+
+
+                    <!-- <i class="fas  product__color-icon fa-check"></i> -->
+                    <div class="button">
+                        <button class="btn btn--primary">Thêm Vào Giỏ Hàng</button>
+                        <button class="btn btn--primary">Mua ngay</button>
+                    </div>
+
+                    <div class="product__detail">
+                        <a th:href="@{/thong-tin-san-pham}" class="product__detail-link" >Chi tiết  sản phẩm </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+                <h1 class="product__distance-name">JEAMS & SORT</h1>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col l-4 m-4 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/sort2.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Extremely Mixed Waistband Short</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">4500.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/sort3.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name"> Mixed Waistband Short</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">750.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/sort4.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Gun&Rose Short</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">700.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/jeam4.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Essential Short</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">400.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/jeam5.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Proud Wax Jeans</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">800.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                <img th:src="@{/client/assets/img/jeam6.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Biker Jeans</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">550.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+
+    </div>
+
+    <footer class="footer__btn">
+        <a href="" class="footer__btn-xtc"> Xem tất Cả </a>
+    </footer>
+
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col l-12">
+            <div class="introduce">
+                <img src="https://bizweb.dktcdn.net/100/358/122/themes/788488/assets/img_tab_1.jpg?1621838958247" alt="" class="introduce__img">
+                <p class="introduce__text">Ra đời vào những ngày đầu năm 2014 mang tên "AMAND" nằm trên con đường 33 Quán Thánh, Hà Nội - thương hiệu do người Việt phát triển cùng niềm đam mê bất tận với thời trang của "anh bạn trẻ" đầy nhiệt huyết
+                </p>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col l-4 m-4 c-12">
+            <a href="" class="product__item">
+                <img th:src="@{/client/assets/img/boot6.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Proud Wax Jeans</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">850.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a href="" class="product__item">
+                <img th:src="@{/client/assets/img/boot1.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Strap Suede Chelsea Boots</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">800.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a href="" class="product__item">
+                <img th:src="@{/client/assets/img/boot2.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Signature Brown Heel Chelsea Boots</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">1.000.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a href="" class="product__item">
+                <img th:src="@{/client/assets/img/boot3.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Zipped Leather Heel Chelsea Boots</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">1.200.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a href="" class="product__item">
+                <img th:src="@{/client/assets/img/boot4.png}" alt="" class="product__item-img">
+                <h4 class="product__item-name">Brown Hiker Sneakers</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">700.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+
+        <div class="col l-4 m-4 c-12">
+            <a href="" class="product__item">
+                <img th:src="@{/client/assets/img/boot5.png}" alt="" class="product__item-img">
+
+                <h4 class="product__item-name">Proud Wax Jeans</h4>
+                <div class="product__item-price">
+                    <div class="product-item__price-current">900.000vnd</div>
+                </div>
+
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer__btn">
+        <a href="" class="footer__btn-xtc"> Xem tất Cả </a>
+    </footer>
+
+
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

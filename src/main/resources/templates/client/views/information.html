@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout/masterlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Thông tin sản phẩm</title>
+</head>
+<body>
+<div class=" grid wide information" layout:fragment="content">
+    <div class="row">
+        <div class="col l-9 l-o-2">
+            <div class="product__item-new">
+                <img th:src="@{/client/assets/img/amand1.png}" alt="" class="product__item-new-img">
+                <div class="product__item-info">
+                    <h3 class="product__item-heading">Cubban shirts white</h3>
+                    <div class="special__price">
+                        <span class="product__item-current">900.000vnd</span>
+                    </div>
+
+                    <div class="DIV">
+                        <p class="text">Kích thước</p>
+                    </div>
+                    <div id="radiobut">
+
+                        <div class="abc">
+                            <div class="pretty p-icon p-curve p-tada" >
+                                <input type="radio" name="radio66">
+                                <div class="state p-primary-o">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label>S</label>
+                                </div>
+                            </div>
+
+                            <div class="pretty p-icon p-curve p-rotate">
+                                <input type="radio" name="radio66" >
+                                <div class="state p-success-o">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label> M</label>
+                                </div>
+                            </div>
+
+                            <div class="pretty p-icon p-curve p-pulse">
+                                <input type="radio" name="radio66">
+                                <div class="state p-info-o">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label> L</label>
+                                </div>
+                            </div>
+
+                            <div class="pretty p-icon p-curve p-jelly">
+                                <input type="radio" name="radio66">
+                                <div class="state p-warning">
+                                    <i class="icon fa fa-check" aria-hidden="true"></i>
+                                    <label> XL</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <!--<div class="product__color">
+                        <span class="product__color-text">  Màu sắc:white</span>
+
+                    </div>
+                    <i class="fas  product__color-icon fa-check"></i> -->
+
+                    <div class="button">
+                        <button class="btn btn--primary">Thêm vào giỏ hàng</button>
+                        <button class="btn btn--primary">Mua ngay</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<header class="header" th:fragment="header">
+    <div class="grid">
+        <nav class="header__navbar">
+            <ul class="header__navbar-list-left ">
+                <li class="header__navbar-item">
+                    <a th:href="@{/trang-chu}" class="header__navbar-item-link">Home</a>
+                </li>
+                <li class="header__navbar-item">
+                    <a href="" class="header__navbar-item-link">Sản Phẩm Mới </a>
+
+                </li>
+                <li class="header__navbar-item header__navbar-item-has-notifyy">
+                    <a href="" class="header__navbar-item-link">
+                        Bộ Sưu Tập
+                    </a>
+
+                    <div class="header__notifyy">
+                        <ul class="header__notifyy-list">
+                            <li class="header__notify-item">
+                                <a href="#" class="header__notify-item-link">
+                                    Shirts/Top
+                                </a>
+                            </li>
+
+                            <li class="header__notify-item">
+                                <a href="#" class="header__notify-item-link">
+                                    Pants
+                                </a>
+                            </li>
+
+                            <li class="header__notify-item">
+                                <a href="#" class="header__notify-item-link">
+                                    Sweater
+                                </a>
+                            </li>
+
+                            <li class="header__notify-item">
+                                <a href="#" class="header__notify-item-link">
+                                    Coats & Jacket
+                                </a>
+                            </li>
+
+                            <li class="header__notify-item">
+                                <a href="#" class="header__notify-item-link">
+                                    Picked By Look
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+
+
+                </li>
+                <li class="header__navbar-item">
+                    <a href="" class="header__navbar-item-link">
+                        Sale
+                    </a>
+                </li>
+
+                <li class="header__navbar-item ">
+                    <a href="" class="header__navbar-item-link">
+                        Về Chúng Tôi
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="header__navbar-list-right">
+                <li class="header__navbar-item">
+                    <div class="header__search">
+                        <input type="text" class="header__search-input" placeholder="Tìm kiếm sản  phẩm ">
+
+                    </div>
+                </li>
+
+
+                <a th:href="@{/gio-hang}" class="header__navbar-item-link">
+                    <i class="fas header__navbar-icon-cart fa-shopping-cart"></i>
+                </a>
+
+                <li class="header__navbar-item">
+                    <a th:href="@{/dang-nhap}" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong">
+                        Đăng Nhập
+                    </a>
+
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+</body>
+</html>

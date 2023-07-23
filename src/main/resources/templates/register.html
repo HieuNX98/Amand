@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:fragment="title">Đăng ký</title>
+    <link rel="stylesheet" th:href="@{/client/assets/css/register.css}">
+    <link rel="stylesheet" th:href="@{/client/assets/font/fontawesome-free-5.15.3-web/fontawesome-free-5.15.3-web/css/all.min.css}">
+</head>
+<body>
+<header class="main-header">
+    <h1>A M A N D</h1>
+</header>
+<div class="form__submit">
+    <h1>Đăng ký</h1>
+    <div class="container">
+        <div class="text-box" >
+            <label for="" class="label-name">Họ và tên</label><br>
+            <i class="far fa-user"></i>
+            <input type="text"  name="" placeholder="" id="">
+        </div>
+
+        <div class="text-box">
+            <label for="" class="label-name">Email</label><br>
+            <i class="fas fa-location-arrow"></i>
+            <input type="text" name="" placeholder="" id="">
+        </div>
+
+        <div class="text-box">
+            <label for="" class="label-name">Số điện thoại</label><br>
+            <i class="fas fa-phone"></i>
+            <input type="text" name="" placeholder="" id="">
+        </div>
+
+        <div class="text-box">
+            <label for="" class="label-name">Mật khẩu</label><br>
+            <i class="fas fa-lock"></i>
+            <input type="password" name="" placeholder="" id="">
+        </div>
+
+        <div class="text-box">
+            <label for="" class="label-name">Nhập lại mật khẩu</label><br>
+            <i class="fas fa-lock"></i>
+            <input type="password" name="" placeholder="" id="">
+        </div>
+
+        <input type="button" value="Đăng ký" class="btn">
+    </div>
+</div>
+</body>
+</html>

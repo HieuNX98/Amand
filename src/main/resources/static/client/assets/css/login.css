@@ -1,0 +1,97 @@
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: url('/login/assets/img/img12.jpg') no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+}
+.login__box{
+    position: absolute;
+    width: 350px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    
+    /* color: white; */
+}
+/* ::placeholder{
+    color: rgb(196, 218, 190);
+} */
+.login__box h1 {
+    float: left;
+    font-size: 30px;
+    font-weight: 400;
+    border-bottom: 5px solid #0d979a;
+    margin-bottom: 40px;
+    /* padding: 13px 0 ; */
+}
+.textbox{
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0 ;
+    margin: 8px 0 ;
+    border-bottom: 1px solid #4caf50;
+}
+.textbox i{
+    width: 25px;
+    float: left;
+    text-align: center;
+
+}
+.textbox input{
+    border: none;
+    outline: none;
+    background: none;
+    /* color: white; */
+    width: 80%;
+    float: left;
+    margin: 0 10px;
+}
+.btn{
+    width: 80%;
+    background-color: black;
+    border: 2px solid #4caf50;
+    color: rgb(250, 241, 241);
+    font-size: 20px;
+    cursor: pointer;
+    margin: 12px 0;
+    padding: 4px 0;
+    font-weight: 600;
+    border-radius: 5px;
+}
+.main-header{
+    background-color: rgb(47, 126, 221);
+    height: 50px;
+    width: 13%;
+}
+h1{
+ color: black;
+ padding-left: 20px;
+ padding-top: 6px;
+}
+.button{
+    display: flex;
+}
+.btn-re{
+    background-color: black;
+    padding-top: 20px;
+    padding-left: 10px;
+    border: 2px solid #4caf50 ;
+    margin: 12px 0;
+    padding: 4px 0;
+    margin-left: 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-re a{
+    color: white;
+}
+
+
+

@@ -1,0 +1,86 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: url('/form__DKI/assets/img/img9.jpg') no-repeat;
+    background-size: cover;
+}
+.form__submit{
+   
+    position: absolute;
+    width: 400px; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% ,-50%);
+
+    
+   
+
+}
+.form__submit h1{
+    font-size: 28px;
+    text-align: center;
+    color: black;
+    font-weight: 400;
+    
+}
+.label-name{
+    color: rgb(1, 11, 14);
+    font-size: 14px;
+    font-weight: 700;
+}
+.text-box{
+
+    width: 100%;
+    overflow: hidden;
+    font-size: 20px;
+    padding: 8px 0;
+    border-bottom: 1px solid #4caf50;
+
+}
+::placeholder {
+    color: rgb(171, 184, 162);
+}
+.text-box input{
+    border: none;
+    outline: none;
+    background: none;
+    color: rgb(252, 22, 91);
+    margin: 5px 10px;
+    width: 80%;
+}
+.text-box i{
+    
+    line-height: 22px;
+    font-size: 16px;
+    color: rgb(19, 1, 1);
+    width: 25px;
+    text-align: center;
+    float: left;
+}
+.btn{
+    border-radius: 5px;
+    width: 100%;
+    background: black;
+    border: 2px solid #4caf50;
+    margin: 12px 0;
+    padding: 5px 5px;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.main-header{
+    background-color: rgb(62, 193, 223);
+    height: 50px;
+    width:13% ;
+}
+h1{
+ color: black;
+ padding-left: 20px;
+ padding-top: 5px;
+}
+.container{
+    margin: 20px;
+    
+}
