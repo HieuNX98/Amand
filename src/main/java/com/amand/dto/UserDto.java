@@ -18,6 +18,16 @@ public class UserDto extends BaseDto<UserDto>{
 
     private String address;
 
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public String getUserName() {
         return userName;
     }
