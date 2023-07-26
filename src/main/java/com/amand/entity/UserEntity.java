@@ -29,7 +29,10 @@ public class UserEntity extends BaseEntity {
     @Column
     private String address;
 
-    @ManyToMany
+    @Column
+    private int status;
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
                 joinColumns = @JoinColumn(name = "user_id"),
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -108,5 +111,13 @@ public class UserEntity extends BaseEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
