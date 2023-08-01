@@ -8,6 +8,8 @@ public class UserDto extends BaseDto<UserDto>{
 
     private String password;
 
+    private String repeatPassword;
+
     private String fullName;
 
     private Date date;
@@ -22,6 +24,14 @@ public class UserDto extends BaseDto<UserDto>{
 
     public int getStatus() {
         return status;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 
     public void setStatus(int status) {

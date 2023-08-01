@@ -83,13 +83,28 @@
                 <a th:href="@{/gio-hang}" class="header__navbar-item-link">
                     <i class="fas header__navbar-icon-cart fa-shopping-cart"></i>
                 </a>
+                <th:block th:if="${fullName == null}">
+                    <li class="header__navbar-item">
+                        <a th:href="@{/dang-nhap}" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong">
+                            Đăng Nhập
+                        </a>
+                    </li>
+                </th:block>
 
-                <li class="header__navbar-item">
-                    <a th:href="@{/dang-nhap}" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong">
-                        Đăng Nhập
-                    </a>
 
-                </li>
+
+                <th:block th:if="${fullName != null}">
+                    <li class="header__navbar-item">
+                        <a th:href="@{/thoat}" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong">
+                            Đăng xuất
+                        </a>
+                    </li>
+                    <li class="header__navbar-item">
+                        <a href="#" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong" th:text= "'Hello ' + ${fullName}">
+
+                        </a>
+                    </li>
+                </th:block>
             </ul>
         </nav>
     </div>
