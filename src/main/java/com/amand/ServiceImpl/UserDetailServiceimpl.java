@@ -1,10 +1,9 @@
-package com.amand.service.impl;
+package com.amand.ServiceImpl;
 
 import com.amand.constant.SystemConstant;
 import com.amand.dto.MyUser;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
-import com.amand.repository.RoleRepository;
 import com.amand.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

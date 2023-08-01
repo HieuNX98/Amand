@@ -1,7 +1,7 @@
 package com.amand.config;
 
 import com.amand.Security.CustomSuccessHandler;
-import com.amand.service.impl.UserDetailServiceimpl;
+import com.amand.ServiceImpl.UserDetailServiceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,12 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().and()
-                .csrf().ignoringAntMatchers("/j_spring_security_check") // Ignore CSRF for login processing URL
-                .and()
+                .csrf()
+                .disable()
                 .authorizeRequests()
                 .antMatchers("/dang-nhap").permitAll()
                 .antMatchers("/dang-ky").permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
                 .exceptionHandling().accessDeniedPage("/403")
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(customSuccessHandler)
                 .and()
                 .logout() // Add logout configuration here
-                .logoutUrl("/perform-logout")
+                .logoutUrl("/thoat")
                 .logoutSuccessUrl("/dang-nhap");
     }
 
