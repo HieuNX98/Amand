@@ -16,8 +16,8 @@
 </header>
 <div class="login__box">
     <h1>ĐĂNG NHẬP</h1>
-    <form>
-        <div class="textbox">
+    <form th:action="@{/j_spring_security_check}" method="post">
+        <div class="textbox" >
             <i class="far fa-user"></i>
             <input type="text" placeholder="Tên đăng nhập" name="username" id="username">
         </div>
@@ -27,11 +27,12 @@
             <input type="password" placeholder="Mật khẩu" name="password" id="password">
         </div>
         <div class="button">
-            <input class="btn" type="button" value="Đăng nhập">
+            <input class="btn" type="submit" value="Đăng nhập">
             <span class="btn-re">
                 <a th:href="@{/dang-ky}" class="entypo-user-add register">Đăng ký</a>
               </span>
         </div>
+    </form>
 </div>
 </div>
 </body>
