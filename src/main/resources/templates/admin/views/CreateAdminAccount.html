@@ -1,10 +1,139 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:fragment="title">Đăng ký</title>
+    <link rel="stylesheet" th:href="@{/client/assets/css/register.css}">
+    <link rel="stylesheet"
+          th:href="@{/client/assets/font/fontawesome-free-5.15.3-web/fontawesome-free-5.15.3-web/css/all.min.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-$END$
+<header class="main-header">
+    <h1><a href="/admin/home">A M A N D</a></h1>
+</header>
+<form id="formSubmit">
+    <div class="form__submit" >
+        <h1>Đăng ký</h1>
+        <div class="container">
+            <div class="text-box">
+                <label for="fullname" class="label-name">Họ và tên</label><br>
+                <i class="far fa-user"></i>
+                <input type="text" name="fullName" placeholder="Nguyễn Văn A" id="fullname">
+            </div>
+            <p class="msg_error" id="msgFullname"><p>
+
+            <div class="text-box">
+                <label for="username" class="label-name">username</label><br>
+                <i class="far fa-user"></i>
+                <input type="text" name="userName" placeholder="nguyenvana" id="username">
+            </div>
+            <p class="msg_error" id="msgUserName"><p>
+
+            <div class="text-box">
+                <label for="email" class="label-name">Email</label><br>
+                <i class="fas fa-location-arrow"></i>
+                <input type="text" name="email" placeholder="NguyeVanA@gmail.com" id="email">
+            </div>
+            <p class="msg_error" id="msgEmail"><p>
+
+            <div class="text-box">
+                <label for="phone" class="label-name">Số điện thoại</label><br>
+                <i class="fas fa-phone"></i>
+                <input type="text" name="phone" placeholder="0988888888" id="phone">
+            </div>
+            <p class="msg_error" id="msgPhone"><p>
+
+            <div class="text-box">
+                <label for="password" class="label-name">Mật khẩu</label><br>
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="******" id="password">
+            </div>
+            <p class="msg_error" id="msgPassword"><p>
+
+            <div class="text-box">
+                <label for="exampleRepeatPassword" class="label-name">Nhập lại mật khẩu</label><br>
+                <i class="fas fa-lock"></i>
+                <input type="password" name="repeatPassword" placeholder="******" id="exampleRepeatPassword">
+            </div>
+
+            <div class="text-box">
+                <label for="fullname" class="label-name">Vai tro</label><br>
+                <i class="far fa-user"></i>
+                <input type="text" name="fullName" id="fullname">
+                <select class="form-control" id="categoryCode" name="categoryCode">
+                    <option value="">Chọn vai tro</option>
+                </select>
+            </div>
+
+            <input type="button" value="Đăng ký" class="btn" id="registerUser">
+        </div>
+    </div>
+</form>
+
 </body>
+<script>
+   /* $('#registerUser').click(function (e) {
+        e.preventDefault();
+        var data = {};
+        var formData = $('#formSubmit').serializeArray();
+        $.each(formData, function (i, v) {
+            data["" + v.name + ""] = v.value;
+        });
+        $.ajax({
+            url: '/api/user',
+            type: 'POST',
+            contentType : 'application/json',
+            data : JSON.stringify(data),
+            dataType : 'json',
+            success : function (result){
+                if(result.status === 0){
+                    showMessageError(result);
+                } else {
+                    alert("Đăng kí thành công");
+                    window.location.replace('/dang-nhap');
+                }
+            },
+            error : function (result){
+                alert("Có lỗi xảy ra");
+                window.location.reload();
+            }
+        });
+
+    });
+
+    function showMessageError(result) {
+        $('.msg_error').hide();
+        if (result.error["messagePassword"]) {
+            $('#msgPassword').html(result.error["messagePassword"]);
+            $('#msgPassword').show();
+        }
+        if (result.error["messageFullname"]){
+            $('#msgFullname').html(result.error["messageFullname"]);
+            $('#msgFullname').show();
+        }
+        if (result.error["messageUserName"]) {
+            $('#msgUserName').html(result.error["messageUserName"]);
+            $('#msgUserName').show();
+        }
+        if (result.error["messagePhone"]) {
+            $('#msgPhone').html(result.error["messagePhone"]);
+            $('#msgPhone').show();
+        }
+        if (result.error["messageEmail"]) {
+            $('#msgEmail').html(result.error["messageEmail"]);
+            $('#msgEmail').show();
+        }
+    }
+*/
+</script>
 </html>

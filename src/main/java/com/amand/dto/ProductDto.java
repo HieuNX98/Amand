@@ -1,5 +1,7 @@
 package com.amand.dto;
 
+import java.util.List;
+
 public class ProductDto extends BaseDto<ProductDto>{
     private String name;
 
@@ -10,6 +12,16 @@ public class ProductDto extends BaseDto<ProductDto>{
     private int amount;
 
     private String season;
+
+    private List<ImageDto> images;
+
+    public List<ImageDto> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageDto> images) {
+        this.images = images;
+    }
 
     public String getName() {
         return name;
