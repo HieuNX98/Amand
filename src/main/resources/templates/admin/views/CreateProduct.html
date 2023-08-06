@@ -1,10 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/masterlayout.html}">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Them san pham</title>
 </head>
 <body>
-$END$
+<div class="page-heading" layout:fragment="pageheading" >
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Them san pham</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/home">trang chu</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Them san pham</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Them thong tin san pham</h4>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="categoryCode">Thể loại</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="categoryCode" name="categoryCode">
+                                    <option value="">Chọn loại san pham</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Ten san pham</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                   placeholder="Ten san pham">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="images">Hinh anh</label>
+                            <!--<small class="text-muted">eg.<i>someone@example.com</i></small>-->
+                            <input type="file" class="form-control" id="images" name="images" placeholder="Hinh anh san pham">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oldPrice">Gia</label>
+                            <input type="text" id="oldPrice" name="oldPrice" class="form-control" placeholder="Gia san pham">
+                            <p><small class="text-muted"></small>
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="salePrice">Gia sale</label>
+                            <input type="text" class="form-control" id="salePrice" name="salePrice"
+                                   placeholder="Gia sale">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="amount">So luong</label>
+                            <input type="number" class="form-control" id="amount" name="amount"
+                                   placeholder="So luong san pham">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="name">Mua san pham</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="name" name="name">
+                                    <option value="">Chọn mua san pham</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="name">Mau san pham</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="name" name="name">
+                                    <option value="">Chọn mau san pham</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right" for="name">Kich thuoc san pham</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="name" name="name">
+                                    <option value="">Chọn kich thuoc pham</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit"
+                                class="btn btn-primary me-1 mb-1">Them</button>
+                        <button type="reset"
+                                class="btn btn-light-secondary me-1 mb-1">Huy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 </body>
 </html>

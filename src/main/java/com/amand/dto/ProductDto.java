@@ -1,5 +1,10 @@
 package com.amand.dto;
 
+import lombok.Data;
+
+import java.util.List;
+
+@Data
 public class ProductDto extends BaseDto<ProductDto>{
     private String name;
 
@@ -11,43 +16,9 @@ public class ProductDto extends BaseDto<ProductDto>{
 
     private String season;
 
-    public String getName() {
-        return name;
-    }
+    private List<ImageDto> images;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String color;
 
-    public int getOldPrice() {
-        return oldPrice;
-    }
-
-    public void setOldPrice(int oldPrice) {
-        this.oldPrice = oldPrice;
-    }
-
-    public int getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(int salePrice) {
-        this.salePrice = salePrice;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
-    }
+    private String size;
 }
