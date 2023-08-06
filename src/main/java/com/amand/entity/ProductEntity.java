@@ -13,10 +13,10 @@ public class ProductEntity extends BaseEntity {
     @Column
     private String name;
 
-    @Column(name = "oldprice")
+    @Column(name = "old_price")
     private int oldPrice;
 
-    @Column(name = "saleprice")
+    @Column(name = "sale_price")
     private int salePrice;
 
     @Column
@@ -50,7 +50,7 @@ public class ProductEntity extends BaseEntity {
     private List<OrderEntity> orders;
 
     @ManyToOne
-    @JoinColumn(name = "category_Id")
+    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     private String image1;

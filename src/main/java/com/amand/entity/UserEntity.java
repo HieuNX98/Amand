@@ -11,13 +11,13 @@ import java.util.List;
 @Data
 public class UserEntity extends BaseEntity {
 
-    @Column(name = "username")
+    @Column(name = "user_name")
     private String userName;
 
     @Column
     private String password;
 
-    @Column(name = "fullname")
+    @Column(name = "full_name")
     private String fullName;
 
     @Column
