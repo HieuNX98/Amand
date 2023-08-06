@@ -9,10 +9,11 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @Data
 public class OrderEntity extends BaseEntity {
-    @Column(name = "codeOrder")
+
+    @Column(name = "codeorder")
     private String codeOrder;
 
     @Column(name = "fullname")
@@ -28,7 +29,7 @@ public class OrderEntity extends BaseEntity {
     private int price;
 
     @Column(name = "totalprice")
-    private String totalPrice;
+    private int totalPrice;
 
     @Column
     private String email;
