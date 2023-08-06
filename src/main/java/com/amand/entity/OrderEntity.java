@@ -13,10 +13,10 @@ import java.util.List;
 @Data
 public class OrderEntity extends BaseEntity {
 
-    @Column(name = "codeorder")
+    @Column(name = "code_order")
     private String codeOrder;
 
-    @Column(name = "fullname")
+    @Column(name = "full_name")
     private String fullName;
 
     @Column
@@ -28,7 +28,7 @@ public class OrderEntity extends BaseEntity {
     @Column
     private int price;
 
-    @Column(name = "totalprice")
+    @Column(name = "total_price")
     private int totalPrice;
 
     @Column
