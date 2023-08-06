@@ -1,10 +1,12 @@
 package com.amand.dto;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
+@Data
 public class MyUser extends User {
 
 
@@ -15,11 +17,4 @@ public class MyUser extends User {
 
     private String fullName;
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 }
