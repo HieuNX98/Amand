@@ -1,10 +1,13 @@
 package com.amand.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "product")
+@Data
 public class ProductEntity extends BaseEntity {
 
     @Column
@@ -41,10 +44,10 @@ public class ProductEntity extends BaseEntity {
     private List<BagEntity> bags;
 
     @ManyToMany
-    @JoinTable(name = "product_oder",
+    @JoinTable(name = "product_order",
                 joinColumns = @JoinColumn(name = "product_id"),
-                inverseJoinColumns = @JoinColumn(name = "oder_id"))
-    private List<OderEntity> oders;
+                inverseJoinColumns = @JoinColumn(name = "order_id"))
+    private List<OrderEntity> orders;
 
     @ManyToOne
     @JoinColumn(name = "category_Id")
@@ -52,94 +55,5 @@ public class ProductEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "products")
     private List<ImageEntity> images;
-
-    public List<OderEntity> getOders() {
-        return oders;
-    }
-
-    public void setOders(List<OderEntity> oders) {
-        this.oders = oders;
-    }
-
-    public List<BagEntity> getBags() {
-        return bags;
-    }
-
-    public void setBags(List<BagEntity> bags) {
-        this.bags = bags;
-    }
-
-    public List<ImageEntity> getImages() {
-        return images;
-    }
-
-    public void setImages(List<ImageEntity> images) {
-        this.images = images;
-    }
-
-    public CategoryEntity getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryEntity category) {
-        this.category = category;
-    }
-
-    public List<ColorEntity> getColors() {
-        return colors;
-    }
-
-    public void setColors(List<ColorEntity> colors) {
-        this.colors = colors;
-    }
-
-    public List<SizeEntity> getSizes() {
-        return sizes;
-    }
-
-    public void setSizes(List<SizeEntity> sizes) {
-        this.sizes = sizes;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getOldPrice() {
-        return oldPrice;
-    }
-
-    public void setOldPrice(int oldPrice) {
-        this.oldPrice = oldPrice;
-    }
-
-    public int getSalePrice() {
-        return salePrice;
-    }
-
-    public void setSalePrice(int salePrice) {
-        this.salePrice = salePrice;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getSeason() {
-        return season;
-    }
-
-    public void setSeason(String season) {
-        this.season = season;
-    }
-
 
 }

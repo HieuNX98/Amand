@@ -1,9 +1,12 @@
 package com.amand.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "image")
+@Data
 public class ImageEntity extends BaseEntity {
 
     @Column
@@ -13,19 +16,4 @@ public class ImageEntity extends BaseEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity products;
 
-    public ProductEntity getProducts() {
-        return products;
-    }
-
-    public void setProducts(ProductEntity products) {
-        this.products = products;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

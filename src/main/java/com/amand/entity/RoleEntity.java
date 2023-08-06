@@ -1,6 +1,8 @@
 package com.amand.entity;
 
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "role")
+@Data
 public class RoleEntity extends BaseEntity{
 
     @Column
@@ -20,19 +23,4 @@ public class RoleEntity extends BaseEntity{
     @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 }

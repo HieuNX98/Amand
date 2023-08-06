@@ -1,5 +1,7 @@
 package com.amand.entity;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "color")
+@Data
 public class ColorEntity extends BaseEntity {
 
     @Column
@@ -16,19 +19,4 @@ public class ColorEntity extends BaseEntity {
     @ManyToMany(mappedBy = "colors")
     private List<ProductEntity> products;
 
-    public List<ProductEntity> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
