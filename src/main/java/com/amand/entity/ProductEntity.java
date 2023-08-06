@@ -53,7 +53,14 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "category_Id")
     private CategoryEntity category;
 
-    @OneToMany(mappedBy = "products")
-    private List<ImageEntity> images;
+    private String image1;
+
+    private String image2;
+
+    private String image3;
+
+    private String image4;
+
+    private String image5;
 
 }
