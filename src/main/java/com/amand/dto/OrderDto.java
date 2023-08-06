@@ -14,6 +14,8 @@ public class OrderDto extends BaseDto<OrderDto>{
 
     private String phone;
 
+    private String email;
+
     private List<String> nameProducts;
 
     private int amount;
