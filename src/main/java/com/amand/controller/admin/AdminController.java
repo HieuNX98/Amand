@@ -1,6 +1,8 @@
 package com.amand.controller.admin;
 
 import com.amand.Utils.SecurityUtils;
+import com.amand.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,9 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("admin")
 public class AdminController {
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/home")
     public ModelAndView home(HttpSession session){
@@ -120,6 +125,7 @@ public class AdminController {
     @GetMapping("/tao-tai-khoan-admin")
     public ModelAndView createAdminAccount(){
         ModelAndView mav = new ModelAndView("admin/views/CreateAdminAccount");
+        mav.addObject("roles", roleService.findAll());
         return mav;
     }
 

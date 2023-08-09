@@ -25,4 +25,5 @@ public class UserDto extends BaseDto<UserDto>{
 
     private int status;
 
+    private String roleCode;
 }

@@ -10,6 +10,7 @@ import com.amand.service.IUserService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,19 +34,29 @@ public class UserServiceImpl implements IUserService {
     public UserDto save(UserDto userDto) {
         List<RoleEntity> roles = new ArrayList<>();
         UserEntity userEntity = userConverter.toEntity(userDto);
-        RoleEntity roleEntity = roleRepository.findOneByCode("ROLE_USER");
-        roles.add(roleEntity);
-        userEntity.setRoles(roles);
+        if (CollectionUtils.isEmpty(userEntity.getRoles())) {
+            RoleEntity roleEntity = roleRepository.findOneByCode("ROLE_USER");
+            roles.add(roleEntity);
+            userEntity.setRoles(roles);
+        } else {
+            RoleEntity roleEntity = roleRepository.findOneByCode(userDto.getRoleCode());
+            roles.add(roleEntity);
+            userEntity.setRoles(roles);
+        }
         userEntity.setStatus(1);
         userEntity = userRepository.save(userEntity);
         return userConverter.toDto(userEntity);
     }
 
 
-    public Map<String, String> validate(UserDto userDto) {
+    public Map<String, String> validate(UserDto userDto, boolean isAdmin) {
         Map<String, String> result = new HashMap<>();
         if (Strings.isBlank(userDto.getFullName())) {
             result.put("messageFullName", "Bạn không được để trống thông tin họ và tên ");
+        }
+
+        if (isAdmin && Strings.isBlank(userDto.getRoleCode())) {
+            result.put("messageRole", "Bạn không được để trống thông tin vai tro");
         }
 
         if (Strings.isNotBlank(userDto.getUserName())) {

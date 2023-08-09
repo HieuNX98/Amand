@@ -1,16 +1,18 @@
 ﻿<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title layout:fragment="title">Đăng ký</title>
-    <link rel="stylesheet" th:href="@{/client/assets/css/register.css}">
-    <link rel="stylesheet"
-          th:href="@{/client/assets/font/fontawesome-free-5.15.3-web/fontawesome-free-5.15.3-web/css/all.min.css}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Đăng ký</title>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/app.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/pages/auth.css}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    </head>
     <style>
         .msg_error {
             color: red;
@@ -18,10 +20,99 @@
     </style>
 </head>
 <body>
-<header class="main-header">
-    <h1><a href="/admin/home">A M A N D</a></h1>
-</header>
-<form id="formSubmit">
+
+<div id="auth">
+    <div class="row h-100">
+        <div class="col-lg-5 col-12">
+            <div id="auth-left">
+                <div class="auth-logo">
+                    <a href="/admin/home"><img src="assets/images/logo/logo.png" alt="Logo"></a>
+                </div>
+                <h1 class="auth-title">Đăng ký</h1>
+                <p class="auth-subtitle mb-5">Nhập dữ liệu của bạn để đăng ký vào trang web của chúng tôi.</p>
+
+                <form id="formSubmit">
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Email" name="email" id="email">
+                        <div class="form-control-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgEmail"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Họ và tên" name="fullName" id="fullName">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgFullname"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Username" name="userName" id="userName">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgUserName"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" placeholder="Mật khẩu" name="password" id="password">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgPassword"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" placeholder="Nhập lại mật khẩu" name="repeatPassword" id="repeatPassword">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Số điện thoại" name="phone" id="phone">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgPhone"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                            <select class="form-control" id="roleCode" name="roleCode">
+                                <option value="">Chọn vai tro</option>
+                                <th:block th:each="item : ${roles}">
+                                    <option th:value="${item.code}" th:text="${item.name}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgRole"><p>
+
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" id="registerAdmin"
+                    >Đăng ký</button>
+                </form>
+                <div class="text-center mt-5 text-lg fs-4">
+                    <p class='text-gray-600'>Bạn có sẵn sàng để tạo một tài khoản? <a href="/dang-nhap"
+                                                                         class="font-bold">Đăng nhập
+                        </a>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 d-none d-lg-block">
+            <div id="auth-right">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--<form id="formSubmit">
     <div class="form__submit" >
         <h1>Đăng ký</h1>
         <div class="container">
@@ -67,22 +158,25 @@
             </div>
 
             <div class="text-box">
-                <label for="fullname" class="label-name">Vai tro</label><br>
+                <label for="roleCode" class="label-name">Vai tro</label><br>
                 <i class="far fa-user"></i>
-                <input type="text" name="fullName" id="fullname">
-                <select class="form-control" id="categoryCode" name="categoryCode">
+                <select class="form-control" id="roleCode" name="roleCode">
                     <option value="">Chọn vai tro</option>
+                    <th:block th:each="item : ${roles}">
+                        <option th:value="${item.code}" th:text="${item.name}"></option>
+                    </th:block>
                 </select>
             </div>
+            <p class="msg_error" id="msgRole"><p>
 
-            <input type="button" value="Đăng ký" class="btn" id="registerUser">
+            <input type="button" value="Đăng ký" class="btn" id="registerAdmin">
         </div>
     </div>
-</form>
+</form>-->
 
 </body>
 <script>
-   /* $('#registerUser').click(function (e) {
+    $('#registerAdmin').click(function (e) {
         e.preventDefault();
         var data = {};
         var formData = $('#formSubmit').serializeArray();
@@ -90,36 +184,39 @@
             data["" + v.name + ""] = v.value;
         });
         $.ajax({
-            url: '/api/user',
+            url: '/api/admin',
             type: 'POST',
-            contentType : 'application/json',
-            data : JSON.stringify(data),
-            dataType : 'json',
-            success : function (result){
-                if(result.status === 0){
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success : function (result) {
+                if(result.status === 0) {
                     showMessageError(result);
                 } else {
                     alert("Đăng kí thành công");
-                    window.location.replace('/dang-nhap');
+                    window.location.replace('/admin/home');
                 }
             },
-            error : function (result){
+            error : function (result) {
                 alert("Có lỗi xảy ra");
                 window.location.reload();
             }
         });
-
     });
 
     function showMessageError(result) {
         $('.msg_error').hide();
-        if (result.error["messagePassword"]) {
+        if(result.error["messagePassword"]) {
             $('#msgPassword').html(result.error["messagePassword"]);
             $('#msgPassword').show();
         }
-        if (result.error["messageFullname"]){
+        if (result.error["messageFullname"]) {
             $('#msgFullname').html(result.error["messageFullname"]);
             $('#msgFullname').show();
+        }
+        if (result.error["messageRole"]) {
+            $('#msgRole').html(result.error["messageRole"]);
+            $('#msgRole').show();
         }
         if (result.error["messageUserName"]) {
             $('#msgUserName').html(result.error["messageUserName"]);
@@ -134,6 +231,5 @@
             $('#msgEmail').show();
         }
     }
-*/
 </script>
 </html>

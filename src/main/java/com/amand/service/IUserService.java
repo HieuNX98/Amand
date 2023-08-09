@@ -8,5 +8,5 @@ public interface IUserService {
 
     UserDto save(UserDto userDto);
 
-    Map<String, String> validate(UserDto userDto);
+    Map<String, String> validate(UserDto userDto, boolean isAdmin);
 }
