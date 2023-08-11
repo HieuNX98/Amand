@@ -6,6 +6,7 @@ import com.amand.dto.RoleDto;
 import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
+import com.amand.form.UserForm;
 import com.amand.repository.RoleRepository;
 import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
@@ -39,15 +40,15 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public UserDto save(UserDto userDto) {
+    public UserDto save(UserForm userForm) {
         List<RoleEntity> roles = new ArrayList<>();
-        UserEntity userEntity = userConverter.toEntity(userDto);
+        UserEntity userEntity = userConverter.toEntity(userForm);
         if (CollectionUtils.isEmpty(userEntity.getRoles())) {
             RoleEntity roleEntity = roleRepository.findOneByCode("ROLE_USER");
             roles.add(roleEntity);
             userEntity.setRoles(roles);
         } else {
-            RoleEntity roleEntity = roleRepository.findOneByCode(userDto.getRoleCode());
+            RoleEntity roleEntity = roleRepository.findOneByCode(userForm.getRoleCode());
             roles.add(roleEntity);
             userEntity.setRoles(roles);
         }
@@ -57,20 +58,20 @@ public class UserServiceImpl implements IUserService {
     }
 
 
-    public Map<String, String> validate(UserDto userDto, boolean isAdmin) {
+    public Map<String, String> validate(UserForm userForm, boolean isAdmin) {
         Map<String, String> result = new HashMap<>();
-        if (Strings.isBlank(userDto.getFullName())) {
+        if (Strings.isBlank(userForm.getFullName())) {
             result.put("messageFullName", "Bạn không được để trống thông tin họ và tên ");
         }
 
-        if (isAdmin && Strings.isBlank(userDto.getRoleCode())) {
+        if (isAdmin && Strings.isBlank(userForm.getRoleCode())) {
             result.put("messageRole", "Bạn không được để trống thông tin vai tro");
         }
 
-        if (Strings.isNotBlank(userDto.getUserName())) {
-            if (userDto.getUserName().length() < 5 || userDto.getUserName().length() > 20) {
+        if (Strings.isNotBlank(userForm.getUserName())) {
+            if (userForm.getUserName().length() < 5 || userForm.getUserName().length() > 20) {
                 result.put("messageUserName", "Tên người dùng phải có độ dài từ 6 đến 20 ký tự VD: Amand123");
-            } else if (StringUtils.hasLength(userRepository.findOneByUserName(userDto.getUserName()))) {
+            } else if (StringUtils.hasLength(userRepository.findOneByUserName(userForm.getUserName()))) {
                 result.put("messageUserName", "Tên người dùng đã được sử dụng");
             }
         } else {
@@ -78,28 +79,28 @@ public class UserServiceImpl implements IUserService {
         }
 
 
-        if (Strings.isNotBlank(userDto.getPassword())) {
-            if (userDto.getPassword().length() < 6 || userDto.getPassword().length() > 10) {
+        if (Strings.isNotBlank(userForm.getPassword())) {
+            if (userForm.getPassword().length() < 6 || userForm.getPassword().length() > 10) {
                 result.put("messagePassword", "Mật khẩu phải có độ dài từ 7 đến 10 ký tự");
-            } else if (!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", userDto.getPassword())) {
+            } else if (!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", userForm.getPassword())) {
                 result.put("messagePassword", "Ký tự đầu tiên của mật khẩu phải viết hoa và các ký tự tiếp theo phải có ít nhất một ký tự viết thường và 1 kí tự số " +
                         "và một số. VD: Amand123");
-            } else if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
+            } else if (!userForm.getPassword().equals(userForm.getRepeatPassword())) {
                 result.put("messagePassword", "Mật khẩu không giống nhau");
             }
         } else {
             result.put("messagePassword", "Bạn không được để trống thông tin Password");
         }
 
-        if (Strings.isNotBlank(userDto.getPhone())) {
-            if (!userDto.getPhone().matches("^(03|05|07|08|09)\\d{8}$")) {
+        if (Strings.isNotBlank(userForm.getPhone())) {
+            if (!userForm.getPhone().matches("^(03|05|07|08|09)\\d{8}$")) {
                 result.put("messagePhone", "Số điện thoại bắt buộc phải có 10 số và chỉ sử dụng các đầu số nhà mạng tại Việt Nam");
             }
         } else {
             result.put("messagePhone", "Bạn không được để trống thông tin số điện thoại");
         }
 
-        if(Strings.isBlank(userDto.getEmail())){
+        if(Strings.isBlank(userForm.getEmail())){
             result.put("messageEmail", "Bạn không được để trống thông tin email");
         }
 

@@ -3,6 +3,7 @@ package com.amand.converter;
 import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
+import com.amand.form.UserForm;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,13 +19,13 @@ public class UserConverter {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserEntity toEntity(UserDto userDto) {
+    public UserEntity toEntity(UserForm userForm) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setFullName(userDto.getFullName());
-        userEntity.setEmail(userDto.getEmail());
-        userEntity.setUserName(userDto.getUserName());
-        userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        userEntity.setPhone(userDto.getPhone());
+        userEntity.setFullName(userForm.getFullName());
+        userEntity.setEmail(userForm.getEmail());
+        userEntity.setUserName(userForm.getUserName());
+        userEntity.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
+        userEntity.setPhone(userForm.getPhone());
         return userEntity;
     }
     public UserDto toDto(UserEntity userEntity) {
