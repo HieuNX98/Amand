@@ -3,6 +3,7 @@ package com.amand.api;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
 import com.amand.dto.UserDto;
+import com.amand.form.UserForm;
 import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ public class UserApi {
     private UserRepository userRepository;
 
     @PostMapping( "/user")
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
-        Map<String, String> validateResult = userService.validate(userDto, false);
+    public ResponseEntity<?> createUser(@RequestBody UserForm userForm){
+        Map<String, String> validateResult = userService.validate(userForm, false);
         if (!CollectionUtils.isEmpty(validateResult)) {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateResult);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userDto)));
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userForm)));
             return ResponseEntity.ok(response);
         }
     }

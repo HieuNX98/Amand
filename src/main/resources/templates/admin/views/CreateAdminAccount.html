@@ -111,70 +111,6 @@
 
 </div>
 
-
-<!--<form id="formSubmit">
-    <div class="form__submit" >
-        <h1>Đăng ký</h1>
-        <div class="container">
-            <div class="text-box">
-                <label for="fullname" class="label-name">Họ và tên</label><br>
-                <i class="far fa-user"></i>
-                <input type="text" name="fullName" placeholder="Nguyễn Văn A" id="fullname">
-            </div>
-            <p class="msg_error" id="msgFullname"><p>
-
-            <div class="text-box">
-                <label for="username" class="label-name">username</label><br>
-                <i class="far fa-user"></i>
-                <input type="text" name="userName" placeholder="nguyenvana" id="username">
-            </div>
-            <p class="msg_error" id="msgUserName"><p>
-
-            <div class="text-box">
-                <label for="email" class="label-name">Email</label><br>
-                <i class="fas fa-location-arrow"></i>
-                <input type="text" name="email" placeholder="NguyeVanA@gmail.com" id="email">
-            </div>
-            <p class="msg_error" id="msgEmail"><p>
-
-            <div class="text-box">
-                <label for="phone" class="label-name">Số điện thoại</label><br>
-                <i class="fas fa-phone"></i>
-                <input type="text" name="phone" placeholder="0988888888" id="phone">
-            </div>
-            <p class="msg_error" id="msgPhone"><p>
-
-            <div class="text-box">
-                <label for="password" class="label-name">Mật khẩu</label><br>
-                <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="******" id="password">
-            </div>
-            <p class="msg_error" id="msgPassword"><p>
-
-            <div class="text-box">
-                <label for="exampleRepeatPassword" class="label-name">Nhập lại mật khẩu</label><br>
-                <i class="fas fa-lock"></i>
-                <input type="password" name="repeatPassword" placeholder="******" id="exampleRepeatPassword">
-            </div>
-
-            <div class="text-box">
-                <label for="roleCode" class="label-name">Vai tro</label><br>
-                <i class="far fa-user"></i>
-                <select class="form-control" id="roleCode" name="roleCode">
-                    <option value="">Chọn vai tro</option>
-                    <th:block th:each="item : ${roles}">
-                        <option th:value="${item.code}" th:text="${item.name}"></option>
-                    </th:block>
-                </select>
-            </div>
-            <p class="msg_error" id="msgRole"><p>
-
-            <input type="button" value="Đăng ký" class="btn" id="registerAdmin">
-        </div>
-    </div>
-</form>-->
-
-</body>
 <script>
     $('#registerAdmin').click(function (e) {
         e.preventDefault();
@@ -232,4 +168,6 @@
         }
     }
 </script>
+
+</body>
 </html>

@@ -2,7 +2,7 @@ package com.amand.api;
 
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
-import com.amand.dto.UserDto;
+import com.amand.form.UserForm;
 import com.amand.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +23,13 @@ public class AdminApi {
     private IUserService userService;
 
     @PostMapping("/admin")
-    public ResponseEntity<?> createAdmin(@RequestBody UserDto userDto) {
-        Map<String, String> validateResult = userService.validate(userDto, true);
+    public ResponseEntity<?> createAdmin(@RequestBody UserForm userForm) {
+        Map<String, String> validateResult = userService.validate(userForm, true);
         if (!CollectionUtils.isEmpty(validateResult)) {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateResult);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userDto)));
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userForm)));
             return ResponseEntity.ok(response);
         }
     }
