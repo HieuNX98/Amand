@@ -1,6 +1,8 @@
 package com.amand.ServiceImpl;
 
+import com.amand.converter.RoleConverter;
 import com.amand.converter.UserConverter;
+import com.amand.dto.RoleDto;
 import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
@@ -9,7 +11,9 @@ import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
@@ -25,12 +29,16 @@ public class UserServiceImpl implements IUserService {
     private UserConverter userConverter;
 
     @Autowired
+    private RoleConverter roleConverter;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
 
     @Override
+    @Transactional
     public UserDto save(UserDto userDto) {
         List<RoleEntity> roles = new ArrayList<>();
         UserEntity userEntity = userConverter.toEntity(userDto);
@@ -97,5 +105,28 @@ public class UserServiceImpl implements IUserService {
 
         return result;
     }
+
+    @Override
+    public List<UserDto> findAll(Pageable pageable) {
+        List<UserDto> userDtos = new ArrayList<>();
+        List<UserEntity> userEntities = userRepository.findAll(pageable).getContent();
+        for (UserEntity userEntity : userEntities) {
+            List<RoleDto> roleDtos = new ArrayList<>();
+            for (RoleEntity roleEntity : userEntity.getRoles()) {
+                RoleDto roleDto = roleConverter.toDto(roleEntity);
+                roleDtos.add(roleDto);
+            }
+            UserDto userDto = userConverter.toDto(userEntity);
+            userDto.setRoleDtos(roleDtos);
+            userDtos.add(userDto);
+        }
+        return userDtos;
+    }
+
+    @Override
+    public int getTotalItem() {
+        return (int) userRepository.count();
+    }
+
 }
 
