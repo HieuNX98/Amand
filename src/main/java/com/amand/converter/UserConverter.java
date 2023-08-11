@@ -25,13 +25,6 @@ public class UserConverter {
         userEntity.setUserName(userDto.getUserName());
         userEntity.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userEntity.setPhone(userDto.getPhone());
-        if(Strings.isNotBlank(userDto.getRoleCode())) {
-            RoleEntity roleEntity = new RoleEntity();
-            List<RoleEntity> roles = new ArrayList<>();
-            roleEntity.setCode(userDto.getRoleCode());
-            roles.add(roleEntity);
-            userEntity.setRoles(roles);
-        }
         return userEntity;
     }
     public UserDto toDto(UserEntity userEntity) {

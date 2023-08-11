@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{admin/layout/masterlayout.html}">
+      layout:decorate="~{admin/layout/masterlayout.html}"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Danh sách nhân viên</title>
@@ -41,52 +42,56 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <th:block th:each = "item : ${userDtos}">
                     <tr>
-                        <td>Graiden</td>
-                        <td>vehicula.aliquet@semconsequat.co.uk</td>
-                        <td>076 4820 8838</td>
-                        <td>Offenburg</td>
-                        <td></td>
+                        <td th:text="${item.fullName}"></td>
+                        <td th:text="${item.userName}"></td>
+                        <td th:text="${item.phone}"></td>
+                        <td th:text="${item.email}"></td>
                         <td>
-                            <span class="badge bg-success">Active</span>
+                            <th:block th:each = "role : ${item.roleDtos}" >
+                                <p th:text="${role.name}"></p>
+                            </th:block>
+                        </td>
+                        <td>
+                            <span th:if = "${item.status == 1}" class="badge bg-success">Active</span>
+                            <span th:if = "${item.status == 0}" class="badge bg-danger">Inactive</span>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Dale</td>
-                        <td>fringilla.euismod.enim@quam.ca</td>
-                        <td>0500 527693</td>
-                        <td>New Quay</td>
-                        <td></td>
-                        <td>
-                            <span class="badge bg-success">Active</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Nathaniel</td>
-                        <td>mi.Duis@diam.edu</td>
-                        <td>(012165) 76278</td>
-                        <td>Grumo Appula</td>
-                        <td></td>
-                        <td>
-                            <span class="badge bg-danger">Inactive</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Darius</td>
-                        <td>velit@nec.com</td>
-                        <td>0309 690 7871</td>
-                        <td>Ways</td>
-                        <td></td>
-                        <td>
-                            <span class="badge bg-success">Active</span>
-                        </td>
-                    </tr>
+                    </th:block>
                     </tbody>
                 </table>
+                <div class="container">
+                    <nav aria-label="Page navigation ">
+                        <ul class="pagination d-flex justify-content-center" id="pagination"></ul>
+                    </nav>
+                </div>
+                <form id="formSubmit">
+                    <input type="hidden" value="" id="page" name="page"/>
+                    <input type="hidden" value="" id="limit" name="limit"/>
+                </form>
             </div>
         </div>
 
     </section>
 </div>
+<script layout:fragment="js" th:inline="javascript">
+    var totalPages = /*[[${totalPage}]]*/ ;
+    var currentPage = /*[[${page}]]*/ ;
+    $(function () {
+        window.pagObj = $('#pagination').twbsPagination({
+            totalPages: totalPages,
+            visiblePages: 10,
+            startPage : currentPage,
+            onPageClick: function (event, page) {
+                if(currentPage != page) {
+                    $('#limit').val(5);
+                    $('#page').val(page);
+                    $('#formSubmit').submit();
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

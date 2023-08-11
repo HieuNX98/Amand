@@ -1,13 +1,11 @@
-package com.amand.dto;
+package com.amand.form;
 
-
-import lombok.Data;
+import com.amand.dto.RoleDto;
 
 import java.util.Date;
-import java.util.List;
 
-@Data
-public class UserDto extends BaseDto<UserDto>{
+public class UserForm {
+
     private String userName;
 
     private String password;
@@ -28,6 +26,6 @@ public class UserDto extends BaseDto<UserDto>{
 
     private String roleCode;
 
-    private List<RoleDto> roleDtos;
+    private String roleName;
 
 }

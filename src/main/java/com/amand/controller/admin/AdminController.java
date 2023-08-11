@@ -1,33 +1,41 @@
 package com.amand.controller.admin;
 
 import com.amand.Utils.SecurityUtils;
-import com.amand.service.RoleService;
+import com.amand.dto.UserDto;
+import com.amand.service.IUserService;
+import com.amand.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("admin")
 public class AdminController {
 
     @Autowired
-    private RoleService roleService;
+    private IRoleService roleService;
+
+    @Autowired
+    private IUserService userService;
 
     @GetMapping("/home")
     public ModelAndView home(HttpSession session){
         ModelAndView mav = new ModelAndView("/admin/views/home");
-        String fullName = null;
-        String usernName = null;
-        if (SecurityUtils.getPrincipal().getFullName() != null || SecurityUtils.getPrincipal().getUsername() != null){
+        String fullName = "";
+        String userName = "";
+        if (SecurityUtils.getPrincipal() != null){
             fullName = SecurityUtils.getPrincipal().getFullName();
-            usernName = SecurityUtils.getPrincipal().getUsername();
+            userName = SecurityUtils.getPrincipal().getUsername();
         }
-        mav.addObject("userName", usernName);
+        mav.addObject("userName", userName);
         mav.addObject("fullName", fullName);
         return mav;
     }
@@ -123,15 +131,25 @@ public class AdminController {
     }
 
     @GetMapping("/tao-tai-khoan-admin")
-    public ModelAndView createAdminAccount(){
+    public ModelAndView createAdminAccount() {
         ModelAndView mav = new ModelAndView("admin/views/CreateAdminAccount");
         mav.addObject("roles", roleService.findAll());
         return mav;
     }
 
     @GetMapping("/danh-sach-tai-khoan-admin")
-    public ModelAndView listAdminAccount() {
+    public ModelAndView listAdminAccount(@RequestParam(value = "page", defaultValue = "1") int page,
+                                         @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
+        UserDto userDto = new UserDto();
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<UserDto> userDtos = userService.findAll(pageable);
+        int totalItem = userService.getTotalItem();
+        mav.addObject("totalItem", totalItem);
+        mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
+        mav.addObject("userDtos", userDtos);
+        mav.addObject("page", page);
+        mav.addObject("limit", limit);
         return mav;
     }
 
