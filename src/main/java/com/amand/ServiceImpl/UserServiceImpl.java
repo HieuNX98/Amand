@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public class UserServiceImpl implements IUserService {
     public UserDto save(UserForm userForm) {
         List<RoleEntity> roles = new ArrayList<>();
         UserEntity userEntity = userConverter.toEntity(userForm);
-        if (CollectionUtils.isEmpty(userEntity.getRoles())) {
+        if (Strings.isBlank(userForm.getRoleCode())) {
             RoleEntity roleEntity = roleRepository.findOneByCode("ROLE_USER");
             roles.add(roleEntity);
             userEntity.setRoles(roles);
