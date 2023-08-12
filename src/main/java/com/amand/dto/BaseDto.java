@@ -17,15 +17,4 @@ public class BaseDto<T> {
 
     private String modifiedDate;
 
-    private List<T> listResults;
-
-    private Integer page;
-
-    private Integer limit;
-
-    private Integer totalPage;
-
-    private Integer totalItem;
-
-
 }
