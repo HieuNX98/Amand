@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/dang-nhap")
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .failureUrl("/dang-nhap")
+                .failureUrl("/dang-nhap?error=true")
                 .successHandler(customSuccessHandler)
                 .and()
                 .logout() // Add logout configuration here
