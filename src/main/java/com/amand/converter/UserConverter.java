@@ -35,6 +35,8 @@ public class UserConverter {
         userDto.setEmail(userEntity.getEmail());
         userDto.setUserName(userEntity.getUserName());
         userDto.setPhone(userEntity.getPhone());
+        userDto.setStatus(userEntity.getStatus());
+        userDto.setDate(userEntity.getDate());
         if (!CollectionUtils.isEmpty(userEntity.getRoles())) {
             for(RoleEntity role : userEntity.getRoles()) {
                 userDto.setRoleCode(role.getCode());
