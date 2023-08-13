@@ -1,6 +1,5 @@
 package com.amand.form;
 
-import com.amand.dto.RoleDto;
 import lombok.Data;
 
 import java.util.Date;
@@ -29,5 +28,7 @@ public class UserForm {
     private String roleCode;
 
     private String roleName;
+
+
 
 }
