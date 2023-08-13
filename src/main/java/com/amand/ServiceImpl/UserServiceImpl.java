@@ -82,7 +82,7 @@ public class UserServiceImpl implements IUserService {
             if (userForm.getPassword().length() < 6 || userForm.getPassword().length() > 10) {
                 result.put("messagePassword", "Mật khẩu phải có độ dài từ 7 đến 10 ký tự");
             } else if (!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", userForm.getPassword())) {
-                result.put("messagePassword", "Ký tự đầu tiên của mật khẩu phải viết hoa và các ký tự tiếp theo phải có ít nhất một ký tự viết thường và 1 kí tự số " +
+                result.put("messagePassword", "Ký tự đầu tiên của mật khẩu phải viết hoa và các ký tự tiếp theo phải có ít nhất một ký tự viết thường và " +
                         "và một số. VD: Amand123");
             } else if (!userForm.getPassword().equals(userForm.getRepeatPassword())) {
                 result.put("messagePassword", "Mật khẩu không giống nhau");

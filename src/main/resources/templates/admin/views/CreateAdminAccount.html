@@ -142,7 +142,7 @@
 
     function showMessageError(result) {
         $('.msg_error').hide();
-        if(result.error["messagePassword"]) {
+        if (result.error["messagePassword"]) {
             $('#msgPassword').html(result.error["messagePassword"]);
             $('#msgPassword').show();
         }

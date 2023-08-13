@@ -4,14 +4,12 @@ import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
 import com.amand.form.UserForm;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Component
 public class UserConverter {
