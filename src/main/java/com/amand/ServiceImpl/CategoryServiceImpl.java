@@ -8,13 +8,15 @@ import com.amand.repository.CategoryRepository;
 import com.amand.service.ICategoryService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
@@ -35,7 +37,7 @@ public class CategoryServiceImpl implements ICategoryService {
 
     public Map<String, String> validate(CategoryForm categoryForm) {
         Map<String, String> result = new HashMap<>();
-        if (Strings.isNotBlank(categoryForm.getName())){
+        if (Strings.isNotBlank(categoryForm.getName())) {
             if (StringUtils.hasLength(categoryRepository.findOneByName(categoryForm.getName()))) {
                 result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
             }
@@ -51,6 +53,22 @@ public class CategoryServiceImpl implements ICategoryService {
             result.put("MessageCode", "Bạn không được để trống thông tin code thể loại sản phẩm");
         }
         return result;
+    }
+
+    @Override
+    public List<CategoryDto> findAll(Pageable pageable) {
+        List<CategoryDto> categoryDtos = new ArrayList<>();
+        List<CategoryEntity> categoryEntities = categoryRepository.findAll(pageable).getContent();
+        for (CategoryEntity categoryEntity : categoryEntities) {
+            CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
+            categoryDtos.add(categoryDto);
+        }
+        return categoryDtos;
+    }
+
+    @Override
+    public int getTotalItem() {
+        return (int) categoryRepository.count();
     }
 
 }
