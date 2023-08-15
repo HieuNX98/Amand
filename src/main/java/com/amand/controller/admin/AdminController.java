@@ -1,7 +1,9 @@
 package com.amand.controller.admin;
 
 import com.amand.Utils.SecurityUtils;
+import com.amand.dto.CategoryDto;
 import com.amand.dto.UserDto;
+import com.amand.service.ICategoryService;
 import com.amand.service.IUserService;
 import com.amand.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private ICategoryService categoryService;
 
     @GetMapping("/home")
     public ModelAndView home(HttpSession session){
@@ -65,8 +70,16 @@ public class AdminController {
     }
 
     @GetMapping("/danh-sach-the-loai-san-pham")
-    public ModelAndView listCategory(){
+    public ModelAndView listCategory(@RequestParam(value = "page", defaultValue = "1") int page,
+                                     @RequestParam(value = "limit", defaultValue = "5")int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListCategories");
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<CategoryDto> categoryDtos = categoryService.findAll(pageable);
+        mav.addObject("categoryDtos", categoryDtos);
+        int totalItem = categoryService.getTotalItem();
+        mav.addObject("totalPage", (int) Math.ceil( (double) totalItem / limit));
+        mav.addObject("limit", limit);
+        mav.addObject("page", page);
         return mav;
     }
 
@@ -141,11 +154,9 @@ public class AdminController {
     public ModelAndView listAdminAccount(@RequestParam(value = "page", defaultValue = "1") int page,
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
-        UserDto userDto = new UserDto();
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<UserDto> userDtos = userService.findAll(pageable);
         int totalItem = userService.getTotalItem();
-        mav.addObject("totalItem", totalItem);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         mav.addObject("userDtos", userDtos);
         mav.addObject("page", page);
