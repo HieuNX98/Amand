@@ -13,7 +13,7 @@ public interface IUserService {
 
     Map<String, String> validate(UserForm userForm, boolean isAdmin);
 
-    List<UserDto> findAll(Pageable pageable);
+    List<UserDto> findAllByRoleCode(String roleCode, Pageable pageable);
 
     int getTotalItem();
 }

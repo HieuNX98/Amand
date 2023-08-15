@@ -107,9 +107,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
+    public List<UserDto> findAllByRoleCode(String roleCode, Pageable pageable) {
         List<UserDto> userDtos = new ArrayList<>();
-        List<UserEntity> userEntities = userRepository.findAll(pageable).getContent();
+        List<UserEntity> userEntities = userRepository.findAllByRoleCode(roleCode, pageable);
         for (UserEntity userEntity : userEntities) {
             List<RoleDto> roleDtos = new ArrayList<>();
             for (RoleEntity roleEntity : userEntity.getRoles()) {

@@ -1,6 +1,7 @@
 package com.amand.controller.admin;
 
 import com.amand.Utils.SecurityUtils;
+import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.dto.UserDto;
 import com.amand.service.ICategoryService;
@@ -155,7 +156,7 @@ public class AdminController {
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
         Pageable pageable = PageRequest.of(page - 1, limit);
-        List<UserDto> userDtos = userService.findAll(pageable);
+        List<UserDto> userDtos = userService.findAllByRoleCode(SystemConstant.ROLE_CODE, pageable);
         int totalItem = userService.getTotalItem();
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         mav.addObject("userDtos", userDtos);
