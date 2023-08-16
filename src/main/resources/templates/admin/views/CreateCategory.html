@@ -72,7 +72,7 @@
        e.preventDefault();
        var data = {};
        var formData = $('#formSubmit').serializeArray();
-       $.each(formData, function (i, v){
+       $.each(formData, function (i, v) {
            data["" + v.name +""] = v.value;
        });
        $.ajax({
