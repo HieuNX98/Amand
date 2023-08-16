@@ -102,30 +102,6 @@ public class AdminController {
         return mav;
     }
 
-    @GetMapping("/them-anh")
-    public ModelAndView createImage() {
-        ModelAndView mav = new ModelAndView("admin/views/CreateImage");
-        return mav;
-    }
-
-    @GetMapping("/chinh-sua-anh-san-pham")
-    public ModelAndView editImage() {
-        ModelAndView mav = new ModelAndView("admin/views/EditImage");
-        return mav;
-    }
-
-    @GetMapping("/danh-sach-anh-san-pham")
-    public ModelAndView listImage() {
-        ModelAndView mav = new ModelAndView("admin/views/ListImage");
-        return mav;
-    }
-
-    @GetMapping("/them-mua")
-    public ModelAndView createSeason() {
-        ModelAndView mav = new ModelAndView("admin/views/CreateSeason");
-        return mav;
-    }
-
     @GetMapping("/tao-don-hang")
     public ModelAndView createOder() {
         ModelAndView mav = new ModelAndView("admin/views/CreateOder");
