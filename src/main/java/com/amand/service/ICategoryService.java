@@ -15,4 +15,6 @@ public interface ICategoryService {
     List<CategoryDto> findAll(Pageable pageable);
 
     int getTotalItem();
+
+    List<CategoryDto> findAll();
 }

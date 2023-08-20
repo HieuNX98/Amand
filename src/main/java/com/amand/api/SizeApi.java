@@ -23,7 +23,7 @@ public class SizeApi {
     private ISizeService sizeService;
 
     @PostMapping("/size")
-    public ResponseEntity<?> createColor(@RequestBody SizeForm sizeForm) {
+    public ResponseEntity<?> createSize(@RequestBody SizeForm sizeForm) {
         Map<String, String> resultValidate = sizeService.validate(sizeForm);
             if (!CollectionUtils.isEmpty(resultValidate)) {
                 ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, resultValidate);

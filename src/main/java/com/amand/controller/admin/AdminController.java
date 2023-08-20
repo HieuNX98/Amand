@@ -4,9 +4,7 @@ import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.dto.UserDto;
-import com.amand.service.ICategoryService;
-import com.amand.service.IUserService;
-import com.amand.service.IRoleService;
+import com.amand.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +29,12 @@ public class AdminController {
 
     @Autowired
     private ICategoryService categoryService;
+
+    @Autowired
+    private IColorService colorService;
+
+    @Autowired
+    private ISizeService sizeService;
 
     @GetMapping("/home")
     public ModelAndView home(HttpSession session){
@@ -61,6 +65,9 @@ public class AdminController {
     @GetMapping("/them-san-pham")
     public ModelAndView createProduct() {
          ModelAndView mav = new ModelAndView("/admin/views/CreateProduct");
+         mav.addObject("categories", categoryService.findAll());
+         mav.addObject("colors", colorService.findAll());
+         mav.addObject("sizes", sizeService.findAll());
         return mav;
     }
 

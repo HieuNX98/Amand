@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public Map<String, String> validate(CategoryForm categoryForm) {
         Map<String, String> result = new HashMap<>();
         if (Strings.isNotBlank(categoryForm.getName())) {
-            if (StringUtils.hasLength(categoryRepository.findOneByName(categoryForm.getName()))) {
+            if (StringUtils.hasLength(categoryRepository.findOneNameByName(categoryForm.getName()))) {
                 result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
             }
         } else {
@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements ICategoryService {
         }
 
         if (Strings.isNotBlank(categoryForm.getCode())) {
-            if (StringUtils.hasLength(categoryRepository.findOneByCode(categoryForm.getCode()))) {
+            if (StringUtils.hasLength(categoryRepository.findOneCodeByCode(categoryForm.getCode()))) {
                 result.put("MessageCode", "Tên mã code thể loại sản phẩm đã tồn tại");
             }
         } else {
@@ -69,6 +69,17 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public int getTotalItem() {
         return (int) categoryRepository.count();
+    }
+
+    @Override
+    public List<CategoryDto> findAll() {
+        List<CategoryDto> categoryDtos = new ArrayList<>();
+        List<CategoryEntity> categoryEntities = categoryRepository.findAll();
+        for (CategoryEntity categoryEntity : categoryEntities) {
+            CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
+            categoryDtos.add(categoryDto);
+        }
+        return categoryDtos;
     }
 
 }

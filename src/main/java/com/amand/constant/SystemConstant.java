@@ -11,4 +11,6 @@ public class SystemConstant {
     public static final int API_STATUS_NG = 0;
 
     public static final String ROLE_CODE = "ROLE_IMPLOY";
+
+    public static  final int IMAGE_SIZE = 6000;
 }

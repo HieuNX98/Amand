@@ -8,17 +8,19 @@ import java.util.List;
 public class ProductDto extends BaseDto<ProductDto>{
     private String name;
 
-    private int oldPrice;
+    private Double oldPrice;
 
-    private int salePrice;
+    private Double salePrice;
 
     private int amount;
 
     private String season;
 
-    private String color;
+    private List<String> colors;
 
-    private String size;
+    private List<String> sizes;
+
+    private String categoryCode;
 
     private String image1;
 
@@ -28,5 +30,4 @@ public class ProductDto extends BaseDto<ProductDto>{
 
     private String image4;
 
-    private String image5;
 }
