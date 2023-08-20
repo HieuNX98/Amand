@@ -64,7 +64,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         if (isAdmin && Strings.isBlank(userForm.getRoleCode())) {
-            result.put("messageRole", "Bạn không được để trống thông tin vai tro");
+            result.put("messageRole", "Bạn không được để trống thông tin vai trò");
         }
 
         if (Strings.isNotBlank(userForm.getUserName())) {

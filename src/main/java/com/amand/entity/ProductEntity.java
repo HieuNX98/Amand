@@ -14,10 +14,10 @@ public class ProductEntity extends BaseEntity {
     private String name;
 
     @Column(name = "old_price")
-    private int oldPrice;
+    private Double oldPrice;
 
     @Column(name = "sale_price")
-    private int salePrice;
+    private Double salePrice;
 
     @Column
     private int amount;
@@ -53,14 +53,16 @@ public class ProductEntity extends BaseEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
+    @Column
     private String image1;
 
+    @Column
     private String image2;
 
+    @Column
     private String image3;
 
+    @Column
     private String image4;
-
-    private String image5;
 
 }
