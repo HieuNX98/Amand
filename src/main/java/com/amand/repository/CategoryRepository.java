@@ -14,4 +14,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
 
     CategoryEntity findOneByCode(String code);
 
+    CategoryEntity findOneById(Integer id);
+
 }

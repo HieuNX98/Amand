@@ -29,7 +29,6 @@ public class ProductConverter {
         productDto.setName(productEntity.getName());
             productDto.setOldPrice(productEntity.getOldPrice());
             productDto.setSalePrice(productEntity.getSalePrice());
-            productDto.setCategoryCode(productEntity.getCategory().getCode());
             productDto.setAmount(productEntity.getAmount());
             productDto.setSeason(productEntity.getSeason());
             productDto.setImage1(productEntity.getImage1());
@@ -49,7 +48,6 @@ public class ProductConverter {
                 sizeNames.add(sizeName);
                 productDto.setSizes(sizeNames);
             }
-
 
         return productDto;
     }

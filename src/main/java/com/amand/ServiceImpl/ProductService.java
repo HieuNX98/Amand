@@ -5,9 +5,7 @@ import com.amand.constant.SystemConstant;
 import com.amand.converter.ProductConverter;
 import com.amand.dto.ProductDto;
 import com.amand.entity.CategoryEntity;
-import com.amand.entity.ColorEntity;
 import com.amand.entity.ProductEntity;
-import com.amand.entity.SizeEntity;
 import com.amand.form.ProductForm;
 import com.amand.repository.CategoryRepository;
 import com.amand.repository.ColorRepository;
@@ -16,6 +14,7 @@ import com.amand.repository.SizeRepository;
 import com.amand.service.IProductService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -118,6 +117,24 @@ public class ProductService implements IProductService {
         }
 
         return results;
+    }
+
+    @Override
+    public List<ProductDto> findAll(Pageable pageable) {
+        List<ProductDto> productDtos = new ArrayList<>();
+        List<ProductEntity> productEntities = productRepository.findAll(pageable).getContent();
+        for (ProductEntity productEntity : productEntities) {
+            ProductDto productDto = productConverter.toDto(productEntity);
+            CategoryEntity categoryEntity = categoryRepository.findOneById(productEntity.getCategory().getId());
+            productDto.setCategoryName(categoryEntity.getName());
+            productDtos.add(productDto);
+        }
+        return productDtos;
+    }
+
+    @Override
+    public int getTotalItem() {
+        return (int) productRepository.count();
     }
 
     private String getErrorImage(MultipartFile image) {
