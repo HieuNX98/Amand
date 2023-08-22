@@ -3,6 +3,7 @@ package com.amand.controller.admin;
 import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
+import com.amand.dto.ProductDto;
 import com.amand.dto.UserDto;
 import com.amand.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class AdminController {
     @Autowired
     private ISizeService sizeService;
 
+    @Autowired
+    private  IProductService productService;
+
     @GetMapping("/home")
     public ModelAndView home(HttpSession session){
         ModelAndView mav = new ModelAndView("/admin/views/home");
@@ -51,8 +55,16 @@ public class AdminController {
     }
 
     @GetMapping("/danh-sach-san-pham")
-    public ModelAndView listProduct(){
+    public ModelAndView listProduct(@RequestParam (value = "page", defaultValue = "1") int page,
+                                    @RequestParam (value = "limit", defaultValue = "5") int limit){
         ModelAndView mav = new ModelAndView("admin/views/ListProduct");
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<ProductDto> productDtos = productService.findAll(pageable);
+        mav.addObject("productDtos", productDtos);
+        int totalPages = (int) Math.ceil((double) productService.getTotalItem() / limit);
+        mav.addObject("totalPages", totalPages);
+        mav.addObject("limit", limit);
+        mav.addObject("page", page);
         return mav;
     }
 

@@ -20,7 +20,7 @@ public class ProductDto extends BaseDto<ProductDto>{
 
     private List<String> sizes;
 
-    private String categoryCode;
+    private String categoryName;
 
     private String image1;
 
