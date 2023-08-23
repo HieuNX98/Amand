@@ -21,4 +21,10 @@ public class CategoryConverter {
         categoryDto.setCode(categoryEntity.getCode());
         return categoryDto;
     }
+
+    public CategoryEntity toEntity(CategoryEntity categoryEntity, CategoryForm categoryForm) {
+        categoryEntity.setName(categoryForm.getName());
+        categoryEntity.setCode(categoryForm.getCode());
+        return categoryEntity;
+    }
 }

@@ -30,7 +30,13 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     @Transactional
     public CategoryDto save(CategoryForm categoryForm) {
-        CategoryEntity categoryEntity = categoryConverter.toEntity(categoryForm);
+        CategoryEntity categoryEntity;
+        if (categoryForm.getId() != null) {
+            CategoryEntity oldCategory = categoryRepository.findOneById(categoryForm.getId());
+            categoryEntity = categoryConverter.toEntity(oldCategory, categoryForm);
+        } else {
+            categoryEntity = categoryConverter.toEntity(categoryForm);
+        }
         categoryEntity = categoryRepository.save(categoryEntity);
         return categoryConverter.toDto(categoryEntity);
     }
@@ -80,6 +86,13 @@ public class CategoryServiceImpl implements ICategoryService {
             categoryDtos.add(categoryDto);
         }
         return categoryDtos;
+    }
+
+    @Override
+    public CategoryDto findOneById(Integer id) {
+        CategoryEntity categoryEntity = categoryRepository.findOneById(id);
+        CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
+        return categoryDto;
     }
 
 }

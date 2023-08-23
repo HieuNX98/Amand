@@ -104,8 +104,13 @@ public class AdminController {
     }
 
     @GetMapping("/chinh-sua-the-loai-san-pham")
-    public ModelAndView editCategory() {
+    public ModelAndView editCategory(@RequestParam(value = "id", required = false) Integer id) {
         ModelAndView mav = new ModelAndView("admin/views/EditCategory");
+        CategoryDto categoryDto = new CategoryDto();
+        if (id != null) {
+            categoryDto = categoryService.findOneById(id);
+        }
+        mav.addObject("categoryDto", categoryDto);
         return mav;
     }
 

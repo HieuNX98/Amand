@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +29,17 @@ public class CategoryApi {
         } else {
                 ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(categoryService.save(categoryForm)));
                 return ResponseEntity.ok(response);
+        }
+    }
+    @PutMapping("/category")
+    public ResponseEntity<?> editCategory(@RequestBody CategoryForm categoryForm) {
+        Map<String, String> validateRsult = categoryService.validate(categoryForm);
+        if (!CollectionUtils.isEmpty(validateRsult)) {
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateRsult);
+            return ResponseEntity.ok(response);
+        } else {
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(categoryService.save(categoryForm)));
+            return ResponseEntity.ok(response);
         }
     }
 
