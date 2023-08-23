@@ -17,4 +17,6 @@ public interface ICategoryService {
     int getTotalItem();
 
     List<CategoryDto> findAll();
+
+    CategoryDto findOneById(Integer id);
 }
