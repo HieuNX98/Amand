@@ -1,11 +1,13 @@
 package com.amand.form;
 
+import com.amand.dto.RoleDto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
-public class UserForm {
+public class UserForm extends BaseForm<UserForm> {
 
     private String userName;
 
@@ -27,7 +29,11 @@ public class UserForm {
 
     private String roleCode;
 
+    private List<String> roleCodes;
+
     private String roleName;
+
+    private List<RoleForm> roleForms;
 
 
 

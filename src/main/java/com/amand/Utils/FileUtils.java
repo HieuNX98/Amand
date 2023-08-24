@@ -20,8 +20,9 @@ public class FileUtils {
 
     public String uploadFile(MultipartFile file) {
         try {
+            log.info("Upload file to cloudinary with name {}", file.getOriginalFilename());
             Map result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.asMap("resource_type","auto"));
-            return  (String) result.get("secure_url");
+            return (String) result.get("secure_url");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             return null;
