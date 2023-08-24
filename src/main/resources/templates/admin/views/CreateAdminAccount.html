@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Đăng ký</title>
@@ -12,7 +11,6 @@
         <link rel="stylesheet" th:href="@{/admin/assets/css/pages/auth.css}">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-    </head>
     <style>
         .msg_error {
             color: red;
@@ -25,8 +23,8 @@
     <div class="row h-100">
         <div class="col-lg-5 col-12">
             <div id="auth-left">
-                <div class="auth-logo">
-                    <a href="/admin/home"><img src="assets/images/logo/logo.png" alt="Logo"></a>
+                <div class="text-center mt-5 text-lg fs-4">
+                    <p class='text-gray-600'><a href="/admin/home" class="font-bold">Trang chủ</a></p>
                 </div>
                 <h1 class="auth-title">Đăng ký</h1>
                 <p class="auth-subtitle mb-5">Nhập dữ liệu của bạn để đăng ký vào trang web của chúng tôi.</p>
@@ -70,6 +68,7 @@
                             <i class="bi bi-shield-lock"></i>
                         </div>
                     </div>
+                    <p class="msg_error" id="msgRepeatPassword"><p>
 
                     <div class="form-group position-relative has-icon-left mb-4">
                         <input type="text" class="form-control form-control-xl" placeholder="Số điện thoại" name="phone" id="phone">
@@ -81,13 +80,11 @@
 
                     <div class="form-group position-relative has-icon-left mb-4">
                         <div class="form-control-icon">
-                            <i class="bi bi-person"></i>
-                            <select class="form-control" id="roleCode" name="roleCode">
-                                <option value="">Chọn vai tro</option>
+                            <i class="bi bi-person "></i>
                                 <th:block th:each="item : ${roles}">
-                                    <option th:value="${item.code}" th:text="${item.name}"></option>
+                                    <input type="checkbox" name="roleCodes" class="roleCode" th:value="${item.code}">
+                                    <label th:text="${item.name}"></label>
                                 </th:block>
-                            </select>
                         </div>
                     </div>
                     <p class="msg_error" id="msgRole"><p>
@@ -95,11 +92,6 @@
                     <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" id="registerAdmin"
                     >Đăng ký</button>
                 </form>
-                <div class="text-center mt-5 text-lg fs-4">
-                    <p class='text-gray-600'>Bạn có sẵn sàng để tạo một tài khoản? <a href="/dang-nhap"
-                                                                         class="font-bold">Đăng nhập
-                        </a>.</p>
-                </div>
             </div>
         </div>
         <div class="col-lg-7 d-none d-lg-block">
@@ -119,8 +111,14 @@
         $.each(formData, function (i, v) {
             data["" + v.name + ""] = v.value;
         });
+
+        let roleCodes = [];
+        $('.roleCode:checked').each(function() {
+            roleCodes.push($(this).val());
+        });
+        data["roleCodes"] = roleCodes;
         $.ajax({
-            url: '/api/admin',
+            url: '/api/register',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
@@ -145,6 +143,10 @@
         if (result.error["messagePassword"]) {
             $('#msgPassword').html(result.error["messagePassword"]);
             $('#msgPassword').show();
+        }
+        if (result.error["MessageRepeatPassword"]) {
+            $('#msgRepeatPassword').html(result.error["MessageRepeatPassword"]);
+            $('#msgRepeatPassword').show();
         }
         if (result.error["messageFullname"]) {
             $('#msgFullname').html(result.error["messageFullname"]);

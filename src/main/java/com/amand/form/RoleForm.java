@@ -3,12 +3,8 @@ package com.amand.form;
 import lombok.Data;
 
 @Data
-public class CategoryForm extends BaseForm<CategoryForm>{
-
+public class RoleForm extends BaseForm<RoleForm> {
     private String name;
 
     private String code;
-
-
-
 }

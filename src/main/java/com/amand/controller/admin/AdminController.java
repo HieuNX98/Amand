@@ -4,6 +4,7 @@ import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.dto.ProductDto;
+import com.amand.dto.RoleDto;
 import com.amand.dto.UserDto;
 import com.amand.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +163,18 @@ public class AdminController {
         mav.addObject("userDtos", userDtos);
         mav.addObject("page", page);
         mav.addObject("limit", limit);
+        return mav;
+    }
+
+    @GetMapping("/chinh-sua-tai-khoan-admin")
+    public ModelAndView editAdminAccount(@RequestParam(value = "id", required = false) Integer id) {
+        ModelAndView mav = new ModelAndView("/admin/views/EditAdminAccount");
+        UserDto userDto = userService.findOneById(id);
+        List<String> roleCodes = roleService.getRoleCodesByUserDto(userDto);
+        mav.addObject("roleUsers", roleCodes);
+        mav.addObject("userDto", userDto);
+        List<RoleDto> roles = roleService.findAll();
+        mav.addObject("roles", roles);
         return mav;
     }
 

@@ -1,8 +1,7 @@
-package com.amand.api;
+package com.amand.api.user;
 
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
-import com.amand.dto.UserDto;
 import com.amand.form.UserForm;
 import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
-public class UserApi {
+public class AccountUserApi {
 
     @Autowired
     private IUserService userService;

@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         @Query(value = "SELECT u FROM UserEntity u INNER JOIN u.roles r WHERE r.code = :roleCode")
         List<UserEntity> findAllByRoleCode(@Param("roleCode") String roleCode, Pageable pageable);
 
+        UserEntity findOneById(Integer id);
+
 }

@@ -13,7 +13,12 @@ public interface IUserService {
 
     Map<String, String> validate(UserForm userForm, boolean isAdmin);
 
+    Map<String, String> validateUpdateAccount(UserForm userForm);
+
     List<UserDto> findAllByRoleCode(String roleCode, Pageable pageable);
 
     int getTotalItem();
+
+    UserDto findOneById(Integer id);
+
 }

@@ -1,4 +1,4 @@
-package com.amand.api;
+package com.amand.api.admin;
 
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;

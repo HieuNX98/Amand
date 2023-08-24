@@ -2,6 +2,7 @@ package com.amand.ServiceImpl;
 
 import com.amand.converter.RoleConverter;
 import com.amand.dto.RoleDto;
+import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.repository.RoleRepository;
 import com.amand.service.IRoleService;
@@ -29,5 +30,14 @@ public class RoleServiceImpl implements IRoleService {
              roleDtos.add(roleDto);
          }
         return roleDtos;
+    }
+
+    @Override
+    public List<String> getRoleCodesByUserDto(UserDto userDto) {
+        List<String> roleCodes = new ArrayList<>();
+        for (RoleDto roleDto : userDto.getRoleDtos()) {
+            roleCodes.add(roleDto.getCode());
+        }
+        return roleCodes;
     }
 }
