@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
@@ -32,8 +29,8 @@ public class CategoryServiceImpl implements ICategoryService {
     public CategoryDto save(CategoryForm categoryForm) {
         CategoryEntity categoryEntity;
         if (categoryForm.getId() != null) {
-            CategoryEntity oldCategory = categoryRepository.findOneById(categoryForm.getId());
-            categoryEntity = categoryConverter.toEntity(oldCategory, categoryForm);
+            Optional<CategoryEntity> oldCategory = categoryRepository.findById(categoryForm.getId());
+            categoryEntity = categoryConverter.toEntity(oldCategory.get(), categoryForm);
         } else {
             categoryEntity = categoryConverter.toEntity(categoryForm);
         }
@@ -41,10 +38,15 @@ public class CategoryServiceImpl implements ICategoryService {
         return categoryConverter.toDto(categoryEntity);
     }
 
-    public Map<String, String> validate(CategoryForm categoryForm) {
+    public Map<String, String> validate(CategoryForm categoryForm, boolean isRegister) {
         Map<String, String> result = new HashMap<>();
         if (Strings.isNotBlank(categoryForm.getName())) {
-            if (StringUtils.hasLength(categoryRepository.findOneNameByName(categoryForm.getName()))) {
+            if (isRegister && StringUtils.hasLength(categoryRepository.findOneNameByName(categoryForm.getName()))) {
+                result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
+            }
+            boolean isExistName = StringUtils.hasLength(categoryRepository.findOneNameByName(categoryForm.getName()));
+            boolean isItsName = categoryForm.getName().equals(categoryRepository.findOneNameById(categoryForm.getId()));
+            if (!isRegister &&  isExistName && !isItsName){
                 result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
             }
         } else {
@@ -52,7 +54,12 @@ public class CategoryServiceImpl implements ICategoryService {
         }
 
         if (Strings.isNotBlank(categoryForm.getCode())) {
-            if (StringUtils.hasLength(categoryRepository.findOneCodeByCode(categoryForm.getCode()))) {
+            if (isRegister && StringUtils.hasLength(categoryRepository.findOneCodeByCode(categoryForm.getCode()))) {
+                result.put("MessageCode", "Tên mã code thể loại sản phẩm đã tồn tại");
+            }
+            boolean isExistCode = StringUtils.hasLength(categoryRepository.findOneCodeByCode(categoryForm.getCode())) ;
+            boolean isItsCode = categoryForm.getCode().equals(categoryRepository.findOneCodeById(categoryForm.getId()));
+            if (!isRegister && isExistCode && !isItsCode) {
                 result.put("MessageCode", "Tên mã code thể loại sản phẩm đã tồn tại");
             }
         } else {
@@ -90,8 +97,9 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public CategoryDto findOneById(Integer id) {
-        CategoryEntity categoryEntity = categoryRepository.findOneById(id);
-        CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
+        Optional<CategoryEntity> categoryEntity = categoryRepository.findById(id);
+        if (categoryEntity.isEmpty()) return null;
+        CategoryDto categoryDto = categoryConverter.toDto(categoryEntity.get());
         return categoryDto;
     }
 
