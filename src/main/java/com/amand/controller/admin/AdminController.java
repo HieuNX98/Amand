@@ -67,7 +67,7 @@ public class AdminController {
     }
 
     @GetMapping("/chinh-sua-thong-tin-san-pham")
-    public ModelAndView editProduct(@RequestParam(value = "id", required = false) Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView editProduct(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("admin/views/EditProduct");
         ProductDto productDto = productService.findOneById(id);
         if (productDto == null) {
