@@ -12,6 +12,10 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
     @Query(value = "SELECT c.code FROM CategoryEntity c WHERE c.code = :code")
     String findOneCodeByCode(@Param("code") String code);
 
-    CategoryEntity findOneById(Integer id);
+    @Query(value = "SELECT c.name FROM CategoryEntity c WHERE c.id = :id")
+    String findOneNameById(@Param("id") Integer id);
+
+    @Query(value = "SELECT c.code FROM CategoryEntity c WHERE c.id = :id")
+    String findOneCodeById(@Param("id") Integer id);
 
 }

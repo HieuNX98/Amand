@@ -4,21 +4,16 @@ import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.*;
 import com.amand.service.*;
-import javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -134,11 +129,14 @@ public class AdminController {
     }
 
     @GetMapping("/chinh-sua-the-loai-san-pham")
-    public ModelAndView editCategory(@RequestParam(value = "id", required = false) Integer id) {
+    public ModelAndView editCategory(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("admin/views/EditCategory");
-        CategoryDto categoryDto = new CategoryDto();
-        if (id != null) {
-            categoryDto = categoryService.findOneById(id);
+        CategoryDto categoryDto = categoryService.findOneById(id);
+        if (categoryDto == null) {
+            mav.setViewName("redirect:/404");
+            redirectAttributes.addFlashAttribute("messageError", "Thể loại sản phẩm không tồn tại, vui lòng " +
+                    "chọn thể loại sản phẩm khác");
+            return mav;
         }
         mav.addObject("categoryDto", categoryDto);
         return mav;

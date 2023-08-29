@@ -10,7 +10,7 @@ import java.util.Map;
 public interface ICategoryService {
     CategoryDto save(CategoryForm categoryForm);
 
-    Map<String, String> validate(CategoryForm categoryForm);
+    Map<String, String> validate(CategoryForm categoryForm, boolean isRegister);
 
     List<CategoryDto> findAll(Pageable pageable);
 

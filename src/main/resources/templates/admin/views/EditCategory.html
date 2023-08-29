@@ -62,7 +62,6 @@
                             <button type="reset"
                                     class="btn btn-light-secondary me-1 mb-1" id="cancel" onclick="warningCancel()">Huỷ</button>
                         </div>
-                        <input type="hidden" id="id" name="id" th:value="${categoryDto.id}">
                     </form>
                 </div>
             </div>
@@ -73,7 +72,7 @@
     $('#updateCategory').click(function (e) {
        e.preventDefault();
     var data = {};
-    var id = /*[[${categoryDto.id}]]*/
+    var id = [[${categoryDto.id}]]
         data["id"] = id;
         var formData = $('#formSubmit').serializeArray();
     $.each(formData, function (i, v) {
@@ -111,9 +110,11 @@
             confirmButtonText: "Xác nhận",
             cancelButtonText: "Huỷ bỏ",
         }).then(function(isConfirm) {
-            if (isConfirm) {
+            if (isConfirm.value) {
                 alert("Hủy thành công");
-                window.location.replace("/admin/home");
+                window.location.replace("/admin/danh-sach-the-loai-san-pham");
+            } else {
+                window.location.replace("/admin/danh-sach-the-loai-san-pham");
             }
         });
     }
