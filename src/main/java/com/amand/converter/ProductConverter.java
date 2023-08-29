@@ -25,16 +25,16 @@ public class ProductConverter {
 
     public ProductDto toDto(ProductEntity productEntity) {
         ProductDto productDto = new ProductDto();
-
+        productDto.setId(productEntity.getId());
         productDto.setName(productEntity.getName());
-            productDto.setOldPrice(productEntity.getOldPrice());
-            productDto.setSalePrice(productEntity.getSalePrice());
-            productDto.setAmount(productEntity.getAmount());
-            productDto.setSeason(productEntity.getSeason());
-            productDto.setImage1(productEntity.getImage1());
-            productDto.setImage2(productEntity.getImage2());
-            productDto.setImage3(productEntity.getImage3());
-            productDto.setImage4(productEntity.getImage4());
+        productDto.setOldPrice(productEntity.getOldPrice());
+        productDto.setSalePrice(productEntity.getSalePrice());
+        productDto.setAmount(productEntity.getAmount());
+        productDto.setSeason(productEntity.getSeason());
+        productDto.setImage1(productEntity.getImage1());
+        productDto.setImage2(productEntity.getImage2());
+        productDto.setImage3(productEntity.getImage3());
+        productDto.setImage4(productEntity.getImage4());
         List<String> colorNames = new ArrayList<>();
         for (ColorEntity colorEntity : productEntity.getColors()) {
             String colorName = colorEntity.getName();
@@ -50,5 +50,14 @@ public class ProductConverter {
             }
 
         return productDto;
+    }
+
+    public ProductEntity toEntity(ProductEntity productEntity, ProductForm productForm) {
+        productEntity.setName(productForm.getName());
+        productEntity.setOldPrice(productForm.getOldPrice());
+        productEntity.setSalePrice(productForm.getSalePrice());
+        productEntity.setAmount(productForm.getAmount());
+        productEntity.setSeason(productForm.getSeason());
+        return productEntity;
     }
 }

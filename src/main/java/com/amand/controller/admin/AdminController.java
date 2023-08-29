@@ -2,21 +2,23 @@ package com.amand.controller.admin;
 
 import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
-import com.amand.dto.CategoryDto;
-import com.amand.dto.ProductDto;
-import com.amand.dto.RoleDto;
-import com.amand.dto.UserDto;
+import com.amand.dto.*;
 import com.amand.service.*;
+import javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -70,8 +72,35 @@ public class AdminController {
     }
 
     @GetMapping("/chinh-sua-thong-tin-san-pham")
-    public ModelAndView editProduct() {
+    public ModelAndView editProduct(@RequestParam(value = "id", required = false) Integer id, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("admin/views/EditProduct");
+        ProductDto productDto = productService.findOneById(id);
+        if (productDto == null) {
+            mav.setViewName("redirect:/404");
+            redirectAttributes.addFlashAttribute("messageError", "Sản phẩm không tồn tại, vui lòng chọn sản phẩm khác");
+            return mav;
+        } else {
+            mav.addObject("productDto", productDto);
+        }
+        List<Integer> colorIds = productDto.getColorIds();
+        mav.addObject("colorIds", colorIds);
+
+        Integer categoryId = productDto.getCategoryId();
+        CategoryDto categoryDto = categoryService.findOneById(categoryId);
+        mav.addObject("categoryDto", categoryDto);
+
+        List<Integer> sizeIds = productDto.getSizeIds();
+        mav.addObject("sizeIds", sizeIds);
+
+        List<CategoryDto> categoryDtos = categoryService.findAll();
+        mav.addObject("categoryDtos", categoryDtos);
+
+        List<ColorDto> colorDtos = colorService.findAll();
+        mav.addObject("colorDtos", colorDtos);
+
+        List<SizeDto> sizeDtos = sizeService.findAll();
+        mav.addObject("sizeDtos", sizeDtos);
+
         return mav;
     }
 
@@ -92,7 +121,7 @@ public class AdminController {
 
     @GetMapping("/danh-sach-the-loai-san-pham")
     public ModelAndView listCategory(@RequestParam(value = "page", defaultValue = "1") int page,
-                                     @RequestParam(value = "limit", defaultValue = "5")int limit) {
+                                     @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListCategories");
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<CategoryDto> categoryDtos = categoryService.findAll(pageable);

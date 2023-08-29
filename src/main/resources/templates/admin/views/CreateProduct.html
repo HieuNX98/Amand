@@ -40,12 +40,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="categoryCode">Thể loại</label>
+                            <label class="col-sm-3 control-label no-padding-right" for="categoryId">Thể loại</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="categoryCode" name="categoryCode">
+                                <select class="form-control" id="categoryId" name="categoryId">
                                     <option value="">Chọn loại sản phẩm</option>
-                                    <th:block th:each="item : ${categories}">
-                                        <option th:value="${item.code}" th:text="${item.name}"></option>
+                                    <th:block th:each="category : ${categories}">
+                                        <option th:value="${category.id}" th:text="${category.name}"></option>
                                     </th:block>
                                 </select>
                             </div>
@@ -114,9 +114,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="name">Màu sản phẩm</label>
                             <div class="col-sm-9">
-                                    <th:block th:each="item : ${colors}">
-                                        <input type="checkbox" id="colorIds" name="colorIds" th:value="${item.id}">
-                                        <label th:text="${item.name}"></label>
+                                    <th:block th:each="color : ${colors}">
+                                        <input type="checkbox" id="colorIds" name="colorIds" th:value="${color.id}">
+                                        <label th:text="${color.name}"></label>
                                     </th:block>
                             </div>
                         </div>
@@ -125,9 +125,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="name">Kích thước sản phẩm</label>
                             <div class="col-sm-9">
-                                    <th:block th:each="item : ${sizes}">
-                                        <input type="checkbox" id="sizeIds" name="sizeIds" th:value="${item.id}">
-                                        <label  th:text="${item.name}"></label>
+                                    <th:block th:each="size : ${sizes}">
+                                        <input type="checkbox" id="sizeIds" name="sizeIds" th:value="${size.id}">
+                                        <label  th:text="${size.name}"></label>
                                     </th:block>
                             </div>
                         </div>
