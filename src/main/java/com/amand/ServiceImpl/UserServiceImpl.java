@@ -1,15 +1,21 @@
 package com.amand.ServiceImpl;
 
+import com.amand.converter.RoleConverter;
 import com.amand.converter.UserConverter;
+import com.amand.dto.RoleDto;
 import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
+import com.amand.form.UserForm;
 import com.amand.repository.RoleRepository;
 import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,67 +30,154 @@ public class UserServiceImpl implements IUserService {
     private UserConverter userConverter;
 
     @Autowired
+    private RoleConverter roleConverter;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
 
     @Override
-    public UserDto save(UserDto userDto) {
-        List<RoleEntity> roles = new ArrayList<>();
-        UserEntity userEntity = userConverter.toEntity(userDto);
-        RoleEntity roleEntity = roleRepository.findOneByCode("ROLE_USER");
-        roles.add(roleEntity);
-        userEntity.setRoles(roles);
+    @Transactional
+    public UserDto save(UserForm userForm) {
+        UserEntity userEntity;
+        if (userForm.getId() != null) {
+            UserEntity oldUserEntity = userRepository.findOneById(userForm.getId());
+            userEntity = userConverter.toEntity(oldUserEntity, userForm);
+            extractRoleToUserEntity(userForm, userEntity);
+        } else {
+            userEntity = userConverter.toEntity(userForm);
+            extractRoleToUserEntity(userForm, userEntity);
+        }
         userEntity.setStatus(1);
         userEntity = userRepository.save(userEntity);
         return userConverter.toDto(userEntity);
     }
 
 
-    public Map<String, String> validate(UserDto userDto) {
+    public Map<String, String> validate(UserForm userForm, boolean isAdmin) {
         Map<String, String> result = new HashMap<>();
-        if (Strings.isBlank(userDto.getFullName())) {
+        if (Strings.isBlank(userForm.getFullName())) {
             result.put("messageFullName", "Bạn không được để trống thông tin họ và tên ");
         }
 
-        if (Strings.isNotBlank(userDto.getUserName())) {
-            if (userDto.getUserName().length() < 5 || userDto.getUserName().length() > 20) {
+        if (isAdmin && CollectionUtils.isEmpty(userForm.getRoleCodes())) {
+            result.put("messageRole", "Bạn không được để trống thông tin vai trò");
+        }
+
+        if (Strings.isNotBlank(userForm.getUserName())) {
+            if (userForm.getUserName().length() < 5 || userForm.getUserName().length() > 20) {
                 result.put("messageUserName", "Tên người dùng phải có độ dài từ 6 đến 20 ký tự VD: Amand123");
-            } else if (StringUtils.hasLength(userRepository.findOneByUserName(userDto.getUserName()))) {
+            } else if (StringUtils.hasLength(userRepository.findOneByUserName(userForm.getUserName()))) {
                 result.put("messageUserName", "Tên người dùng đã được sử dụng");
             }
         } else {
             result.put("messageUserName", "Bạn không được để trống thông tin Username");
         }
 
-
-        if (Strings.isNotBlank(userDto.getPassword())) {
-            if (userDto.getPassword().length() < 6 || userDto.getPassword().length() > 10) {
-                result.put("messagePassword", "Mật khẩu phải có độ dài từ 7 đến 10 ký tự");
-            } else if (!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", userDto.getPassword())) {
-                result.put("messagePassword", "Ký tự đầu tiên của mật khẩu phải viết hoa và các ký tự tiếp theo phải có ít nhất một ký tự viết thường và 1 kí tự số " +
-                        "và một số. VD: Amand123");
-            } else if (!userDto.getPassword().equals(userDto.getRepeatPassword())) {
-                result.put("messagePassword", "Mật khẩu không giống nhau");
-            }
-        } else {
-            result.put("messagePassword", "Bạn không được để trống thông tin Password");
+        String errorPassword = getErrorPassword(userForm.getPassword());
+        if (Strings.isNotBlank(errorPassword)) {
+            result.put("messagePassword", errorPassword);
         }
 
-        if (Strings.isNotBlank(userDto.getPhone())) {
-            if (!userDto.getPhone().matches("^(03|05|07|08|09)\\d{8}$")) {
+        if (!userForm.getPassword().equals(userForm.getRepeatPassword())) {
+            result.put("MessageRepeatPassword", "Mật khẩu không giống nhau");
+        }
+
+        if (Strings.isNotBlank(userForm.getPhone())) {
+            if (!userForm.getPhone().matches("^(03|05|07|08|09)\\d{8}$")) {
                 result.put("messagePhone", "Số điện thoại bắt buộc phải có 10 số và chỉ sử dụng các đầu số nhà mạng tại Việt Nam");
             }
         } else {
             result.put("messagePhone", "Bạn không được để trống thông tin số điện thoại");
         }
 
-        if(Strings.isBlank(userDto.getEmail())){
+        if(Strings.isBlank(userForm.getEmail())){
             result.put("messageEmail", "Bạn không được để trống thông tin email");
         }
 
         return result;
     }
+
+    @Override
+    public Map<String, String> validateUpdateAccount(UserForm userForm) {
+        Map<String, String> result = new HashMap<>();
+        if (Strings.isBlank(userForm.getFullName())) {
+            result.put("messageFullName", "Bạn không được để trống thông tin họ và tên ");
+        }
+
+        if (CollectionUtils.isEmpty(userForm.getRoleCodes())) {
+            result.put("messageRole", "Bạn không được để trống thông tin vai trò");
+        }
+
+        if (Strings.isNotBlank(userForm.getPhone())) {
+            if (!userForm.getPhone().matches("^(03|05|07|08|09)\\d{8}$")) {
+                result.put("messagePhone", "Số điện thoại bắt buộc phải có 10 số và chỉ sử dụng các đầu số nhà mạng tại Việt Nam");
+            }
+        } else {
+            result.put("messagePhone", "Bạn không được để trống thông tin số điện thoại");
+        }
+
+        if(Strings.isBlank(userForm.getEmail())){
+            result.put("messageEmail", "Bạn không được để trống thông tin email");
+        }
+        return result;
+    }
+
+    @Override
+    public List<UserDto> findAllByRoleCode(String roleCode, Pageable pageable) {
+        List<UserDto> userDtos = new ArrayList<>();
+        List<UserEntity> userEntities = userRepository.findAllByRoleCode(roleCode, pageable);
+        for (UserEntity userEntity : userEntities) {
+            List<RoleDto> roleDtos = new ArrayList<>();
+            for (RoleEntity roleEntity : userEntity.getRoles()) {
+                RoleDto roleDto = roleConverter.toDto(roleEntity);
+                roleDtos.add(roleDto);
+            }
+            UserDto userDto = userConverter.toDto(userEntity);
+            userDto.setRoleDtos(roleDtos);
+            userDtos.add(userDto);
+        }
+        return userDtos;
+    }
+
+    @Override
+    public int getTotalItem() {
+        return (int) userRepository.count();
+    }
+
+    @Override
+    public UserDto findOneById(Integer id) {
+        UserEntity userEntity = userRepository.findOneById(id);
+        return userConverter.toDto(userEntity);
+    }
+
+    private void extractRoleToUserEntity(UserForm userForm, UserEntity userEntity) {
+        List<RoleEntity> roleEntities = new ArrayList<>();
+        if (CollectionUtils.isEmpty(userForm.getRoleCodes())) {
+            RoleEntity roleEntity = roleRepository.findOneByCode("ROLE_USER");
+            roleEntities.add(roleEntity);
+        } else {
+            roleEntities = roleRepository.findAllByCode(userForm.getRoleCodes());
+        }
+        userEntity.setRoles(roleEntities);
+    }
+
+    private String getErrorPassword(String password) {
+        if (Strings.isBlank(password)) {
+            return "Bạn không được để trống thông tin Password";
+        }
+        if (password.length() < 6 || password.length() > 10) {
+            return "Mật khẩu phải có độ dài từ 7 đến 10 ký tự";
+        }
+        if (!Pattern.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]+$", password)) {
+            return "Ký tự đầu tiên của mật khẩu phải viết hoa và các ký tự tiếp theo phải có ít nhất một ký tự viết thường và" +
+                    " một số. VD: Amand123";
+        }
+
+        return "";
+    }
+
 }
 

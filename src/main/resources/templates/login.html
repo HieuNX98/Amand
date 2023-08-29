@@ -12,9 +12,13 @@
 </head>
 <body>
 <header class="main-header">
-    <h1  > A M A N D</h1>
+    <h1> <a href="/trang-chu"> A M A N D </a></h1>
 </header>
+
 <div class="login__box">
+    <div th:if="${param.error}">
+        <p style="color: red;">Tài khoản hoặc mật khẩu không chính xác</p>
+    </div>
     <h1>ĐĂNG NHẬP</h1>
     <form th:action="@{/j_spring_security_check}" method="post">
         <div class="textbox" >

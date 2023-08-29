@@ -1,10 +1,124 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/masterlayout.html}">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Thêm màu sắc sản phẩm</title>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="page-heading" layout:fragment="pageheading" >
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Thêm màu sắc sản phẩm</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Thêm màu sắc sản phẩm</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Thêm màu sắc sản phẩm</h4>
+            </div>
+            <form id="formSubmit">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Tên màu sản phẩm</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="Tên màu sản phẩm">
+                            </div>
+                        </div>
+                        <p class="msg_error" id="msgName"></p>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit"
+                                    class="btn btn-primary me-1 mb-1" id="createColor">Thêm</button>
+                            <button type="reset"
+                                    class="btn btn-light-secondary me-1 mb-1" id="cancel" onclick="warningCancel()">Huỷ</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script layout:fragment="js">
+    $('#createColor').click(function (e) {
+        e.preventDefault();
+        var data = {};
+        var formData = $('#formSubmit').serializeArray();
+        $.each(formData, function (i, v) {
+           data["" + v.name + ""] = v.value;
+        });
+        $.ajax({
+           url: '/api/color',
+           type: 'POST',
+           contentType: 'application/json',
+           data: JSON.stringify(data),
+           dataType: 'json',
+           success : function (result) {
+               if (result.status === 0) {
+                    showMessageError(result);
+               } else {
+                   alert("Đăng ký thành công");
+                   window.location.replace("/admin/home");
+               }
+           },
+           error : function (result) {
+               alert("Có lỗi xảy ra");
+               window.location.reload();
+           }
+        });
+    });
+
+    function showMessageError(result) {
+        $('.msg_error').hide();
+        if (result.error["MessageName"]) {
+            $('#msgName').html(result.error["MessageName"]);
+            $('#msgName').show();
+        }
+    }
+
+    function cancel() {
+        $('#cancel').click(function (e) {
+           e.preventDefault();
+            warningCancel();
+        });
+    }
+
+    function warningCancel() {
+        swal({
+            title: "Xác nhận huỷ",
+            text: "Bạn có chắc chắn muốn huỷ hay không",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-success",
+            cancelButtonClass: "btn-danger",
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Huỷ bỏ",
+        }).then(function(isConfirm) {
+            if (isConfirm) {
+                alert("Hủy thành công");
+                window.location.replace("/admin/home");
+            }
+        });
+    }
+
+</script>
 </body>
 </html>

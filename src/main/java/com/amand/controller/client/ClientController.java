@@ -5,8 +5,10 @@ import com.amand.dto.UserDto;
 import com.amand.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -54,8 +56,15 @@ public class ClientController {
     }
 
     @GetMapping("/403")
-    public ModelAndView accessDenied(){
+    public ModelAndView accessDenied() {
         ModelAndView mav = new ModelAndView("403");
+        return mav;
+    }
+
+    @GetMapping("/404")
+    public ModelAndView notFound(Model model) {
+        ModelAndView mav = new ModelAndView("404");
+        mav.addObject("messageError", model.getAttribute("messageError"));
         return mav;
     }
 }

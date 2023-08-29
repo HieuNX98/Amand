@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Mazer Admin Dashboard</title>
+    <title>Dashboard - Admin Dashboard</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.css}">
+    <script th:src="@{/admin/assets/vendors/jquery/jquery.min.js}"></script>
 
     <link rel="stylesheet" th:href="@{/admin/assets/vendors/iconly/bold.css}">
-
+    <link rel="stylesheet" th:href="@{/admin/assets/vendors/simple-datatables/style.css}">
+    <link rel="stylesheet" th:href="@{/admin/assets/font-awesome/4.2.0/css/font-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/admin/assets/vendors/perfect-scrollbar/perfect-scrollbar.css}">
     <link rel="stylesheet" th:href="@{/admin/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
     <link rel="stylesheet" th:href="@{/admin/assets/css/app.css}">
+    <link rel="stylesheet" th:href="@{/admin/assets/css/pages/error.css}">
     <link rel="shortcut icon" th:href="@{/admin/assets/images/favicon.svg}" type="image/x-icon">
+    <script th:src="@{/admin/assets/sweetalert/sweetalert2.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/admin/assets/sweetalert/sweetalert2.min.css}">
+
+
 
 </head>
 <body>
@@ -30,11 +37,16 @@
         <div th:replace="/admin/fragments/footer::footer"></div>
     </div>
 </div>
+<script layout:fragment=js></script>
+<script th:src="@{/admin/assets/paging/jquery.twbsPagination.js}"></script>
+<script th:src="@{/admin/assets/js/bootstrap.min.js}"></script>
+
 <script th:src="@{/admin/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js}"></script>
 <script th:src="@{/admin/assets/js/bootstrap.bundle.min.js}"></script>
 
 <script th:src="@{/admin/assets/vendors/apexcharts/apexcharts.js}"></script>
 <script th:src="@{/admin/assets/js/pages/dashboard.js}"></script>
+
 
 <script th:src="@{/admin/assets/js/main.js}"></script>
 </body>

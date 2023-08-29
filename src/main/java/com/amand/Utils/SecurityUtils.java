@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecurityUtils {
+
     public static MyUser getPrincipal(){
         if ("anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
             return null;

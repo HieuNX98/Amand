@@ -1,10 +1,175 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Đăng ký</title>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/vendors/bootstrap-icons/bootstrap-icons.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/app.css}">
+        <link rel="stylesheet" th:href="@{/admin/assets/css/pages/auth.css}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-$END$
+
+<div id="auth">
+    <div class="row h-100">
+        <div class="col-lg-5 col-12">
+            <div id="auth-left">
+                <div class="text-center mt-5 text-lg fs-4">
+                    <p class='text-gray-600'><a href="/admin/home" class="font-bold">Trang chủ</a></p>
+                </div>
+                <h1 class="auth-title">Đăng ký</h1>
+                <p class="auth-subtitle mb-5">Nhập dữ liệu của bạn để đăng ký vào trang web của chúng tôi.</p>
+
+                <form id="formSubmit">
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Email" name="email" id="email">
+                        <div class="form-control-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgEmail"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Họ và tên" name="fullName" id="fullName">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgFullname"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Username" name="userName" id="userName">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgUserName"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" placeholder="Mật khẩu" name="password" id="password">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgPassword"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="password" class="form-control form-control-xl" placeholder="Nhập lại mật khẩu" name="repeatPassword" id="repeatPassword">
+                        <div class="form-control-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgRepeatPassword"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <input type="text" class="form-control form-control-xl" placeholder="Số điện thoại" name="phone" id="phone">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgPhone"><p>
+
+                    <div class="form-group position-relative has-icon-left mb-4">
+                        <div class="form-control-icon">
+                            <i class="bi bi-person "></i>
+                                <th:block th:each="item : ${roles}">
+                                    <input type="checkbox" name="roleCodes" class="roleCode" th:value="${item.code}">
+                                    <label th:text="${item.name}"></label>
+                                </th:block>
+                        </div>
+                    </div>
+                    <p class="msg_error" id="msgRole"><p>
+
+                    <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" id="registerAdmin"
+                    >Đăng ký</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-7 d-none d-lg-block">
+            <div id="auth-right">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('#registerAdmin').click(function (e) {
+        e.preventDefault();
+        var data = {};
+        var formData = $('#formSubmit').serializeArray();
+        $.each(formData, function (i, v) {
+            data["" + v.name + ""] = v.value;
+        });
+
+        let roleCodes = [];
+        $('.roleCode:checked').each(function() {
+            roleCodes.push($(this).val());
+        });
+        data["roleCodes"] = roleCodes;
+        $.ajax({
+            url: '/api/register',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success : function (result) {
+                if(result.status === 0) {
+                    showMessageError(result);
+                } else {
+                    alert("Đăng kí thành công");
+                    window.location.replace('/admin/home');
+                }
+            },
+            error : function (result) {
+                alert("Có lỗi xảy ra");
+                window.location.reload();
+            }
+        });
+    });
+
+    function showMessageError(result) {
+        $('.msg_error').hide();
+        if (result.error["messagePassword"]) {
+            $('#msgPassword').html(result.error["messagePassword"]);
+            $('#msgPassword').show();
+        }
+        if (result.error["MessageRepeatPassword"]) {
+            $('#msgRepeatPassword').html(result.error["MessageRepeatPassword"]);
+            $('#msgRepeatPassword').show();
+        }
+        if (result.error["messageFullname"]) {
+            $('#msgFullname').html(result.error["messageFullname"]);
+            $('#msgFullname').show();
+        }
+        if (result.error["messageRole"]) {
+            $('#msgRole').html(result.error["messageRole"]);
+            $('#msgRole').show();
+        }
+        if (result.error["messageUserName"]) {
+            $('#msgUserName').html(result.error["messageUserName"]);
+            $('#msgUserName').show();
+        }
+        if (result.error["messagePhone"]) {
+            $('#msgPhone').html(result.error["messagePhone"]);
+            $('#msgPhone').show();
+        }
+        if (result.error["messageEmail"]) {
+            $('#msgEmail').html(result.error["messageEmail"]);
+            $('#msgEmail').show();
+        }
+    }
+</script>
+
 </body>
 </html>

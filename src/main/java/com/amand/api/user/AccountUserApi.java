@@ -1,29 +1,25 @@
-package com.amand.api;
+package com.amand.api.user;
 
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
-import com.amand.dto.UserDto;
+import com.amand.form.UserForm;
 import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/api")
-public class UserApi {
+public class AccountUserApi {
 
     @Autowired
     private IUserService userService;
@@ -32,13 +28,13 @@ public class UserApi {
     private UserRepository userRepository;
 
     @PostMapping( "/user")
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto){
-        Map<String, String> validateResult = userService.validate(userDto);
+    public ResponseEntity<?> createUser(@RequestBody UserForm userForm){
+        Map<String, String> validateResult = userService.validate(userForm, false);
         if (!CollectionUtils.isEmpty(validateResult)) {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateResult);
             return ResponseEntity.ok(response);
         } else {
-            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userDto)));
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userForm)));
             return ResponseEntity.ok(response);
         }
     }

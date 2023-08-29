@@ -1,53 +1,39 @@
 package com.amand.dto;
 
+import lombok.Data;
+
+import java.util.List;
+
+@Data
 public class ProductDto extends BaseDto<ProductDto>{
     private String name;
 
-    private int oldPrice;
+    private Double oldPrice;
 
-    private int salePrice;
+    private Double salePrice;
 
     private int amount;
 
     private String season;
 
-    public String getName() {
-        return name;
-    }
+    private List<String> colors;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private List<String> sizes;
 
-    public int getOldPrice() {
-        return oldPrice;
-    }
+    private List<Integer> colorIds;
 
-    public void setOldPrice(int oldPrice) {
-        this.oldPrice = oldPrice;
-    }
+    private List<Integer> sizeIds;
 
-    public int getSalePrice() {
-        return salePrice;
-    }
+    private String categoryName;
 
-    public void setSalePrice(int salePrice) {
-        this.salePrice = salePrice;
-    }
+    private Integer categoryId;
 
-    public int getAmount() {
-        return amount;
-    }
+    private String image1;
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
+    private String image2;
 
-    public String getSeason() {
-        return season;
-    }
+    private String image3;
 
-    public void setSeason(String season) {
-        this.season = season;
-    }
+    private String image4;
+
 }
