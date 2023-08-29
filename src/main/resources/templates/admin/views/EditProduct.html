@@ -1,23 +1,29 @@
 ﻿<!DOCTYPE html>
 <html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/masterlayout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Chinh Sua thong tin san pham</title>
+    <title>Chỉnh sửa thông tin sản phẩm</title>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div class="page-heading" layout:fragment="pageheading" >
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Chinh Sua thong tin san pham</h3>
+                <h3>Chỉng sửa thông tin sản phẩm</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/admin/home">trang chu</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Chinh Sua thong tin san pham</li>
+                        <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin sản phẩm</li>
                     </ol>
                 </nav>
             </div>
@@ -26,107 +32,255 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Chinh Sua thong tin san pham</h4>
+                <h4 class="card-title">Dữ liệu sản phẩm</h4>
             </div>
 
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="categoryCode">Thể loại</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="categoryCode" name="categoryCode">
-                                    <option value="">Chọn loại san pham</option>
-                                </select>
+                    <form id="formSubmit">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="">Thể loại</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="categoryId" name="categoryId">
+                                        <option value="">Chọn loại sản phẩm</option>
+                                        <th:block th:each="category : ${categoryDtos}">
+                                            <option th:if="${category.id == productDto.categoryId}" th:value="${category.id}"
+                                                    th:text="${category.name}" selected="selected"></option>
+                                            <th:block th:if="${category.id != productDto.categoryId}">
+                                                <option th:value="${category.id}" th:text="${category.name}"></option>
+                                            </th:block>
+                                        </th:block>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                            <p class="msg_error" id="msgCategory"></p>
 
-                        <div class="form-group">
-                            <label for="name">Ten san pham</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                   placeholder="Ten san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image1">Hinh anh 1</label>
-                            <input type="file" class="form-control" id="image1" name="image1" placeholder="Hinh anh san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image2">Hinh anh 2</label>
-                            <input type="file" class="form-control" id="image2" name="image2" placeholder="Hinh anh san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image3">Hinh anh 3</label>
-                            <input type="file" class="form-control" id="image3" name="image3" placeholder="Hinh anh san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image4">Hinh anh 4</label>
-                            <input type="file" class="form-control" id="image4" name="image4" placeholder="Hinh anh san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="image5">Hinh anh 5</label>
-                            <input type="file" class="form-control" id="image5" name="image5" placeholder="Hinh anh san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="oldPrice">Gia</label>
-                            <input type="text" id="oldPrice" name="oldPrice" class="form-control" placeholder="Gia san pham">
-                            <p><small class="text-muted"></small>
-                            </p>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="salePrice">Gia sale</label>
-                            <input type="text" class="form-control" id="salePrice" name="salePrice"
-                                   placeholder="Gia sale">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="amount">So luong</label>
-                            <input type="number" class="form-control" id="amount" name="amount"
-                                   placeholder="So luong san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="season">Mua san pham</label>
-                            <input type="text" id="season" name="season" class="form-control" placeholder="Mua san pham">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name">Mau san pham</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="name" name="name">
-                                    <option value="">Chọn mau san pham</option>
-                                </select>
+                            <div class="form-group">
+                                <label for="name">Tên sản phẩm</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                       placeholder="Tên sản phẩm" th:value="${productDto.name}">
                             </div>
-                        </div>
+                            <p class="msg_error" id="msgName"></p>
 
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="name">Kich thuoc san pham</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="name" name="name">
-                                    <option value="">Chọn kich thuoc pham</option>
-                                </select>
+                            <div class="form-group">
+                                <label for="image1">Hình ảnh 1</label>
+                                <img class="form-control" th:src="${productDto.image1}" id ="showimage1" />
+                                <input type="file" class="form-control image" id="image1" name="image1"
+                                       placeholder="Hình ảnh sản phẩm" >
                             </div>
-                        </div>
-                    </div>
+                            <p class="msg_error" id="msgImage1"></p>
 
-                    <div class="col-12 d-flex justify-content-end">
-                        <button type="submit"
-                                class="btn btn-primary me-1 mb-1">Cap nhat</button>
-                        <button type="reset"
-                                class="btn btn-light-secondary me-1 mb-1">Huy</button>
-                    </div>
+                            <div class="form-group">
+                                <label for="image2">Hình ảnh 2</label>
+                                <img class="form-control" th:src="${productDto.image2}" id ="showimage2" />
+                                <input type="file" class="form-control image" id="image2" name="image2"
+                                       placeholder="Hình ảnh sản phẩm" >
+                            </div>
+                            <p class="msg_error" id="msgImage2"></p>
+
+                            <div class="form-group">
+                                <label for="image3">Hình ảnh 3</label>
+                                <img class="form-control" th:src="${productDto.image3}" id ="showimage3" />
+                                <input type="file" class="form-control image" id="image3" name="image3"
+                                       placeholder="Hình ảnh sản phẩm" >
+                            </div>
+                            <p class="msg_error" id="msgImage3"></p>
+
+                            <div class="form-group">
+                                <label for="image4">Hình ảnh 4</label>
+                                <img class="form-control" th:src="${productDto.image4}" id ="showimage4" />
+                                <input type="file" class="form-control image" id="image4" name="image4"
+                                       placeholder="Hình ảnh sản phẩm" >
+                            </div>
+                            <p class="msg_error" id="msgImage4"></p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="oldPrice">Giá</label>
+                                <input type="text" id="oldPrice" name="oldPrice" class="form-control"
+                                       placeholder="Giá sản phẩm" th:value="${productDto.oldPrice}">
+                            </div>
+                            <p class="msg_error" id="msgOldPrice"></p>
+
+                            <div class="form-group">
+                                <label for="salePrice">Giá sale</label>
+                                <input type="text" class="form-control" id="salePrice" name="salePrice"
+                                       placeholder="Giá sale" th:value="${productDto.salePrice}">
+                            </div>
+                            <p class="msg_error" id="msgSalePrice"></p>
+
+                            <div class="form-group">
+                                <label for="amount">Số lượng</label>
+                                <input type="number" class="form-control" id="amount" name="amount"
+                                       placeholder="Số lượng sản phẩm" th:value="${productDto.amount}">
+                            </div>
+                            <p class="msg_error" id="msgAmount"></p>
+
+                            <div class="form-group">
+                                <label for="season">Mùa sản phẩm</label>
+                                <input type="text" id="season" name="season" class="form-control"
+                                       placeholder="Mùa sản phẩm" th:value="${productDto.season}">
+                            </div>
+                            <p class="msg_error" id="msgSeason"></p>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="name">Màu sản phẩm</label>
+                                <th:block th:each="color : ${colorDtos}">
+                                    <input type="checkbox" name="colorIds" class="colorIds" th:value="${color.id}"
+                                    th:checked="${#lists.contains(colorIds, color.id)}">
+                                    <label th:text="${color.name}"></label>
+                                </th:block>
+                            </div>
+                            <p class="msg_error" id="msgColor"></p>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="">Kích thước sản phẩm</label>
+                                <div class="col-sm-9">
+                                    <th:block th:each="size : ${sizeDtos}">
+                                        <input type="checkbox" name="sizeIds" class="sizeIds" th:value="${size.id}"
+                                        th:checked="${#lists.contains(sizeIds, size.id)}">
+                                        <label th:text="${size.name}"></label>
+                                    </th:block>
+                                </div>
+                            </div>
+                            <p class="msg_error" id="msgSize"></p>
+                        </div>
+
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit"
+                                    class="btn btn-primary me-1 mb-1" id="updateProduct" >Cập nhật</button>
+                            <button type="reset"
+                                    class="btn btn-light-secondary me-1 mb-1" id="cancel" onclick="warningCancel()">Huỷ</button>
+                        </div>
+                        <input type="hidden" name="id" id="id" th:value="${productDto.id}">
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 </div>
+<script layout:fragment="js" th:inline="javascript">
+    $('#updateProduct').click(function (e) {
+        e.preventDefault();
+        let form = new FormData($('#formSubmit')[0]);
+        $.ajax({
+           url: '/api/product',
+           type: 'PUT',
+           enctype: 'multipart/form-data',
+           data: form,
+           processData: false,
+           contentType: false,
+           cache: false,
+           success : function (result) {
+               if (result.status === 0) {
+                   showMessageError(result)
+               } else {
+                   alert("Cập nhật thành công");
+                   window.location.replace('/admin/danh-sach-san-pham');
+               }
+           },
+           error : function (result) {
+               alert("Có lỗi xảy ra");
+               window.location.reload();
+           }
+        });
+    });
+
+    function warningCancel() {
+        swal({
+            title: "Xác nhận huỷ",
+            text: "Bạn có chắc chắn muốn huỷ hay không",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-success",
+            cancelButtonClass: "btn-danger",
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Huỷ bỏ",
+        }).then(function(isConfirm) {
+            console.log(isConfirm)
+            console.log(isConfirm.value)
+            console.log(!!isConfirm.value)
+            if (isConfirm.value) {
+                alert("Hủy thành công");
+                window.location.replace("/admin/home");
+            } else {
+                window.location.replace("/admin//danh-sach-san-pham");
+            }
+        });
+    }
+    function cancel() {
+        $('#cancel').click(function (e) {
+            e.preventDefault();
+            warningCancel();
+        });
+    }
+
+    function showMessageError(result) {
+        $('.msg_error').hide();
+        if (result.error["MessageCategory"]) {
+            $('#msgCategory').html(result.error["MessageCategory"]);
+            $('#msgCategory').show();
+        }
+        if (result.error["MessageName"]) {
+            $('#msgName').html(result.error["MessageName"]);
+            $('#msgName').show();
+        }
+        if (result.error["MessageOldPrice"]) {
+            $('#msgOldPrice').html(result.error["MessageOldPrice"]);
+            $('#msgOldPrice').show();
+        }
+        if (result.error["MessageAmount"]) {
+            $('#msgAmount').html(result.error["MessageAmount"]);
+            $('#msgAmount').show();
+        }
+        if (result.error["MessageSeason"]) {
+            $('#msgSeason').html(result.error["MessageSeason"]);
+            $('#msgSeason').show();
+        }
+        if (result.error["MessageColor"]) {
+            $('#msgColor').html(result.error["MessageColor"]);
+            $('#msgColor').show();
+        }
+        if (result.error["MessageSize"]) {
+            $('#msgSize').html(result.error["MessageSize"]);
+            $('#msgSize').show();
+        }
+        if (result.error["MessageImage1"]) {
+            $('#msgImage1').html(result.error["MessageImage1"]);
+            $('#msgImage1').show();
+        }
+        if (result.error["MessageImage2"]) {
+            $('#msgImage2').html(result.error["MessageImage2"]);
+            $('#msgImage2').show();
+        }
+        if (result.error["MessageImage3"]) {
+            $('#msgImage3').html(result.error["MessageImage3"]);
+            $('#msgImage3').show();
+        }
+        if (result.error["MessageImage4"]) {
+            $('#msgImage4').html(result.error["MessageImage4"]);
+            $('#msgImage4').show();
+        }
+    }
+
+    readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#show' + input.id).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+    $(".image").on('change', function(){
+        readURL(this);
+    });
+</script>
 </body>
 </html>

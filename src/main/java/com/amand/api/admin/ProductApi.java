@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -27,10 +28,23 @@ public class ProductApi {
 
     @PostMapping("/product")
     public ResponseEntity<?> createProduct(@ModelAttribute ProductForm productForm) {
-        Map<String, String> resultValidate = productService.validate(productForm);
+        Map<String, String> resultValidate = productService.validate(productForm, true);
         if (!CollectionUtils.isEmpty(resultValidate)) {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, resultValidate);
             return ResponseEntity.ok(response);
+        } else {
+            ProductDto result = productService.save(productForm);
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(result));
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    @PutMapping("/product")
+    public ResponseEntity<?> updateProduct (@ModelAttribute ProductForm productForm) {
+        Map<String, String> resultValidate = productService.validate(productForm, false);
+        if (!CollectionUtils.isEmpty(resultValidate)) {
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, resultValidate);
+            return  ResponseEntity.ok(response);
         } else {
             ProductDto result = productService.save(productForm);
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(result));
