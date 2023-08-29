@@ -67,4 +67,10 @@ public class ClientController {
         mav.addObject("messageError", model.getAttribute("messageError"));
         return mav;
     }
+
+    @GetMapping("/500")
+    public ModelAndView statusError() {
+        ModelAndView mav = new ModelAndView("500");
+        return mav;
+    }
 }
