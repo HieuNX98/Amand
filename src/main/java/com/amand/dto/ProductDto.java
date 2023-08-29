@@ -20,7 +20,13 @@ public class ProductDto extends BaseDto<ProductDto>{
 
     private List<String> sizes;
 
+    private List<Integer> colorIds;
+
+    private List<Integer> sizeIds;
+
     private String categoryName;
+
+    private Integer categoryId;
 
     private String image1;
 

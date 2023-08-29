@@ -37,6 +37,7 @@
                 <th>Màu</th>
                 <th>Kích thước</th>
                 <th>Mùa</th>
+                <th>Thao tác</th>
 
             </tr>
             </thead>
@@ -60,6 +61,12 @@
                         </th:block>
                     </td>
                     <td th:text="${item.season}"></td>
+                    <td>
+                        <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                           title="Chỉnh sửa thông tin sản phẩm" th:href="@{/admin/chinh-sua-thong-tin-san-pham(id=${item.id})}">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
+                    </td>
                 </tr>
             </th:block>
 

@@ -1,6 +1,7 @@
 package com.amand.service;
 
 import com.amand.dto.ColorDto;
+import com.amand.dto.ProductDto;
 import com.amand.form.ColorForm;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface IColorService {
     Map<String, String> validate(ColorForm colorForm);
 
     List<ColorDto> findAll();
+
 }

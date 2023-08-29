@@ -33,8 +33,4 @@ public class UserForm extends BaseForm<UserForm> {
 
     private String roleName;
 
-    private List<RoleForm> roleForms;
-
-
-
 }

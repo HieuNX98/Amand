@@ -72,7 +72,7 @@
                             <th:block th:each="item : ${roles}">
                                 <input type="checkbox" name="roleCodes" class="roleCodes" th:value="${item.code}"
                                        th:checked="${#lists.contains(roleUsers, item.code)}">
-                                <label  th:text="${item.name}"></label>
+                                <label th:text="${item.name}"></label>
                             </th:block>
                             </div>
                             <p class="msg_error" id="msgRole"><p>
