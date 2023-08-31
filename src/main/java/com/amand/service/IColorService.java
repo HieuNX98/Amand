@@ -3,6 +3,7 @@ package com.amand.service;
 import com.amand.dto.ColorDto;
 import com.amand.dto.ProductDto;
 import com.amand.form.ColorForm;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Map;
@@ -13,5 +14,9 @@ public interface IColorService {
     Map<String, String> validate(ColorForm colorForm);
 
     List<ColorDto> findAll();
+
+    List<ColorDto> findAll(Pageable pageable);
+
+    int getTotalItem();
 
 }

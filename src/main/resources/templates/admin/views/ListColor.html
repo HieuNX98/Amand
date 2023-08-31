@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/masterlayout.html}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách màu sản phẩm</title>
+</head>
+<body>
+<div class="page-heading" layout:fragment="pageheading">
+  <div class="page-title">
+    <div class="row">
+      <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3>Danh sách màu sản phẩm</h3>
+      </div>
+      <div class="col-12 col-md-6 order-md-2 order-first">
+        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Danh sách màu sản phẩm</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <!-- table striped -->
+  <div class="table-responsive">
+    <table class="table table-striped mb-0">
+      <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <th:block th:each = "item : ${colorDtos}">
+        <tr>
+          <td class="text-bold-500" th:text="${item.name}"></td>
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+    <div class="container">
+      <nav aria-label="Page navigation ">
+        <ul class="pagination d-flex justify-content-center" id="pagination"></ul>
+      </nav>
+    </div>
+    <form id="formSubmit" th:action="@{/admin/danh-sach-mau-san-pham}">
+      <input type="hidden" value="" id="page" name="page"/>
+      <input type="hidden" value="" id="limit" name="limit"/>
+    </form>
+  </div>
+  <!-- Striped rows end -->
+</div>
+<script layout:fragment="js" th:inline="javascript">
+  var totalPages = [[${totalPage}]];
+  var currentPage = [[${page}]];
+  $(function (e) {
+    window.pagObj = $('#pagination').twbsPagination({
+      totalPages : totalPages,
+      visiblePages : 10,
+      startPage : currentPage,
+      onPageClick: function (event, page) {
+        if (currentPage != page) {
+          $('#limit').val(3);
+          $('#page').val(page);
+          $('#formSubmit').submit();
+        }
+      }
+    });
+  });
+
+</script>
+</body>
+</html>
