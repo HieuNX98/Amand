@@ -148,6 +148,21 @@ public class AdminController {
         return mav;
     }
 
+    @GetMapping("/danh-sach-mau-san-pham")
+    public ModelAndView listColor(@RequestParam(value = "page", defaultValue = "1") int page,
+                                  @RequestParam(value = "limit", defaultValue = "3") int limit) {
+        ModelAndView mav = new ModelAndView("admin/views/ListColor");
+        Pageable pageable = PageRequest.of(page -1, limit);
+        List<ColorDto> colorDtos = colorService.findAll(pageable);
+        mav.addObject("colorDtos", colorDtos);
+        mav.addObject("page", page);
+        mav.addObject("limit", limit);
+        int totalItem = colorService.getTotalItem();
+        mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
+
+        return mav;
+    }
+
     @GetMapping("/them-kich-thuoc")
     public ModelAndView createSize() {
         ModelAndView mav = new ModelAndView("admin/views/CreateSize");

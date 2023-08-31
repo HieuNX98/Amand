@@ -9,6 +9,7 @@ import com.amand.repository.ColorRepository;
 import com.amand.service.IColorService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -58,6 +59,22 @@ public class ColorServiceImpl implements IColorService {
             colorDtos.add(colorDto);
         }
         return colorDtos;
+    }
+
+    @Override
+    public List<ColorDto> findAll(Pageable pageable) {
+        List<ColorDto> colorDtos = new ArrayList<>();
+        List<ColorEntity> colorEntities = colorRepository.findAll(pageable).getContent();
+        for (ColorEntity colorEntity : colorEntities) {
+            ColorDto colorDto = colorConverter.toDto(colorEntity);
+            colorDtos.add(colorDto);
+        }
+        return colorDtos;
+    }
+
+    @Override
+    public int getTotalItem() {
+        return (int) colorRepository.count();
     }
 
 }

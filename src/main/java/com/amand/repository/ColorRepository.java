@@ -11,11 +11,8 @@ public interface ColorRepository extends JpaRepository<ColorEntity, Integer> {
     @Query(value = "SELECT n.name FROM ColorEntity n WHERE n.name = :name")
     String findOneNameByName(@Param("name") String name);
 
-    ColorEntity findOneByName(String name);
-
-    ColorEntity findOneById(int id);
-
     @Query(value = "SELECT c FROM ColorEntity c WHERE c.id IN (:ids)")
     List<ColorEntity> findAllByIds(@Param("ids") List<Integer> ids);
+
 
 }

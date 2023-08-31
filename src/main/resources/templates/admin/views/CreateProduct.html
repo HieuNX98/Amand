@@ -61,28 +61,28 @@
 
                         <div class="form-group">
                             <label for="image1">Hình ảnh 1</label>
-                            <img class="form-control" src="" id="showimage1">
+                            <img class="form-control" src="" id="showimage1" hidden>
                             <input type="file" class="form-control image" id="image1" name="image1" placeholder="Hình ảnh sản phẩm">
                         </div>
                         <p class="msg_error" id="msgImage1"></p>
 
                         <div class="form-group">
                             <label for="image2">Hình ảnh 2</label>
-                            <img class="form-control" src="" id="showimage2">
+                            <img class="form-control" src="" id="showimage2" hidden>
                             <input type="file" class="form-control image" id="image2" name="image2" placeholder="Hình ảnh sản phẩm">
                         </div>
                         <p class="msg_error" id="msgImage2"></p>
 
                         <div class="form-group">
                             <label for="image3">Hình ảnh 3</label>
-                            <img class="form-control" src="" id="showimage3">
+                            <img class="form-control" src="" id="showimage3" hidden>
                             <input type="file" class="form-control image" id="image3" name="image3" placeholder="Hình ảnh sản phẩm">
                         </div>
                         <p class="msg_error" id="msgImage3"></p>
 
                         <div class="form-group">
                             <label for="image4">Hình ảnh 4</label>
-                            <img class="form-control" src="" id="showimage4">
+                            <img class="form-control" src="" id="showimage4" hidden>
                             <input type="file" class="form-control image" id="image4" name="image4" placeholder="Hình ảnh sản phẩm">
                         </div>
                         <p class="msg_error" id="msgImage4"></p>
@@ -141,8 +141,8 @@
                     <div class="col-12 d-flex justify-content-end">
                         <button type="submit"
                                 class="btn btn-primary me-1 mb-1" id="createProduct">Thêm</button>
-                        <button type="reset"
-                                class="btn btn-light-secondary me-1 mb-1" id="cancel" onclick="warningCancel()">Huỷ</button>
+                        <button
+                                class="btn btn-light-secondary me-1 mb-1" id="cancel">Huỷ</button>
                     </div>
                 </div>
             </div>
@@ -194,18 +194,14 @@
             if (isConfirm.value) {
                 alert("Hủy thành công");
                 window.location.replace("/admin/home");
-            } else {
-                window.location.reload();
             }
         });
     }
 
-    function cancel() {
-        $('#cancel').click(function (e) {
-            e.preventDefault();
-            warningCancel();
-        });
-    }
+    $('#cancel').click(function (e) {
+        e.preventDefault();
+        warningCancel();
+    });
 
 
     function showMessageError(result) {
@@ -263,10 +259,14 @@
 
             reader.onload = function (e) {
                 $('#show' + input.id).attr('src', e.target.result);
+                $('#show' + input.id).removeAttr('hidden');
             }
 
             reader.readAsDataURL(input.files[0]);
+        } else {
+            $('#show' + input.id).prop('hidden', true);
         }
+
     }
 
 
