@@ -3,18 +3,20 @@ package com.amand.controller.admin;
 import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.*;
+import com.amand.form.ColorForm;
 import com.amand.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("admin")
@@ -160,6 +162,47 @@ public class AdminController {
         int totalItem = colorService.getTotalItem();
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
 
+        return mav;
+    }
+
+    @GetMapping("/chinh-sua-mau-san-pham")
+    public ModelAndView inforColor(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView("admin/views/EditColor");
+        ColorDto colorDto = colorService.findOneById(id);
+        if (colorDto == null) {
+            mav.setViewName("redirect:/404");
+            redirectAttributes.addFlashAttribute("messageError","Màu sản phẩm không tồn tại vui lòng chọn" +
+                    "màu khác");
+            return mav;
+        }
+        mav.addObject("colorDto", colorDto);
+        return mav;
+    }
+    @PostMapping("/chinh-sua-mau-san-pham")
+    public ModelAndView editColor(@ModelAttribute ColorForm colorForm, RedirectAttributes redirectAttributes){
+        ModelAndView mav = new ModelAndView("admin/views/EditColor");
+        Map<String, String> resultValidate = colorService.validate(colorForm, false);
+        if (CollectionUtils.isEmpty(resultValidate)) {
+            colorService.save(colorForm);
+            redirectAttributes.addFlashAttribute("message", "Cập nhật thành công");
+            mav.setViewName("redirect:/admin/chi-tiet-mau-san-pham?id=" + colorForm.getId());
+        } else {
+            mav.addObject("messageError", resultValidate);
+            mav.addObject("colorDto", colorForm);
+        }
+        return mav;
+    }
+
+    @GetMapping("/chi-tiet-mau-san-pham")
+    public ModelAndView detailColor(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView("admin/views/DetailColor");
+        ColorDto colorDto = colorService.findOneById(id);
+        if (colorDto == null) {
+            mav.setViewName("redirect:/404");
+            redirectAttributes.addFlashAttribute("messageError", "Màu sản phẩm không tồn tại");
+            return mav;
+        }
+        mav.addObject("colorDto", colorDto);
         return mav;
     }
 

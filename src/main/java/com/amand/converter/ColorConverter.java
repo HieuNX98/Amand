@@ -19,4 +19,9 @@ public class ColorConverter {
         colorDto.setName(colorEntity.getName());
         return colorDto;
     }
+
+    public ColorEntity toEntity(ColorEntity colorEntity, ColorForm colorForm) {
+        colorEntity.setName(colorForm.getName());
+        return colorEntity;
+    }
 }
