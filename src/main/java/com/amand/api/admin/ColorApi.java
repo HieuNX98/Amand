@@ -24,7 +24,7 @@ public class ColorApi {
 
     @PostMapping("/color")
     public ResponseEntity<?> createColor(@RequestBody ColorForm colorForm) {
-        Map<String, String> validateResult = colorService.validate(colorForm);
+        Map<String, String> validateResult = colorService.validate(colorForm, true);
         if (!CollectionUtils.isEmpty(validateResult)) {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateResult);
             return ResponseEntity.ok(response);

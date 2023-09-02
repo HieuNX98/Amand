@@ -30,12 +30,18 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>Thao tác</th>
       </tr>
       </thead>
       <tbody>
       <th:block th:each = "item : ${colorDtos}">
         <tr>
           <td class="text-bold-500" th:text="${item.name}"></td>
+          <td> <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                  title="Chỉnh sửa màu sản phẩm" th:href="@{/admin/chinh-sua-mau-san-pham(id=${item.id})}">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </a>
+          </td>
         </tr>
       </th:block>
       </tbody>
