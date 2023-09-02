@@ -99,11 +99,12 @@ public class ProductService implements IProductService {
             results.put("MessageCategory", "Bạn không được để trống thông tin thể loại sản phẩm");
         }
         if (Strings.isNotBlank(productForm.getName())) {
-            if (isRegister && StringUtils.hasLength(productRepository.findOneNameByName(productForm.getName()))) {
-                results.put("MessageName", "Tên sản phẩm đã tồn tại");
-            }
             boolean isExistName = StringUtils.hasLength(productRepository.findOneNameByName(productForm.getName()));
             boolean isItsName = productForm.getName().equalsIgnoreCase(productRepository.findOneNameById(productForm.getId()));
+            if (isRegister && isExistName) {
+                results.put("MessageName", "Tên sản phẩm đã tồn tại");
+            }
+
             if (!isRegister && isExistName && !isItsName) {
                 results.put("MessageName", "Tên sản phẩm đã tồn tại");
             }
