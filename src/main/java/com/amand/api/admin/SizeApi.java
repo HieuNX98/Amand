@@ -24,7 +24,7 @@ public class SizeApi {
 
     @PostMapping("/size")
     public ResponseEntity<?> createSize(@RequestBody SizeForm sizeForm) {
-        Map<String, String> resultValidate = sizeService.validate(sizeForm);
+        Map<String, String> resultValidate = sizeService.validate(sizeForm, true);
             if (!CollectionUtils.isEmpty(resultValidate)) {
                 ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, resultValidate);
                 return ResponseEntity.ok(response);

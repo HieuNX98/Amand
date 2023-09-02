@@ -3,6 +3,6 @@ package com.amand.form;
 import lombok.Data;
 
 @Data
-public class SizeForm {
+public class SizeForm extends BaseForm<SizeForm> {
     private String name;
 }
