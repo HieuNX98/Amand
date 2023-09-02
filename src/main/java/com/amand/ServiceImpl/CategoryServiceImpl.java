@@ -41,11 +41,12 @@ public class CategoryServiceImpl implements ICategoryService {
     public Map<String, String> validate(CategoryForm categoryForm, boolean isRegister) {
         Map<String, String> result = new HashMap<>();
         if (Strings.isNotBlank(categoryForm.getName())) {
-            if (isRegister && StringUtils.hasLength(categoryRepository.findOneNameByName(categoryForm.getName()))) {
-                result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
-            }
             boolean isExistName = StringUtils.hasLength(categoryRepository.findOneNameByName(categoryForm.getName()));
             boolean isItsName = categoryForm.getName().equals(categoryRepository.findOneNameById(categoryForm.getId()));
+            if (isRegister && isExistName) {
+                result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
+            }
+
             if (!isRegister &&  isExistName && !isItsName){
                 result.put("MessageName", "Tên thể loại sản phẩm đã tồn tại");
             }
@@ -54,11 +55,12 @@ public class CategoryServiceImpl implements ICategoryService {
         }
 
         if (Strings.isNotBlank(categoryForm.getCode())) {
-            if (isRegister && StringUtils.hasLength(categoryRepository.findOneCodeByCode(categoryForm.getCode()))) {
-                result.put("MessageCode", "Tên mã code thể loại sản phẩm đã tồn tại");
-            }
             boolean isExistCode = StringUtils.hasLength(categoryRepository.findOneCodeByCode(categoryForm.getCode())) ;
             boolean isItsCode = categoryForm.getCode().equals(categoryRepository.findOneCodeById(categoryForm.getId()));
+            if (isRegister && isExistCode) {
+                result.put("MessageCode", "Tên mã code thể loại sản phẩm đã tồn tại");
+            }
+
             if (!isRegister && isExistCode && !isItsCode) {
                 result.put("MessageCode", "Tên mã code thể loại sản phẩm đã tồn tại");
             }
