@@ -10,14 +10,19 @@ public class SizeConverter {
 
     public SizeEntity toEntity(SizeForm sizeForm) {
         SizeEntity sizeEntity = new SizeEntity();
-            sizeEntity.setName(sizeForm.getName());
+        sizeEntity.setName(sizeForm.getName());
         return sizeEntity;
     }
 
     public SizeDto toDto(SizeEntity sizeEntity) {
         SizeDto sizeDto = new SizeDto();
-            sizeDto.setId(sizeEntity.getId());
-            sizeDto.setName(sizeEntity.getName());
+        sizeDto.setId(sizeEntity.getId());
+        sizeDto.setName(sizeEntity.getName());
         return sizeDto;
+    }
+
+    public SizeEntity toEntity(SizeEntity sizeEntity, SizeForm sizeForm) {
+        sizeEntity.setName(sizeForm.getName());
+        return sizeEntity;
     }
 }

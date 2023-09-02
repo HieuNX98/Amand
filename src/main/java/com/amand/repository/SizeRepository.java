@@ -11,7 +11,8 @@ public interface SizeRepository extends JpaRepository<SizeEntity, Integer> {
     @Query(value = "SELECT s.name FROM SizeEntity s WHERE s.name = :name")
     String findOneNameByName(@Param("name") String name);
 
-    SizeEntity findOneByName(String name);
+    @Query(value = "SELECT s.name FROM SizeEntity s WHERE s.id = :id")
+    String findOneNameById(@Param("id") Integer id);
 
     SizeEntity findOneById(int id);
 
