@@ -18,4 +18,5 @@ public interface ColorRepository extends JpaRepository<ColorEntity, Integer> {
     List<ColorEntity> findAllByIds(@Param("ids") List<Integer> ids);
 
 
+
 }
