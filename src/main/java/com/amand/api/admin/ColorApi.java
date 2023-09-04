@@ -4,11 +4,13 @@ import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
 import com.amand.form.ColorForm;
 import com.amand.service.IColorService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,6 +34,16 @@ public class ColorApi {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(colorService.save(colorForm)));
             return ResponseEntity.ok(response);
         }
+    }
+
+    @PutMapping("/color")
+    public ResponseEntity<?> hide(@RequestBody List<Integer> ids) {
+        String validateResult = colorService.validateHide(ids);
+        if (Strings.isBlank(validateResult)) {
+            colorService.hide(ids);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body(validateResult);
     }
 
 }

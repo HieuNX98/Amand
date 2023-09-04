@@ -65,4 +65,7 @@ public class ProductEntity extends BaseEntity {
     @Column
     private String image4;
 
+    @Column
+    private Integer status;
+
 }

@@ -23,4 +23,7 @@ public class SizeEntity extends BaseEntity {
     @ManyToMany(mappedBy = "sizes")
     private List<ProductEntity> products;
 
+    @Column
+    private Integer status;
+
 }
