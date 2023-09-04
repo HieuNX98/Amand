@@ -19,4 +19,8 @@ public interface ICategoryService {
     List<CategoryDto> findAll();
 
     CategoryDto findOneById(Integer id);
+
+    void delete(List<Integer> ids);
+
+    String validateDelete(List<Integer> ids);
 }

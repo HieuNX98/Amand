@@ -3,14 +3,17 @@ package com.amand.ServiceImpl;
 import com.amand.converter.CategoryConverter;
 import com.amand.dto.CategoryDto;
 import com.amand.entity.CategoryEntity;
+import com.amand.entity.ProductEntity;
 import com.amand.form.CategoryForm;
 import com.amand.repository.CategoryRepository;
+import com.amand.repository.ProductRepository;
 import com.amand.service.ICategoryService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -23,6 +26,9 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
     private CategoryConverter categoryConverter;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -103,6 +109,27 @@ public class CategoryServiceImpl implements ICategoryService {
         if (categoryEntity.isEmpty()) return null;
         CategoryDto categoryDto = categoryConverter.toDto(categoryEntity.get());
         return categoryDto;
+    }
+
+    @Override
+    @Transactional
+    public void delete(List<Integer> ids) {
+        categoryRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public String validateDelete(List<Integer> ids) {
+        String result ="";
+        if (ids == null || ids.isEmpty()) {
+            result = "Bạn cần chọn thể loại bạn muốn xoá";
+            return result;
+        }
+        List<ProductEntity> productEntities = productRepository.findAllByCategoryId(ids);
+        if (!CollectionUtils.isEmpty(productEntities)) {
+            result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách thể loại này trước";
+        }
+        return result;
+
     }
 
 }
