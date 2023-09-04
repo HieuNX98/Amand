@@ -19,4 +19,7 @@ public class ColorEntity extends BaseEntity {
     @ManyToMany(mappedBy = "colors")
     private List<ProductEntity> products;
 
+    @Column
+    private Integer status;
+
 }

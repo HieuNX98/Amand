@@ -93,7 +93,7 @@ public class AdminController {
         List<CategoryDto> categoryDtos = categoryService.findAll();
         mav.addObject("categoryDtos", categoryDtos);
 
-        List<ColorDto> colorDtos = colorService.findAll();
+        List<ColorDto> colorDtos = colorService.findAllByStatus(SystemConstant.ACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
 
         List<SizeDto> sizeDtos = sizeService.findAll();
@@ -106,7 +106,7 @@ public class AdminController {
     public ModelAndView createProduct() {
          ModelAndView mav = new ModelAndView("/admin/views/CreateProduct");
          mav.addObject("categories", categoryService.findAll());
-         mav.addObject("colors", colorService.findAll());
+         mav.addObject("colors", colorService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
          mav.addObject("sizes", sizeService.findAll());
         return mav;
     }
@@ -156,11 +156,11 @@ public class AdminController {
                                   @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListColor");
         Pageable pageable = PageRequest.of(page -1, limit);
-        List<ColorDto> colorDtos = colorService.findAll(pageable);
+        List<ColorDto> colorDtos = colorService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
         mav.addObject("page", page);
         mav.addObject("limit", limit);
-        int totalItem = colorService.getTotalItem();
+        int totalItem = colorService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
 
         return mav;

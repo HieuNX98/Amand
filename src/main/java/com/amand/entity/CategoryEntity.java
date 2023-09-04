@@ -19,6 +19,9 @@ public class CategoryEntity extends BaseEntity{
     @Column
     private String code;
 
+    @Column
+    private Integer status;
+
     @OneToMany(mappedBy = "category")
     private List<ProductEntity> products;
 

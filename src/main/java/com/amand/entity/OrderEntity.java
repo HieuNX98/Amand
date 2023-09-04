@@ -37,10 +37,10 @@ public class OrderEntity extends BaseEntity {
     @Column
     private String amount;
 
-    @Column
-    private String status;
-
     @ManyToMany(mappedBy = "orders")
     private List<ProductEntity> products;
+
+    @Column
+    private Integer status;
 
 }

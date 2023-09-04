@@ -1,18 +1,22 @@
 package com.amand.ServiceImpl;
 
+import com.amand.constant.SystemConstant;
 import com.amand.converter.ColorConverter;
 import com.amand.dto.ColorDto;
 import com.amand.dto.ProductDto;
 import com.amand.entity.ColorEntity;
+import com.amand.entity.ProductEntity;
 import com.amand.form.ColorForm;
 import com.amand.form.ProductForm;
 import com.amand.repository.ColorRepository;
+import com.amand.repository.ProductRepository;
 import com.amand.service.IColorService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.awt.*;
@@ -28,6 +32,9 @@ public class ColorServiceImpl implements IColorService {
     @Autowired
     private ColorConverter colorConverter;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     @Transactional
     public ColorDto save(ColorForm colorForm) {
@@ -37,6 +44,7 @@ public class ColorServiceImpl implements IColorService {
             colorEntity = colorConverter.toEntity(oldColorEntity.get(), colorForm) ;
         } else {
             colorEntity = colorConverter.toEntity(colorForm);
+            colorEntity.setStatus(SystemConstant.ACTIVE_STATUS);
         }
         colorEntity = colorRepository.save(colorEntity);
         return colorConverter.toDto(colorEntity);
@@ -62,9 +70,9 @@ public class ColorServiceImpl implements IColorService {
     }
 
     @Override
-    public List<ColorDto> findAll() {
+    public List<ColorDto> findAllByStatus(Integer status) {
         List<ColorDto> colorDtos = new ArrayList<>();
-        List<ColorEntity> colorEntities = colorRepository.findAll();
+        List<ColorEntity> colorEntities = colorRepository.findAllByStatus(status);
         for (ColorEntity colorEntity : colorEntities) {
             ColorDto colorDto = colorConverter.toDto(colorEntity);
             colorDtos.add(colorDto);
@@ -73,9 +81,9 @@ public class ColorServiceImpl implements IColorService {
     }
 
     @Override
-    public List<ColorDto> findAll(Pageable pageable) {
+    public List<ColorDto> findAllByStatus(Pageable pageable, Integer status) {
         List<ColorDto> colorDtos = new ArrayList<>();
-        List<ColorEntity> colorEntities = colorRepository.findAll(pageable).getContent();
+        List<ColorEntity> colorEntities = colorRepository.findAllByStatus(pageable, status);
         for (ColorEntity colorEntity : colorEntities) {
             ColorDto colorDto = colorConverter.toDto(colorEntity);
             colorDtos.add(colorDto);
@@ -84,8 +92,8 @@ public class ColorServiceImpl implements IColorService {
     }
 
     @Override
-    public int getTotalItem() {
-        return (int) colorRepository.count();
+    public int getTotalItem(Integer status) {
+        return colorRepository.countByStatus(status);
     }
 
     @Override
@@ -94,6 +102,27 @@ public class ColorServiceImpl implements IColorService {
         if (colorEntity.isEmpty()) return null;
         ColorDto colorDto = colorConverter.toDto(colorEntity.get());
         return colorDto;
+    }
+
+    @Override
+    @Transactional
+    public void hide(List<Integer> ids) {
+        colorRepository.updateStatusByIds(ids);
+
+    }
+
+    @Override
+    public String validateHide(List<Integer> ids) {
+        String result = "";
+        if (ids == null || ids.isEmpty()) {
+            result = "Bạn cần chọn màu bạn muốn xoá";
+            return result;
+        }
+        List<ProductEntity> productEntities = productRepository.findAllByColorId(ids);
+        if (!CollectionUtils.isEmpty(productEntities)) {
+            result = "Đang có sản phẩm thuộc danh sách màu bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách màu này trước";
+        }
+        return result;
     }
 
 }

@@ -14,12 +14,16 @@ public interface IColorService {
 
     Map<String, String> validate(ColorForm colorForm, boolean isRegister);
 
-    List<ColorDto> findAll();
+    List<ColorDto> findAllByStatus(Integer status);
 
-    List<ColorDto> findAll(Pageable pageable);
+    List<ColorDto> findAllByStatus(Pageable pageable, Integer status);
 
-    int getTotalItem();
+    int getTotalItem(Integer status);
 
     ColorDto findOneById(Integer id);
+
+    void hide(List<Integer> ids);
+
+    String validateHide(List<Integer> ids);
 
 }

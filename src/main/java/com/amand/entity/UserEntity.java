@@ -37,7 +37,7 @@ public class UserEntity extends BaseEntity {
     private String address;
 
     @Column
-    private int status;
+    private Integer status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
