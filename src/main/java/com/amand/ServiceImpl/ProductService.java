@@ -83,6 +83,7 @@ public class ProductService implements IProductService {
             productEntity.setImage3(image);
             image = fileUtils.uploadFile(productForm.getImage4());
             productEntity.setImage4(image);
+            productEntity.setStatus(SystemConstant.ACTIVE_STATUS);
         }
         Optional<CategoryEntity> categoryEntity = categoryRepository.findById(productForm.getCategoryId());
         productEntity.setCategory(categoryEntity.get());
@@ -155,9 +156,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public List<ProductDto> findAll(Pageable pageable) {
+    public List<ProductDto> findAll(Pageable pageable, Integer status) {
         List<ProductDto> productDtos = new ArrayList<>();
-        List<ProductEntity> productEntities = productRepository.findAll(pageable).getContent();
+        List<ProductEntity> productEntities = productRepository.findAllByStatus(pageable, status);
         for (ProductEntity productEntity : productEntities) {
             ProductDto productDto = productConverter.toDto(productEntity);
             Optional<CategoryEntity> categoryEntity = categoryRepository.findById(productEntity.getCategory().getId());
@@ -168,8 +169,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public int getTotalItem() {
-        return (int) productRepository.count();
+    public int getTotalItem(Integer status) {
+        return productRepository.countByStatus(status);
     }
 
     @Override

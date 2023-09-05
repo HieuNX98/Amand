@@ -60,9 +60,9 @@ public class AdminController {
                                     @RequestParam (value = "limit", defaultValue = "5") int limit){
         ModelAndView mav = new ModelAndView("admin/views/ListProduct");
         Pageable pageable = PageRequest.of(page - 1, limit);
-        List<ProductDto> productDtos = productService.findAll(pageable);
+        List<ProductDto> productDtos = productService.findAll(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("productDtos", productDtos);
-        int totalPages = (int) Math.ceil((double) productService.getTotalItem() / limit);
+        int totalPages = (int) Math.ceil((double) productService.getTotalItem(SystemConstant.ACTIVE_STATUS) / limit);
         mav.addObject("totalPages", totalPages);
         mav.addObject("limit", limit);
         mav.addObject("page", page);
@@ -90,13 +90,13 @@ public class AdminController {
         List<Integer> sizeIds = productDto.getSizeIds();
         mav.addObject("sizeIds", sizeIds);
 
-        List<CategoryDto> categoryDtos = categoryService.findAll();
+        List<CategoryDto> categoryDtos = categoryService.findAllByStatus(SystemConstant.ACTIVE_STATUS);
         mav.addObject("categoryDtos", categoryDtos);
 
         List<ColorDto> colorDtos = colorService.findAllByStatus(SystemConstant.ACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
 
-        List<SizeDto> sizeDtos = sizeService.findAll();
+        List<SizeDto> sizeDtos = sizeService.findAllByStatus(SystemConstant.ACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
 
         return mav;
@@ -105,9 +105,9 @@ public class AdminController {
     @GetMapping("/them-san-pham")
     public ModelAndView createProduct() {
          ModelAndView mav = new ModelAndView("/admin/views/CreateProduct");
-         mav.addObject("categories", categoryService.findAll());
+         mav.addObject("categories", categoryService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
          mav.addObject("colors", colorService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
-         mav.addObject("sizes", sizeService.findAll());
+         mav.addObject("sizes", sizeService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
         return mav;
     }
 
@@ -122,9 +122,9 @@ public class AdminController {
                                      @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListCategories");
         Pageable pageable = PageRequest.of(page - 1, limit);
-        List<CategoryDto> categoryDtos = categoryService.findAll(pageable);
+        List<CategoryDto> categoryDtos = categoryService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("categoryDtos", categoryDtos);
-        int totalItem = categoryService.getTotalItem();
+        int totalItem = categoryService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil( (double) totalItem / limit));
         mav.addObject("limit", limit);
         mav.addObject("page", page);
@@ -220,9 +220,9 @@ public class AdminController {
         mav.addObject("page", page);
         mav.addObject("limit", limit);
         Pageable pageable = PageRequest.of(page-1, limit);
-        List<SizeDto> sizeDtos = sizeService.findAll(pageable);
+        List<SizeDto> sizeDtos = sizeService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
-        int totalItem = sizeService.getTotalItem();
+        int totalItem = sizeService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPages",(int) Math.ceil((double) totalItem / limit));
         return mav;
     }
@@ -301,8 +301,8 @@ public class AdminController {
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
         Pageable pageable = PageRequest.of(page - 1, limit);
-        List<UserDto> userDtos = userService.findAllByRoleCode(SystemConstant.ROLE_CODE, pageable);
-        int totalItem = userService.getTotalItem();
+        List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(SystemConstant.ROLE_CODE, pageable, SystemConstant.ACTIVE_STATUS);
+        int totalItem = userService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         mav.addObject("userDtos", userDtos);
         mav.addObject("page", page);

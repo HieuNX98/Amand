@@ -1,6 +1,7 @@
 package com.amand.repository;
 
 import com.amand.entity.ProductEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +20,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.colors c WHERE c.id IN (:ids)")
     List<ProductEntity> findAllByColorId(@Param("ids") List<Integer> ids);
+
+    @Query(value = "SELECT count(p) FROM ProductEntity p WHERE p.status = :status")
+    int countByStatus(@Param("status") Integer status);
+
+    List<ProductEntity> findAllByStatus(Pageable pageable, Integer status);
 
 
 

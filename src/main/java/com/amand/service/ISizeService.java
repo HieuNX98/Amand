@@ -13,11 +13,11 @@ public interface ISizeService {
 
     Map<String, String> validate(SizeForm sizeForm, boolean isRegister);
 
-    List<SizeDto> findAll();
+    List<SizeDto> findAllByStatus(Integer status);
 
-    List<SizeDto> findAll(Pageable pageable);
+    List<SizeDto> findAllByStatus(Pageable pageable, Integer status);
 
-    int getTotalItem();
+    int getTotalItem(Integer status);
 
     SizeDto findOneById(Integer id);
 }

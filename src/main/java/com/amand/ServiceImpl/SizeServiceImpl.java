@@ -1,5 +1,6 @@
 package com.amand.ServiceImpl;
 
+import com.amand.constant.SystemConstant;
 import com.amand.converter.SizeConverter;
 import com.amand.dto.SizeDto;
 import com.amand.entity.SizeEntity;
@@ -31,6 +32,7 @@ public class SizeServiceImpl implements ISizeService {
             sizeEntity = sizeConverter.toEntity(oldSizeEntity.get(), sizeForm);
         } else {
             sizeEntity = sizeConverter.toEntity(sizeForm);
+            sizeEntity.setStatus(SystemConstant.ACTIVE_STATUS);
         }
         sizeEntity = sizeRepository.save(sizeEntity);
         return sizeConverter.toDto(sizeEntity);
@@ -56,9 +58,9 @@ public class SizeServiceImpl implements ISizeService {
     }
 
     @Override
-    public List<SizeDto> findAll() {
+    public List<SizeDto> findAllByStatus(Integer status) {
         List<SizeDto> sizeDtos = new ArrayList<>();
-        List<SizeEntity> sizeEntities = sizeRepository.findAll();
+        List<SizeEntity> sizeEntities = sizeRepository.findAllByStatus(status);
         for (SizeEntity sizeEntity : sizeEntities) {
             SizeDto sizeDto = sizeConverter.toDto(sizeEntity);
             sizeDtos.add(sizeDto);
@@ -67,8 +69,8 @@ public class SizeServiceImpl implements ISizeService {
     }
 
     @Override
-    public List<SizeDto> findAll(Pageable pageable) {
-        List<SizeEntity> sizeEntities = sizeRepository.findAll(pageable).getContent();
+    public List<SizeDto> findAllByStatus(Pageable pageable, Integer status) {
+        List<SizeEntity> sizeEntities = sizeRepository.findAllByStatus(pageable, status);
         List<SizeDto> sizeDtos = new ArrayList<>();
         for (SizeEntity sizeEntity : sizeEntities) {
             SizeDto sizeDto = sizeConverter.toDto(sizeEntity);
@@ -78,8 +80,8 @@ public class SizeServiceImpl implements ISizeService {
     }
 
     @Override
-    public int getTotalItem() {
-        return (int) sizeRepository.count();
+    public int getTotalItem(Integer status) {
+        return sizeRepository.countByStatus(status);
     }
 
     @Override

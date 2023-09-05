@@ -15,9 +15,9 @@ public interface IUserService {
 
     Map<String, String> validateUpdateAccount(UserForm userForm);
 
-    List<UserDto> findAllByRoleCode(String roleCode, Pageable pageable);
+    List<UserDto> findAllByRoleCodeAndStatus(String roleCode, Pageable pageable, Integer status);
 
-    int getTotalItem();
+    int getTotalItem(Integer status);
 
     UserDto findOneById(Integer id);
 

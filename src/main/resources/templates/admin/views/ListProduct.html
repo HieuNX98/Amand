@@ -24,66 +24,70 @@
             </div>
         </div>
     </div>
-    <!-- table striped -->
-    <div class="table-responsive">
-        <table class="table table-striped mb-0">
-            <thead>
-            <tr>
-                <th>Tên sản phẩm</th>
-                <th>Loại sản phẩm</th>
-                <th>Giá gốc</th>
-                <th>Giá sale</th>
-                <th>Số lượng</th>
-                <th>Màu</th>
-                <th>Kích thước</th>
-                <th>Mùa</th>
-                <th>Thao tác</th>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                Dữ liêu sản phẩm
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Loại sản phẩm</th>
+                        <th>Giá gốc</th>
+                        <th>Giá sale</th>
+                        <th>Số lượng</th>
+                        <th>Màu</th>
+                        <th>Kích thước</th>
+                        <th>Mùa</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each = "item : ${productDtos}">
+                        <tr>
+                            <td class="text-bold-500" th:text="${item.name}"></td>
+                            <td th:text="${item.categoryName}"></td>
+                            <td th:text="${item.oldPrice}"></td>
+                            <td th:text="${item.salePrice}"></td>
+                            <td th:text="${item.amount}"></td>
+                            <td>
+                                <th:block th:each = "color : ${item.colors}">
+                                    <p th:text="${color}"></p>
+                                </th:block>
+                            </td>
 
-            </tr>
-            </thead>
-            <tbody>
-            <th:block th:each = "item : ${productDtos}">
-                <tr>
-                    <td class="text-bold-500" th:text="${item.name}"></td>
-                    <td th:text="${item.categoryName}"></td>
-                    <td th:text="${item.oldPrice}"></td>
-                    <td th:text="${item.salePrice}"></td>
-                    <td th:text="${item.amount}"></td>
-                    <td>
-                        <th:block th:each = "color : ${item.colors}">
-                            <p th:text="${color}"></p>
-                        </th:block>
-                    </td>
-
-                    <td>
-                        <th:block th:each = "size : ${item.sizes}">
-                            <p th:text="${size}"></p>
-                        </th:block>
-                    </td>
-                    <td th:text="${item.season}"></td>
-                    <td>
-                        <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-                           title="Chỉnh sửa thông tin sản phẩm" th:href="@{/admin/chinh-sua-thong-tin-san-pham(id=${item.id})}">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                </tr>
-            </th:block>
-
-            </tbody>
-        </table>
-        <div class="container">
-            <nav aria-label="Page navigation ">
-                <ul class="pagination d-flex justify-content-center" id="pagination"></ul>
-            </nav>
+                            <td>
+                                <th:block th:each = "size : ${item.sizes}">
+                                    <p th:text="${size}"></p>
+                                </th:block>
+                            </td>
+                            <td th:text="${item.season}"></td>
+                            <td>
+                                <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                   title="Chỉnh sửa thông tin sản phẩm" th:href="@{/admin/chinh-sua-thong-tin-san-pham(id=${item.id})}">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+                <div class="container">
+                    <nav aria-label="Page navigation ">
+                        <ul class="pagination d-flex justify-content-center" id="pagination"></ul>
+                    </nav>
+                </div>
+                <form id="formSubmit">
+                    <input type="hidden" value="" id="limit" name="limit"/>
+                    <input type="hidden" value="" id="page" name="page"/>
+                </form>
+            </div>
         </div>
-        <form id="formSubmit">
-            <input type="hidden" value="" id="limit" name="limit"/>
-            <input type="hidden" value="" id="page" name="page"/>
-        </form>
-    </div>
+
+    </section>
 </div>
-<!-- Striped rows end -->
 <script layout:fragment="js" th:inline="javascript">
   var totalPages = /*[[${totalPages}]]*/;
   var currentPage = /*[[${page}]]*/;
