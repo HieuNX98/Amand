@@ -1,5 +1,6 @@
 package com.amand.ServiceImpl;
 
+import com.amand.constant.SystemConstant;
 import com.amand.converter.RoleConverter;
 import com.amand.converter.UserConverter;
 import com.amand.dto.RoleDto;
@@ -49,8 +50,9 @@ public class UserServiceImpl implements IUserService {
         } else {
             userEntity = userConverter.toEntity(userForm);
             extractRoleToUserEntity(userForm, userEntity);
+            userEntity.setStatus(SystemConstant.ACTIVE_STATUS);
+
         }
-        userEntity.setStatus(1);
         userEntity = userRepository.save(userEntity);
         return userConverter.toDto(userEntity);
     }
@@ -126,9 +128,9 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserDto> findAllByRoleCode(String roleCode, Pageable pageable) {
+    public List<UserDto> findAllByRoleCodeAndStatus(String roleCode, Pageable pageable, Integer status) {
         List<UserDto> userDtos = new ArrayList<>();
-        List<UserEntity> userEntities = userRepository.findAllByRoleCode(roleCode, pageable);
+        List<UserEntity> userEntities = userRepository.findAllByRoleCodeAndStatus(roleCode, status, pageable);
         for (UserEntity userEntity : userEntities) {
             List<RoleDto> roleDtos = new ArrayList<>();
             for (RoleEntity roleEntity : userEntity.getRoles()) {
@@ -143,8 +145,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int getTotalItem() {
-        return (int) userRepository.count();
+    public int getTotalItem(Integer status) {
+        return (int) userRepository.countByStatus(status);
     }
 
     @Override

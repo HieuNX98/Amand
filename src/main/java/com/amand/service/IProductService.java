@@ -14,9 +14,9 @@ public interface IProductService {
 
     Map<String, String> validate(ProductForm productForm, boolean isRegister);
 
-    List<ProductDto> findAll(Pageable pageable);
+    List<ProductDto> findAll(Pageable pageable, Integer status);
 
-    int getTotalItem();
+    int getTotalItem(Integer status);
 
     ProductDto findOneById(Integer id);
 

@@ -1,5 +1,6 @@
 package com.amand.ServiceImpl;
 
+import com.amand.constant.SystemConstant;
 import com.amand.converter.CategoryConverter;
 import com.amand.dto.CategoryDto;
 import com.amand.entity.CategoryEntity;
@@ -39,6 +40,7 @@ public class CategoryServiceImpl implements ICategoryService {
             categoryEntity = categoryConverter.toEntity(oldCategory.get(), categoryForm);
         } else {
             categoryEntity = categoryConverter.toEntity(categoryForm);
+            categoryEntity.setStatus(SystemConstant.ACTIVE_STATUS);
         }
         categoryEntity = categoryRepository.save(categoryEntity);
         return categoryConverter.toDto(categoryEntity);
@@ -77,9 +79,9 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
+    public List<CategoryDto> findAllByStatus(Pageable pageable, Integer status) {
         List<CategoryDto> categoryDtos = new ArrayList<>();
-        List<CategoryEntity> categoryEntities = categoryRepository.findAll(pageable).getContent();
+        List<CategoryEntity> categoryEntities = categoryRepository.findAllByStatus(pageable, status);
         for (CategoryEntity categoryEntity : categoryEntities) {
             CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
             categoryDtos.add(categoryDto);
@@ -88,14 +90,14 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public int getTotalItem() {
-        return (int) categoryRepository.count();
+    public int getTotalItem(Integer status) {
+        return categoryRepository.countByStatus(status);
     }
 
     @Override
-    public List<CategoryDto> findAll() {
+    public List<CategoryDto> findAllByStatus(Integer status) {
         List<CategoryDto> categoryDtos = new ArrayList<>();
-        List<CategoryEntity> categoryEntities = categoryRepository.findAll();
+        List<CategoryEntity> categoryEntities = categoryRepository.findAllByStatus(status);
         for (CategoryEntity categoryEntity : categoryEntities) {
             CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
             categoryDtos.add(categoryDto);

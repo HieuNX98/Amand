@@ -16,9 +16,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         @Query(value = "SELECT u.userName FROM UserEntity u WHERE u.userName = :username")
         String findOneByUserName(@Param("username") String userName);
 
-        @Query(value = "SELECT u FROM UserEntity u INNER JOIN u.roles r WHERE r.code = :roleCode")
-        List<UserEntity> findAllByRoleCode(@Param("roleCode") String roleCode, Pageable pageable);
+        @Query(value = "SELECT u FROM UserEntity u INNER JOIN u.roles r WHERE r.code = :roleCode AND u.status = :status")
+        List<UserEntity> findAllByRoleCodeAndStatus(@Param("roleCode") String roleCode, @Param("status") Integer status, Pageable pageable);
 
         UserEntity findOneById(Integer id);
+
+        @Query(value = "SELECT count(u) FROM UserEntity u WHERE u.status = :status ")
+        int countByStatus(@Param("status") Integer status);
 
 }

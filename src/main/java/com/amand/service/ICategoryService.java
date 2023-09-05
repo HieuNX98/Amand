@@ -12,11 +12,11 @@ public interface ICategoryService {
 
     Map<String, String> validate(CategoryForm categoryForm, boolean isRegister);
 
-    List<CategoryDto> findAll(Pageable pageable);
+    List<CategoryDto> findAllByStatus(Pageable pageable, Integer status);
 
-    int getTotalItem();
+    int getTotalItem(Integer Status);
 
-    List<CategoryDto> findAll();
+    List<CategoryDto> findAllByStatus(Integer status);
 
     CategoryDto findOneById(Integer id);
 

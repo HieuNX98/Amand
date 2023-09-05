@@ -1,6 +1,7 @@
 package com.amand.repository;
 
 import com.amand.entity.CategoryEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +20,12 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
 
     @Query(value = "SELECT c.code FROM CategoryEntity c WHERE c.id = :id")
     String findOneCodeById(@Param("id") Integer id);
+
+    List<CategoryEntity> findAllByStatus(Pageable pageable, Integer Status);
+
+    List<CategoryEntity> findAllByStatus(Integer status);
+
+    @Query(value = "SELECT count(c) FROM CategoryEntity c WHERE c.status = :status")
+    int countByStatus(@Param("status") Integer status);
 
 }
