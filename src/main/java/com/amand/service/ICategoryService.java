@@ -22,5 +22,7 @@ public interface ICategoryService {
 
     void delete(List<Integer> ids);
 
-    String validateDelete(List<Integer> ids);
+    String validateHide(List<Integer> ids);
+
+    void hide(List<Integer> ids);
 }

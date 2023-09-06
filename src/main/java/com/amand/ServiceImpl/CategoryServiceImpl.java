@@ -120,7 +120,7 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public String validateDelete(List<Integer> ids) {
+    public String validateHide(List<Integer> ids) {
         String result ="";
         if (ids == null || ids.isEmpty()) {
             result = "Bạn cần chọn thể loại bạn muốn xoá";
@@ -132,6 +132,12 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         return result;
 
+    }
+
+    @Override
+    @Transactional
+    public void hide(List<Integer> ids) {
+        categoryRepository.updateStatusByIds(ids);
     }
 
 }

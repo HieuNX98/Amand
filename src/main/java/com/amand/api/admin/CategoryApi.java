@@ -33,7 +33,7 @@ public class CategoryApi {
         }
     }
 
-    @PutMapping("/category")
+    @PutMapping("/edit-category")
     public ResponseEntity<?> editCategory(@RequestBody CategoryForm categoryForm) {
         Map<String, String> validateRsult = categoryService.validate(categoryForm, false);
         if (!CollectionUtils.isEmpty(validateRsult)) {
@@ -45,13 +45,15 @@ public class CategoryApi {
         }
     }
 
-    @DeleteMapping("/category")
-    public ResponseEntity<?> deleteCategory(@RequestBody List<Integer> ids) {
-        String result = categoryService.validateDelete(ids);
-        if (Strings.isNotBlank(result)) {
-            return ResponseEntity.badRequest().body(result);
-        }
-        categoryService.delete(ids);
+    @PutMapping("/hide-category")
+    public ResponseEntity<?> hideCategory(@RequestBody List<Integer> ids) {
+        String result = categoryService.validateHide(ids);
+        if (Strings.isBlank(result)) {
+            categoryService.hide(ids);
             return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body(result);
+
     }
+
 }
