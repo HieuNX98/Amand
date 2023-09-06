@@ -14,10 +14,14 @@ public interface IProductService {
 
     Map<String, String> validate(ProductForm productForm, boolean isRegister);
 
+    String validateHide(List<Integer> ids);
+
     List<ProductDto> findAll(Pageable pageable, Integer status);
 
     int getTotalItem(Integer status);
 
     ProductDto findOneById(Integer id);
+
+    void hide(List<Integer> ids);
 
 }

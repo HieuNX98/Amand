@@ -6,14 +6,12 @@ import com.amand.dto.ProductDto;
 import com.amand.form.ProductForm;
 import com.amand.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -39,7 +37,7 @@ public class ProductApi {
         }
     }
 
-    @PutMapping("/product")
+    @PutMapping("/edit-product")
     public ResponseEntity<?> updateProduct (@ModelAttribute ProductForm productForm) {
         Map<String, String> resultValidate = productService.validate(productForm, false);
         if (!CollectionUtils.isEmpty(resultValidate)) {
@@ -51,6 +49,17 @@ public class ProductApi {
             return ResponseEntity.ok(response);
         }
     }
+
+    @PutMapping("/hide-product")
+    public ResponseEntity<?> hideProduct(@RequestBody List<Integer> ids) {
+        String resultValidate = productService.validateHide(ids);
+        if (Strings.isBlank(resultValidate)) {
+            productService.hide(ids);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body(resultValidate);
+    }
+
 
 
 

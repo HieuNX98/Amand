@@ -18,6 +18,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 
 @Service
-public class ProductService implements IProductService {
+public class ProductServiceImpl implements IProductService {
 
     @Autowired
     private ProductRepository productRepository;
@@ -46,6 +47,7 @@ public class ProductService implements IProductService {
     private CategoryRepository categoryRepository;
 
     @Override
+    @Transactional
     public ProductDto save(ProductForm productForm)  {
         ProductEntity productEntity;
         if (productForm.getId() != null) {
@@ -156,6 +158,15 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public String validateHide(List<Integer> ids) {
+        String result = "";
+        if (ids == null || ids.isEmpty()) {
+            return result = "Bạn cần chọn sản phẩm bạn muốn ẩn";
+        }
+        return result;
+    }
+
+    @Override
     public List<ProductDto> findAll(Pageable pageable, Integer status) {
         List<ProductDto> productDtos = new ArrayList<>();
         List<ProductEntity> productEntities = productRepository.findAllByStatus(pageable, status);
@@ -198,6 +209,13 @@ public class ProductService implements IProductService {
         productDto.setCategoryName(categoryEntity.getName());
         productDto.setCategoryId(categoryEntity.getId());
         return productDto;
+    }
+
+    @Override
+    @Transactional
+    public void hide(List<Integer> ids) {
+        productRepository.updateStatusByIds(ids);
+
     }
 
     private String getErrorImage(MultipartFile image, boolean isRegister) {

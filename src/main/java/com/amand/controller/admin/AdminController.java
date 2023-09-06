@@ -301,7 +301,7 @@ public class AdminController {
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
         Pageable pageable = PageRequest.of(page - 1, limit);
-        List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(SystemConstant.ROLE_CODE, pageable, SystemConstant.ACTIVE_STATUS);
+        List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(SystemConstant.ROLE_CODE_IMPLOY, pageable, SystemConstant.ACTIVE_STATUS);
         int totalItem = userService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         mav.addObject("userDtos", userDtos);

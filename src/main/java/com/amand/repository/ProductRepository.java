@@ -3,6 +3,7 @@ package com.amand.repository;
 import com.amand.entity.ProductEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -26,6 +27,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
     List<ProductEntity> findAllByStatus(Pageable pageable, Integer status);
 
-
+    @Modifying
+    @Query("UPDATE ProductEntity p SET p.status = 0 WHERE p.id IN (:ids)")
+    void updateStatusByIds(@Param("ids") List<Integer> ids);
 
 }
