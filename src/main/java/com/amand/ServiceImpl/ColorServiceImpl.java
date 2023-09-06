@@ -3,11 +3,9 @@ package com.amand.ServiceImpl;
 import com.amand.constant.SystemConstant;
 import com.amand.converter.ColorConverter;
 import com.amand.dto.ColorDto;
-import com.amand.dto.ProductDto;
 import com.amand.entity.ColorEntity;
 import com.amand.entity.ProductEntity;
 import com.amand.form.ColorForm;
-import com.amand.form.ProductForm;
 import com.amand.repository.ColorRepository;
 import com.amand.repository.ProductRepository;
 import com.amand.service.IColorService;
@@ -19,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 @Service
 public class ColorServiceImpl implements IColorService {

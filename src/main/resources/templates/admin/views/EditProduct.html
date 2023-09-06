@@ -166,7 +166,7 @@
         e.preventDefault();
         let form = new FormData($('#formSubmit')[0]);
         $.ajax({
-           url: '/api/product',
+           url: '/api/edit-product',
            type: 'PUT',
            enctype: 'multipart/form-data',
            data: form,
