@@ -79,7 +79,7 @@
         data["" + v.name + ""] = v.value;
     });
     $.ajax({
-        url: ('/api/category'),
+        url: ('/api/edit-category'),
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(data),

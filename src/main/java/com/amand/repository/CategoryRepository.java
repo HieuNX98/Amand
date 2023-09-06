@@ -3,6 +3,7 @@ package com.amand.repository;
 import com.amand.entity.CategoryEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -27,5 +28,9 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
 
     @Query(value = "SELECT count(c) FROM CategoryEntity c WHERE c.status = :status")
     int countByStatus(@Param("status") Integer status);
+
+    @Modifying
+    @Query(value = "UPDATE CategoryEntity c SET c.status = 0 WHERE c.id IN (:ids)")
+    void updateStatusByIds(@Param("ids") List<Integer> ids);
 
 }

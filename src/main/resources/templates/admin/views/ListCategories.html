@@ -99,15 +99,15 @@
                     <thead>
                     <tr>
                     <tr>
-                        <th><input type="checkbox" id="checkAll"></th>
+                        <th><input type="checkbox" id="checkAll"><label for="checkAll">Chọn tất cả</label></th>
                         <th>Name</th>
                         <th>Code</th>
                         <th>Thao tác</th>
                         <th>
                             <button id="btnDelete" type="button" onclick="warningBeforeDelete()"
-                                    class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Xóa bài viết'>
+                                    class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
 																<span>
-																	<i class="fa fa-trash-o bigger-110 pink"></i>
+																	<i class="bi bi-eye-slash"></i>
 																</span>
                             </button>
                         </th>
@@ -165,8 +165,8 @@
 
     function warningBeforeDelete(){
         swal({
-            title: "Xác nhận xoá",
-            text: "Bạn có chắc chắn muốn xoá hay không",
+            title: "Xác nhận ẩn",
+            text: "Bạn có chắc chắn muốn ẩn hay không",
             type: "warning",
             showCancelButton: true,
             confirmButtonClass: "btn-success",
@@ -185,13 +185,13 @@
 
     function deleteNew(data) {
         $.ajax({
-            url : '/api/category',
-            type : 'DELETE',
+            url : '/api/hide-category',
+            type : 'PUT',
             contentType : 'application/json',
             data : JSON.stringify(data),
             success : function (result) {
                 console.log(result);
-                alert("Xoá thành công");
+                alert("Cập nhật thành công");
                 window.location.replace("/admin/danh-sach-the-loai-san-pham");
             },
             error : function (result) {
