@@ -17,8 +17,10 @@ public interface IUserService {
 
     List<UserDto> findAllByRoleCodeAndStatus(String roleCode, Pageable pageable, Integer status);
 
-    int getTotalItem(Integer status);
+    int getTotalItem(Integer status, String roleCode);
 
     UserDto findOneById(Integer id);
+
+    void hide(List<Integer> ids);
 
 }

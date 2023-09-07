@@ -26,13 +26,22 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header py-4 d-flex justify-content-between">
                 Dữ liêu tài khoản
+                <div class="d-flex flex-row-reverse">
+                    <button id="btnHide" type="button" onclick="warningBeforeHide()"
+                            class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
+                                <span>
+                                    <i class="bi bi-eye-slash"></i>
+                                </span>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" id="checkAll"><label for="checkAll">Chọn tất cả</label></th>
                         <th>Họ và tên</th>
                         <th>Tài khoản</th>
                         <th>Số điện thoại</th>
@@ -45,6 +54,7 @@
                     <tbody>
                     <th:block th:each = "item : ${userDtos}">
                     <tr>
+                        <td><input type="checkbox" name ="checkOne" class="checkboxForUser" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
                         <td th:text="${item.fullName}"></td>
                         <td th:text="${item.userName}"></td>
                         <td th:text="${item.phone}"></td>
@@ -99,6 +109,67 @@
             }
         });
     });
+
+    function warningBeforeHide() {
+        swal({
+            title: "Xác nhận ẩn",
+            text: "Bạn có chắc chắn muốn ẩn hay không",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-success",
+            cancelButtonClass: "btn-danger",
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Huỷ bỏ",
+        }).then(function(isConfirm) {
+            if (isConfirm.value) {
+                var ids = $('tbody input[type=checkbox]:checked').map(function () {
+                    return $(this).val();
+                }).get();
+                hideAccount(ids);
+            }
+        });
+    }
+
+    function hideAccount(data) {
+        $.ajax({
+            url: '/api/hide-account',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success : function (result) {
+                alert("Cập nhật thành công");
+                window.location.replace("/admin/danh-sach-tai-khoan-admin");
+            },
+            error : function (result) {
+                alert("Có lỗi xảy ra");
+                window.location.reload();
+            }
+        });
+    }
+
+    $('#checkAll').click(function () {
+        if ($(this).is(':checked')) {
+            $('.checkboxForUser').prop('checked', true);
+            $('#btnHide').prop("disabled", false);
+        } else {
+            $('.checkboxForUser').prop('checked', false);
+            $('#btnHide').prop("disabled", true);
+        }
+    });
+
+    $('.checkboxForUser').click(function () {
+        countChecked();
+    })
+
+    let countChecked = function() {
+        let count = $("input[name='checkOne']:checked").length
+        if (count < 1) {
+            $('#btnHide').prop("disabled", true);
+        } else {
+            $('#btnHide').prop("disabled", false);
+        }
+    };
+    countChecked();
 </script>
 </body>
 </html>

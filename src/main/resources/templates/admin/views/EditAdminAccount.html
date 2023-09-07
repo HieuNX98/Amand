@@ -108,7 +108,7 @@
        });
        data["roleCodes"] = roleCodes;
        $.ajax({
-          url: '/api/updateAccount',
+          url: '/api/edit-account',
           type: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify(data),
