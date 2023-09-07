@@ -3,6 +3,7 @@ package com.amand.repository;
 import com.amand.entity.UserEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,7 +22,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
         UserEntity findOneById(Integer id);
 
-        @Query(value = "SELECT count(u) FROM UserEntity u WHERE u.status = :status ")
-        int countByStatus(@Param("status") Integer status);
+        @Query(value = "SELECT count(u) FROM UserEntity u INNER JOIN u.roles r WHERE u.status = :status AND r.code = :roleCode")
+        int countByStatusAndRoleCode(@Param("status") Integer status, @Param("roleCode") String roleCode );
 
+        @Modifying
+        @Query("UPDATE UserEntity u SET u.status = 0 WHERE u.id IN (:ids)")
+        void updateStatusByIds(@Param("ids") List<Integer> ids);
 }

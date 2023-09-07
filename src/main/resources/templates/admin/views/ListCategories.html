@@ -8,71 +8,6 @@
     <title>Danh sách thể loại sản phẩm</title>
 </head>
 <body>
-<!--<div class="page-heading" layout:fragment="pageheading">
-    <div class="page-title">
-        <div class="row">
-            <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Danh sách thể loại sản phẩm</h3>
-            </div>
-            <div class="col-12 col-md-6 order-md-2 order-first">
-                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Danh sách thể loại sản phẩm</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-                        &lt;!&ndash; table striped &ndash;&gt;
-                        <div class="table-responsive">
-                            <table class="table table-striped mb-0">
-                                <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="checkAll"></th>
-                                    <th>Name</th>
-                                    <th>Code</th>
-                                    <th>Thao tác</th>
-                                    <th>
-                                        <button id="btnDelete" type="button" onclick="warningBeforeDelete()"
-                                                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Xóa bài viết'>
-																<span>
-																	<i class="fa fa-trash-o bigger-110 pink"></i>
-																</span>
-                                        </button>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <th:block th:each = "item : ${categoryDtos}">
-                                <tr>
-                                    <td><input type="checkbox" class="checkboxForCategory" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
-                                    <td class="text-bold-500" th:text="${item.name}"></td>
-                                    <td th:text="${item.code}"></td>
-                                    <td>
-                                            <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-                                               title="Chỉnh sửa thể loại sản phẩm" th:href="@{/admin/chinh-sua-the-loai-san-pham(id=${item.id})}">
-                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                            </a>
-                                    </td>
-
-                                </tr>
-                                </th:block>
-                                </tbody>
-                            </table>
-                            <div class="container">
-                                <nav aria-label="Page navigation ">
-                                    <ul class="pagination d-flex justify-content-center" id="pagination"></ul>
-                                </nav>
-                            </div>
-                            <form id="formSubmit">
-                                <input type="hidden" value="" id="page" name="page"/>
-                                <input type="hidden" value="" id="limit" name="limit"/>
-                            </form>
-                        </div>
-    &lt;!&ndash; Striped rows end &ndash;&gt;
-</div>-->
-
 <div class="page-heading" layout:fragment="pageheading">
     <div class="page-title">
         <div class="row">
@@ -91,8 +26,16 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header py-4 d-flex justify-content-between">
                 Dữ liệu thể loại sản phẩm
+                <div class="d-flex flex-row-reverse">
+                    <button id="btnHide" type="button" onclick="warningBeforeHide()"
+                            class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
+                                <span>
+                                    <i class="bi bi-eye-slash"></i>
+                                </span>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
@@ -103,20 +46,12 @@
                         <th>Name</th>
                         <th>Code</th>
                         <th>Thao tác</th>
-                        <th>
-                            <button id="btnDelete" type="button" onclick="warningBeforeDelete()"
-                                    class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
-																<span>
-																	<i class="bi bi-eye-slash"></i>
-																</span>
-                            </button>
-                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each = "item : ${categoryDtos}">
                         <tr>
-                            <td><input type="checkbox" class="checkboxForCategory" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
+                            <td><input type="checkbox" name ="checkOne" class="checkboxForCategory" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
                             <td class="text-bold-500" th:text="${item.name}"></td>
                             <td th:text="${item.code}"></td>
                             <td>
@@ -163,7 +98,7 @@
         });
     });
 
-    function warningBeforeDelete(){
+    function warningBeforeHide() {
         swal({
             title: "Xác nhận ẩn",
             text: "Bạn có chắc chắn muốn ẩn hay không",
@@ -178,12 +113,12 @@
                 var ids = $('tbody input[type=checkbox]:checked').map(function (){
                     return $(this).val();
                 }).get();
-                deleteNew(ids);
+                hideCategory(ids);
             }
         });
     }
 
-    function deleteNew(data) {
+    function hideCategory(data) {
         $.ajax({
             url : '/api/hide-category',
             type : 'PUT',
@@ -206,13 +141,29 @@
         });
     }
 
-    $('#checkAll').click(function (){
+    $('#checkAll').click(function () {
        if ($(this).is(':checked')) {
            $('.checkboxForCategory').prop('checked', true);
+           $("#btnHide").prop("disabled", false);
        } else {
            $('.checkboxForCategory').prop('checked', false);
+           $("#btnHide").prop("disabled", true);
        }
     });
+
+    $('.checkboxForCategory').click(function () {
+        countChecked();
+    });
+
+    let countChecked = function() {
+        let count = $("input[name='checkOne']:checked").length;
+        if (count < 1) {
+            $("#btnHide").prop("disabled", true);
+        } else {
+            $("#btnHide").prop("disabled", false);
+        }
+    };
+    countChecked();
 </script>
 
 </body>

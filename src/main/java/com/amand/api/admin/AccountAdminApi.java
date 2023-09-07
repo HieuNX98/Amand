@@ -35,7 +35,7 @@ public class AccountAdminApi {
         }
     }
 
-    @PutMapping("/updateAccount")
+    @PutMapping("/edit-account")
     public ResponseEntity<?> updateAccount(@RequestBody UserForm userForm) {
         Map<String, String> validateResult = userService.validateUpdateAccount(userForm);
         if (!CollectionUtils.isEmpty(validateResult)) {
@@ -46,5 +46,12 @@ public class AccountAdminApi {
             return ResponseEntity.ok(response);
         }
     }
+
+    @PutMapping("/hide-account")
+    public ResponseEntity<?> hideAccount(@RequestBody List<Integer> ids) {
+        userService.hide(ids);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

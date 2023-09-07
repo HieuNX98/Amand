@@ -145,14 +145,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int getTotalItem(Integer status) {
-        return (int) userRepository.countByStatus(status);
+    public int getTotalItem(Integer status, String roleCode) {
+        return userRepository.countByStatusAndRoleCode(status, roleCode);
     }
 
     @Override
     public UserDto findOneById(Integer id) {
         UserEntity userEntity = userRepository.findOneById(id);
         return userConverter.toDto(userEntity);
+    }
+
+    @Override
+    @Transactional
+    public void hide(List<Integer> ids) {
+        userRepository.updateStatusByIds(ids);
     }
 
     private void extractRoleToUserEntity(UserForm userForm, UserEntity userEntity) {
