@@ -2,12 +2,15 @@ package com.amand.controller.admin;
 
 import com.amand.constant.SystemConstant;
 import com.amand.dto.SizeDto;
+import com.amand.form.HideForm;
 import com.amand.form.SizeForm;
 import com.amand.service.ISizeService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +32,8 @@ public class SizeController {
 
     @GetMapping("/danh-sach-kich-thuoc")
     public ModelAndView listSize(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                 @RequestParam (value = "limit", defaultValue = "3") Integer limit) {
+                                 @RequestParam (value = "limit", defaultValue = "3") Integer limit,
+                                 Model model) {
         ModelAndView mav = new ModelAndView("admin/views/ListSize");
         mav.addObject("page", page);
         mav.addObject("limit", limit);
@@ -38,6 +42,8 @@ public class SizeController {
         mav.addObject("sizeDtos", sizeDtos);
         int totalItem = sizeService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPages",(int) Math.ceil((double) totalItem / limit));
+        mav.addObject("messageError", model.getAttribute("messageError"));
+        mav.addObject("messageSuccess", model.getAttribute("messageSuccess"));
         return mav;
     }
 
@@ -80,6 +86,21 @@ public class SizeController {
             return mav;
         }
         mav.addObject("sizeDto", sizeDto);
+        return mav;
+    }
+
+    @PostMapping("/an-kich-thuoc")
+    public ModelAndView hideSize(@ModelAttribute HideForm form, RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView();
+        String resultValidate = sizeService.validateHide(form.getIds());
+        if (Strings.isBlank(resultValidate)) {
+            sizeService.hide(form.getIds());
+            redirectAttributes.addFlashAttribute("messageSuccess", "Cập nhật thành công");
+            mav.setViewName("redirect:/admin/danh-sach-kich-thuoc");
+        } else {
+            redirectAttributes.addFlashAttribute("messageError", resultValidate);
+            mav.setViewName("redirect:/admin/danh-sach-kich-thuoc");
+        }
         return mav;
     }
 

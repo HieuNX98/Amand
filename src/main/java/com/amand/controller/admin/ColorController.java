@@ -56,6 +56,7 @@ public class ColorController {
         mav.addObject("colorDto", colorDto);
         return mav;
     }
+
     @PostMapping("/chinh-sua-mau-san-pham")
     public ModelAndView editColor(@ModelAttribute ColorForm colorForm, RedirectAttributes redirectAttributes){
         ModelAndView mav = new ModelAndView("admin/views/EditColor");

@@ -3,14 +3,19 @@ package com.amand.ServiceImpl;
 import com.amand.constant.SystemConstant;
 import com.amand.converter.SizeConverter;
 import com.amand.dto.SizeDto;
+import com.amand.entity.ProductEntity;
 import com.amand.entity.SizeEntity;
 import com.amand.form.SizeForm;
+import com.amand.repository.ProductRepository;
 import com.amand.repository.SizeRepository;
+import com.amand.service.IProductService;
 import com.amand.service.ISizeService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -23,6 +28,9 @@ public class SizeServiceImpl implements ISizeService {
 
     @Autowired
     private SizeConverter sizeConverter;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public SizeDto save(SizeForm sizeForm) {
@@ -90,5 +98,22 @@ public class SizeServiceImpl implements ISizeService {
         if (sizeEntity.isEmpty()) return null;
         SizeDto sizeDto = sizeConverter.toDto(sizeEntity.get());
         return sizeDto;
+    }
+
+    @Override
+    public String validateHide(List<Integer> ids) {
+        String result = "";
+        List<ProductEntity> productEntities = productRepository.findAllBySizeIds(ids);
+        if (!CollectionUtils.isEmpty(productEntities)) {
+            result = "Đang có sản phẩm thuộc danh sách kích thước bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách kích thước" +
+                    " này trước";
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public void hide(List<Integer> ids) {
+        sizeRepository.updateStatusByIds(ids);
     }
 }

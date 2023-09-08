@@ -20,4 +20,8 @@ public interface ISizeService {
     int getTotalItem(Integer status);
 
     SizeDto findOneById(Integer id);
+
+    String validateHide(List<Integer> ids);
+
+    void hide(List<Integer> ids);
 }
