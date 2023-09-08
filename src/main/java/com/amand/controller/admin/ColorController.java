@@ -63,7 +63,7 @@ public class ColorController {
         Map<String, String> resultValidate = colorService.validate(colorForm, false);
         if (CollectionUtils.isEmpty(resultValidate)) {
             colorService.save(colorForm);
-            redirectAttributes.addFlashAttribute("message", "Cập nhật thành công");
+            redirectAttributes.addFlashAttribute("messageSuccess", "Cập nhật thành công");
             mav.setViewName("redirect:/admin/chi-tiet-mau-san-pham?id=" + colorForm.getId());
         } else {
             mav.addObject("messageError", resultValidate);
