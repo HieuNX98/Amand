@@ -33,6 +33,7 @@ public class SizeServiceImpl implements ISizeService {
     private ProductRepository productRepository;
 
     @Override
+    @Transactional
     public SizeDto save(SizeForm sizeForm) {
         SizeEntity sizeEntity;
         if (sizeForm.getId() != null) {

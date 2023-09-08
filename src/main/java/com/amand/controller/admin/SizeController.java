@@ -65,7 +65,7 @@ public class SizeController {
         ModelAndView mav = new ModelAndView("admin/views/EditSize");
         Map<String, String> validate = sizeService.validate(sizeForm, false);
         if (CollectionUtils.isEmpty(validate)) {
-            redirectAttributes.addFlashAttribute("message", "Cập nhật thành công");
+            redirectAttributes.addFlashAttribute("messageSuccess", "Cập nhật thành công");
             sizeService.save(sizeForm);
             mav.setViewName("redirect:/admin/chi-tiet-kich-thuoc-san-pham?id=" + sizeForm.getId());
         } else {
@@ -77,7 +77,8 @@ public class SizeController {
     }
 
     @GetMapping("/chi-tiet-kich-thuoc-san-pham")
-    public ModelAndView detailSize(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView detailSize(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes,
+                                   Model model) {
         ModelAndView mav = new ModelAndView("admin/views/DetailSize");
         SizeDto sizeDto = sizeService.findOneById(id);
         if (sizeDto == null) {
@@ -86,6 +87,7 @@ public class SizeController {
             return mav;
         }
         mav.addObject("sizeDto", sizeDto);
+        mav.addObject("messageSuccess", model.getAttribute("messageSuccess"));
         return mav;
     }
 

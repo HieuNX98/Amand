@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Thông tin màu sản phẩm</title>
+    <style>
+        .msg_success {
+            color: green;
+        }
+    </style>
 </head>
 <body>
 <div class="page-heading" layout:fragment="pageheading" >
@@ -24,6 +29,7 @@
             </div>
         </div>
     </div>
+    <h3 class="msg_success" th:if="${messageSuccess != null}" th:text="${messageSuccess}"></h3>
     <section class="section">
         <div class="card">
             <div class="card-header">

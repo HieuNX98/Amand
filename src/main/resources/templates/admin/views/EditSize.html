@@ -45,7 +45,7 @@
                        placeholder="Tên kích thước sản phẩm" th:value="${sizeDto.name}">
               </div>
             </div>
-            <p class="msg_error" id="msgName" th:if="${messageError != null}" th:text="${messageError.MessageName}"></p>
+            <p class="msg_error" th:if="${messageError != null}" th:text="${messageError.MessageName}"></p>
 
 
             <div class="col-12 d-flex justify-content-end">
