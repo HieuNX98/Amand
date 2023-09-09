@@ -39,7 +39,7 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header py-4 d-flex justify-content-between">
                 Dữ liệu bảng kích thước
                 <div class="d-flex flex-row-reverse">
                     <button id="btnHide" type="button" onclick="warningBeforeHide()"
@@ -55,7 +55,7 @@
                     <table class="table table-striped" id="table1">
                         <thead>
                         <tr>
-                            <th><input type="checkbox" id="checkAll"><label for="checkAll">Chọn tất cả</label></th>
+                            <th><input type="checkbox" id="checkAll"> <label for="checkAll">Chọn tất cả</label></th>
                             <th>Name</th>
                             <th>Thao tác</th>
                         </tr>
@@ -113,7 +113,7 @@
            $('#btnHide').prop("disabled", false);
        } else {
            $('.checkboxForSize').prop('checked', false);
-           $('btnHide').prop("disabled", true);
+           $('#btnHide').prop("disabled", true);
        }
     });
 
