@@ -24,8 +24,9 @@ public interface ColorRepository extends JpaRepository<ColorEntity, Integer> {
     List<ColorEntity> findAllByStatus(Integer status);
 
     @Modifying
-    @Query(value = "UPDATE ColorEntity c SET c.status = 0 WHERE c.id IN (:ids)")
-    void updateStatusByIds(@Param("ids") List<Integer> ids);
+    @Query(value = "UPDATE ColorEntity c SET c.status = (:status) WHERE c.id IN (:ids)")
+    void updateStatusByIds(@Param("status") Integer status,
+                            @Param("ids") List<Integer> ids);
 
     @Query(value = "SELECT count(c) FROM ColorEntity c WHERE c.status = :status")
     int countByStatus(@Param("status") Integer status);

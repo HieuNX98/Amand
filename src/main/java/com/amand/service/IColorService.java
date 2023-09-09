@@ -22,8 +22,10 @@ public interface IColorService {
 
     ColorDto findOneById(Integer id);
 
-    void hide(List<Integer> ids);
+    void updateStatus(List<Integer> ids, Integer status);
 
     String validateHide(List<Integer> ids);
+
+    void deleteColor(List<Integer> ids);
 
 }

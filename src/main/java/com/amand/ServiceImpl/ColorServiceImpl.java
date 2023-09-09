@@ -102,8 +102,8 @@ public class ColorServiceImpl implements IColorService {
 
     @Override
     @Transactional
-    public void hide(List<Integer> ids) {
-        colorRepository.updateStatusByIds(ids);
+    public void updateStatus(List<Integer> ids, Integer status) {
+        colorRepository.updateStatusByIds(status, ids);
 
     }
 
@@ -120,5 +120,12 @@ public class ColorServiceImpl implements IColorService {
         }
         return result;
     }
+
+    @Override
+    @Transactional
+    public void deleteColor(List<Integer> ids) {
+        colorRepository.deleteAllById(ids);
+    }
+
 
 }

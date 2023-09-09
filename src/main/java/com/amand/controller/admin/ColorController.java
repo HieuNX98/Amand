@@ -84,4 +84,17 @@ public class ColorController {
         mav.addObject("colorDto", colorDto);
         return mav;
     }
+
+    @GetMapping("/danh-sach-mau-bi-an")
+    public ModelAndView listHideColor(@RequestParam(value = "page", defaultValue = "1") int page,
+                                      @RequestParam(value = "limit", defaultValue = "3") int limit) {
+        ModelAndView mav = new ModelAndView("admin/views/ListHideColor");
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<ColorDto> colorDtos = colorService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
+        mav.addObject("colorDtos", colorDtos);
+        mav.addObject("page", page);
+        mav.addObject("limit", limit);
+        mav.addObject("totalPages", (int) Math.ceil((double) colorService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        return mav;
+    }
 }
