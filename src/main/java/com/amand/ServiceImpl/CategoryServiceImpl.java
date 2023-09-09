@@ -136,8 +136,14 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     @Transactional
-    public void hide(List<Integer> ids) {
-        categoryRepository.updateStatusByIds(ids);
+    public void updateStatus(List<Integer> ids, Integer status) {
+        categoryRepository.updateStatusByIds(status, ids);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCategory(List<Integer> ids) {
+        categoryRepository.deleteAllById(ids);
     }
 
 }
