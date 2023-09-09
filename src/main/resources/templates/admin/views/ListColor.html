@@ -26,8 +26,16 @@
   </div>
   <section class="section">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header py-4 d-flex justify-content-between">
         Dữ liệu bảng màu
+          <div class="d-flex flex-row-reverse">
+            <button id="btnHide" type="button" onclick="warningBeforeDelete()"
+                class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
+																<span>
+																	<i class="bi bi-eye-slash"></i>
+																</span>
+            </button>
+        </div>
       </div>
       <div class="card-body">
         <table class="table table-striped" id="table1">
@@ -36,20 +44,12 @@
             <th><input type="checkbox" id="checkAll"> <label for="checkAll">Chọn tất cả</label></th>
             <th>Name</th>
             <th>Thao tác</th>
-            <th>
-              <button id="btnHide" type="button" onclick="warningBeforeDelete()"
-                      class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
-																<span>
-																	<i class="bi bi-eye-slash"></i>
-																</span>
-              </button>
-            </th>
           </tr>
           </thead>
           <tbody>
           <th:block th:each = "item : ${colorDtos}">
             <tr>
-              <td><input type="checkbox" class="checkboxForColor" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
+              <td><input type="checkbox" name="checkOne" class="checkboxForColor" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
               <td class="text-bold-500" th:text="${item.name}"></td>
               <td> <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
                       title="Chỉnh sửa màu sản phẩm" th:href="@{/admin/chinh-sua-mau-san-pham(id=${item.id})}">
@@ -121,7 +121,7 @@
       data : JSON.stringify(data),
       success : function (result) {
         alert("Cập nhật thành công");
-        window.location.replace("/admin/danh-sach-mau-san-pham");
+        window.location.replace("/admin/danh-sach-mau-bi-an");
       },
       error : function (result) {
         console.log(result);
@@ -138,10 +138,27 @@
   $('#checkAll').click(function (){
     if ($(this).is(':checked')) {
       $('.checkboxForColor').prop('checked', true);
+      $('#btnHide').prop('disabled', false);
     } else {
       $('.checkboxForColor').prop('checked', false);
+      $('#btnHide').prop('disabled', true);
     }
   });
+
+  $('.checkboxForColor').click(function () {
+    countChecked();
+  });
+
+  let countChecked = function () {
+    let count = $("input[name='checkOne']:checked").length;
+    if (count < 1) {
+      $('#btnHide').prop('disabled', true);
+    } else {
+      $('#btnHide').prop('disabled', false);
+    }
+  };
+
+  countChecked();
 
 </script>
 </body>

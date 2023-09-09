@@ -26,8 +26,16 @@
     </div>
     <section class="section">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header py-4 d-flex justify-content-between">
                 Dữ liêu sản phẩm
+                <div class="d-flex flex-row-reverse">
+                    <button id="btnHide" type="button" onclick="warningBeforeDelete()"
+                            class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
+																<span>
+																	<i class="bi bi-eye-slash"></i>
+																</span>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
@@ -43,18 +51,12 @@
                         <th>Kích thước</th>
                         <th>Mùa</th>
                         <th>Thao tác</th>
-                        <th><button id="btnHide" type="button" onclick="warningBeforeDelete()"
-                                    class="dt-button buttons-html5 btn btn-white btn-primary btn-bold" data-toggle="tooltip" title='Ẩn'>
-																<span>
-																	<i class="bi bi-eye-slash"></i>
-																</span>
-                        </button></th>
                     </tr>
                     </thead>
                     <tbody>
                     <th:block th:each = "item : ${productDtos}">
                         <tr>
-                            <td><input type="checkbox" class="checkboxForProduct" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
+                            <td><input type="checkbox" name="checkOne" class="checkboxForProduct" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
                             <td th:text="${item.name}"></td>
                             <td th:text="${item.categoryName}"></td>
                             <td th:text="${item.oldPrice}"></td>
@@ -158,11 +160,28 @@
 
   $('#checkAll').click(function () {
      if ($(this).is(':checked')) {
-         $('.checkboxForProduct').prop('checked', true);
+         $('.checkboxForProduct').prop('checked', true)
+         $('#btnHide').prop('disabled', false);
      } else {
          $('.checkboxForProduct').prop('checked', false);
+         $('#btnHide').prop('disabled', true);
      }
   });
+
+  $('.checkboxForProduct').click(function () {
+     countChecked();
+  });
+
+  let countChecked = function () {
+      let count = $("input[name='checkOne']:checked").length;
+      if (count < 1) {
+          $('#btnHide').prop('disabled', true);
+      } else {
+          $('#btnHide').prop('disabled', false);
+      }
+  };
+
+  countChecked();
 
 </script>
 </body>
