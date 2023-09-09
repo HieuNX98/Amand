@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -36,14 +33,26 @@ public class ColorApi {
         }
     }
 
-    @PutMapping("/color")
-    public ResponseEntity<?> hide(@RequestBody List<Integer> ids) {
+    @PutMapping("/hide-color")
+    public ResponseEntity<?> hideColor(@RequestBody List<Integer> ids) {
         String validateResult = colorService.validateHide(ids);
         if (Strings.isBlank(validateResult)) {
-            colorService.hide(ids);
+            colorService.updateStatus(ids, SystemConstant.INACTIVE_STATUS);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body(validateResult);
+    }
+
+    @PutMapping("/restore-color")
+    public ResponseEntity<?> restoreColor(@RequestBody List<Integer> ids) {
+        colorService.updateStatus(ids, SystemConstant.ACTIVE_STATUS);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete-color")
+    public ResponseEntity<?> deleteColor(@RequestBody List<Integer> ids) {
+        colorService.deleteColor(ids);
+        return ResponseEntity.ok().build();
     }
 
 }
