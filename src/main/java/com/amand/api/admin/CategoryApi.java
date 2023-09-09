@@ -49,11 +49,23 @@ public class CategoryApi {
     public ResponseEntity<?> hideCategory(@RequestBody List<Integer> ids) {
         String result = categoryService.validateHide(ids);
         if (Strings.isBlank(result)) {
-            categoryService.hide(ids);
+            categoryService.updateStatus(ids, SystemConstant.INACTIVE_STATUS);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body(result);
 
+    }
+
+    @PutMapping("/restore-category")
+    public ResponseEntity<?> restoreCategory(@RequestBody List<Integer> ids) {
+        categoryService.updateStatus(ids,SystemConstant.ACTIVE_STATUS);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete-category")
+    public ResponseEntity<?> deleteCategory(@RequestBody List<Integer> ids) {
+        categoryService.deleteCategory(ids);
+        return ResponseEntity.ok().build();
     }
 
 }

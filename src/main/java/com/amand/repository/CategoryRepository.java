@@ -30,7 +30,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
     int countByStatus(@Param("status") Integer status);
 
     @Modifying
-    @Query(value = "UPDATE CategoryEntity c SET c.status = 0 WHERE c.id IN (:ids)")
-    void updateStatusByIds(@Param("ids") List<Integer> ids);
+    @Query(value = "UPDATE CategoryEntity c SET c.status = (:status) WHERE c.id IN (:ids)")
+    void updateStatusByIds(@Param("status") Integer status,
+                            @Param("ids") List<Integer> ids);
 
 }
