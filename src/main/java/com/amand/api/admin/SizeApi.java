@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -32,5 +30,17 @@ public class SizeApi {
                 ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(sizeService.save(sizeForm)));
                 return ResponseEntity.ok(response);
             }
+    }
+
+    @PutMapping("/restore-size")
+    public ResponseEntity<?> restoreSize(@RequestBody List<Integer> ids) {
+        sizeService.updateStatus(ids, SystemConstant.ACTIVE_STATUS);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete-size")
+    public  ResponseEntity<?> deleteSize(@RequestBody List<Integer> ids) {
+        sizeService.deleteSize(ids);
+        return ResponseEntity.ok().build();
     }
 }

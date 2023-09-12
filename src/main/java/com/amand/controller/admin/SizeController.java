@@ -38,7 +38,7 @@ public class SizeController {
         mav.addObject("page", page);
         mav.addObject("limit", limit);
         Pageable pageable = PageRequest.of(page-1, limit);
-        List<SizeDto> sizeDtos = sizeService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
+        List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
         int totalItem = sizeService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPages",(int) Math.ceil((double) totalItem / limit));
@@ -96,14 +96,27 @@ public class SizeController {
         ModelAndView mav = new ModelAndView();
         String resultValidate = sizeService.validateHide(form.getIds());
         if (Strings.isBlank(resultValidate)) {
-            sizeService.hide(form.getIds());
+            sizeService.updateStatus(form.getIds(), SystemConstant.INACTIVE_STATUS);
             redirectAttributes.addFlashAttribute("messageSuccess", "Cập nhật thành công");
-            mav.setViewName("redirect:/admin/danh-sach-kich-thuoc");
+            mav.setViewName("redirect:/admin/danh-sach-kich-thuoc-bi-an");
         } else {
             redirectAttributes.addFlashAttribute("messageError", resultValidate);
             mav.setViewName("redirect:/admin/danh-sach-kich-thuoc");
         }
         return mav;
+    }
+
+    @GetMapping("/danh-sach-kich-thuoc-bi-an")
+        public ModelAndView listHideSize(@RequestParam(value = "page", defaultValue = "1") int page,
+                                          @RequestParam(value = "limit", defaultValue = "3") int limit) {
+        ModelAndView mav = new ModelAndView("admin/views/ListHideSize");
+        mav.addObject("page", page);
+        mav.addObject("limit", limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
+        mav.addObject("sizeDtos", sizeDtos);
+        mav.addObject("totalPages", (int) Math.ceil((double) sizeService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        return  mav;
     }
 
 

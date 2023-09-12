@@ -15,7 +15,7 @@ public interface ISizeService {
 
     List<SizeDto> findAllByStatus(Integer status);
 
-    List<SizeDto> findAllByStatus(Pageable pageable, Integer status);
+    List<SizeDto> findAll(Pageable pageable, Integer status);
 
     int getTotalItem(Integer status);
 
@@ -23,5 +23,7 @@ public interface ISizeService {
 
     String validateHide(List<Integer> ids);
 
-    void hide(List<Integer> ids);
+    void updateStatus(List<Integer> ids, int status);
+
+    void deleteSize(List<Integer> ids);
 }
