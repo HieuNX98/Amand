@@ -213,9 +213,15 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     @Transactional
-    public void hide(List<Integer> ids) {
-        productRepository.updateStatusByIds(ids);
+    public void updateStatus(List<Integer> ids, Integer status) {
+        productRepository.updateStatusByIds(ids, status);
 
+    }
+
+    @Override
+    @Transactional
+    public void deleteProduct(List<Integer> ids) {
+        productRepository.deleteAllById(ids);
     }
 
     private String getErrorImage(MultipartFile image, boolean isRegister) {

@@ -54,10 +54,22 @@ public class ProductApi {
     public ResponseEntity<?> hideProduct(@RequestBody List<Integer> ids) {
         String resultValidate = productService.validateHide(ids);
         if (Strings.isBlank(resultValidate)) {
-            productService.hide(ids);
+            productService.updateStatus(ids, SystemConstant.INACTIVE_STATUS);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().body(resultValidate);
+    }
+
+    @PutMapping("/restore-product")
+    public ResponseEntity<?> restoreProduct(@RequestBody List<Integer> ids) {
+        productService.updateStatus(ids, SystemConstant.ACTIVE_STATUS);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete-product")
+    public ResponseEntity<?> deleteProduct(@RequestBody List<Integer> ids) {
+        productService.deleteProduct(ids);
+        return ResponseEntity.ok().build();
     }
 
 

@@ -22,6 +22,8 @@ public interface IProductService {
 
     ProductDto findOneById(Integer id);
 
-    void hide(List<Integer> ids);
+    void updateStatus(List<Integer> ids, Integer status);
+
+    void deleteProduct(List<Integer> ids);
 
 }
