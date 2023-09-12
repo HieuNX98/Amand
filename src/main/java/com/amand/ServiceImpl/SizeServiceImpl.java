@@ -78,7 +78,7 @@ public class SizeServiceImpl implements ISizeService {
     }
 
     @Override
-    public List<SizeDto> findAllByStatus(Pageable pageable, Integer status) {
+    public List<SizeDto> findAll(Pageable pageable, Integer status) {
         List<SizeEntity> sizeEntities = sizeRepository.findAllByStatus(pageable, status);
         List<SizeDto> sizeDtos = new ArrayList<>();
         for (SizeEntity sizeEntity : sizeEntities) {
@@ -114,7 +114,13 @@ public class SizeServiceImpl implements ISizeService {
 
     @Override
     @Transactional
-    public void hide(List<Integer> ids) {
-        sizeRepository.updateStatusByIds(ids);
+    public void updateStatus(List<Integer> ids, int status) {
+        sizeRepository.updateStatusByIds(status, ids);
+    }
+
+    @Override
+    @Transactional
+    public void deleteSize(List<Integer> ids) {
+        sizeRepository.deleteAllById(ids);
     }
 }
