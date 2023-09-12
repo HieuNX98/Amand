@@ -5,20 +5,20 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách màu bị ẩn</title>
+    <title>Danh sách sản phẩm bị ẩn</title>
 </head>
 <body>
 <div class="page-heading" layout:fragment="pageheading">
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Danh sách màu sản phẩm bị ẩn</h3>
+                <h3>Danh sách sản phẩm bị ẩn</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Danh sách màu bị ẩn</li>
+                        <li class="breadcrumb-item active" aria-current="page">Danh sách sản phẩm bị ẩn</li>
                     </ol>
                 </nav>
             </div>
@@ -27,7 +27,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                Dữ liệu bảng màu
+                Dữ liệu sản phẩm
                 <div class="col-12 d-flex justify-content-end">
                     <button type="submit"
                             class="btn btn-primary me-1 mb-1" id="restore">Khôi phục</button>
@@ -40,14 +40,37 @@
                     <thead>
                     <tr>
                         <th><input type="checkbox" id="checkAll"> <label for="checkAll">Chọn tất cả</label></th>
-                        <th>Name</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Loại sản phẩm</th>
+                        <th>Giá gốc</th>
+                        <th>Giá sale</th>
+                        <th>Số lượng</th>
+                        <th>Màu</th>
+                        <th>Kích thước</th>
+                        <th>Mùa</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <th:block th:each = "item : ${colorDtos}">
+                    <th:block th:each = "item : ${productDtos}">
                         <tr>
-                            <td><input type="checkbox" name="checkOne" class="checkboxForColor" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
-                            <td class="text-bold-500" th:text="${item.name}"></td>
+                            <td><input type="checkbox" name="checkOne" class="checkboxForProduct" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
+                            <td th:text="${item.name}"></td>
+                            <td th:text="${item.categoryName}"></td>
+                            <td th:text="${item.oldPrice}"></td>
+                            <td th:text="${item.salePrice}"></td>
+                            <td th:text="${item.amount}"></td>
+                            <td>
+                                <th:block th:each = "color : ${item.colors}">
+                                    <p th:text="${color}"></p>
+                                </th:block>
+                            </td>
+
+                            <td>
+                                <th:block th:each = "size : ${item.sizes}">
+                                    <p th:text="${size}"></p>
+                                </th:block>
+                            </td>
+                            <td th:text="${item.season}"></td>
                         </tr>
                     </th:block>
                     </tbody>
@@ -71,40 +94,41 @@
     var currentPage = [[${page}]];
 
     $(function () {
-       window.pagObj = $('#pagination').twbsPagination({
-            totalPages : totalPages,
+        window.pagObj = $('#pagination').twbsPagination({
+           totalPages : totalPages,
             visiblePages : 10,
             startPage : currentPage,
-           onPageClick: function (event, page) {
-                if (currentPage != page) {
-                    $('#page').val(page);
-                    $('#limit').val(3);
-                    $('#formSubmit').submit();
-                }
-           }
-       });
+            onPageClick: function (event, page) {
+               if (currentPage != page) {
+                   $('#page').val(page);
+                   $('#limit').val(3);
+                   $('#formSubmit').submit();
+               }
+            }
+
+        });
     });
 
     $('#restore').click(function (e) {
         e.preventDefault();
         let ids = [];
-        $('.checkboxForColor:checked').each(function () {
-            ids.push($(this).val());
+        $('.checkboxForProduct:checked').each(function () {
+           ids.push($(this).val());
         });
 
         $.ajax({
-           url: '/api/restore-color',
+           url: '/api/restore-product',
            type: 'PUT',
            contentType: 'application/json',
            data: JSON.stringify(ids),
-            success: function (result) {
+           success : function (result) {
                alert("Cập nhật thành công");
-               window.location.replace("/admin/danh-sach-mau-san-pham");
-            },
-            error: function (result) {
+               window.location.replace("/admin/danh-sach-san-pham");
+           },
+           error : function (result) {
                alert("Có lỗi xảy ra");
                window.location.reload();
-            }
+           }
         });
     });
 
@@ -120,58 +144,59 @@
             cancelButtonText: "Huỷ bỏ",
         }).then(function(isConfirm) {
             if (isConfirm.value) {
-                let ids = [];
-                $('.checkboxForColor:checked').each(function () {
-                   ids.push($(this).val());
-                });
-                deleteColor(ids);
+               let ids = [];
+               $('.checkboxForProduct:checked').each(function () {
+                  ids.push($(this).val());
+               });
+               deleteProduct(ids);
             }
         });
     }
 
-    function deleteColor(data) {
+    function deleteProduct(data) {
         $.ajax({
-           url: '/api/delete-color',
+           url: '/api/delete-product',
            type: 'DELETE',
            contentType: 'application/json',
            data: JSON.stringify(data),
            success: function (result) {
                alert("Xoá thành công");
-               window.location.replace("/admin/danh-sach-mau-san-pham");
+               window.location.replace("/admin/danh-sach-san-pham")
            },
-           error: function (result) {
+           error : function (result) {
                alert("Có lỗi xảy ra");
                window.location.reload();
            }
         });
-    };
+    }
 
     $('#checkAll').click(function () {
-        if ($(this).is(':checked')) {
-            $('.checkboxForColor').prop('checked', true);
-            $('#restore').prop('disabled', false);
-            $('#delete').prop('disabled', false);
-        } else {
-            $('.checkboxForColor').prop('checked', false);
-            $('#restore').prop('disabled', true);
-            $('#delete').prop('disabled', true);
-        }
+       if ($(this).is(':checked')) {
+           $('.checkboxForProduct').prop('checked', true);
+           $('#restore').prop('disabled', false);
+           $('#delete').prop('disabled', false);
+       } else {
+           $('.checkboxForProduct').prop('checked', false);
+           $('#restore').prop('disabled', true);
+           $('#delete').prop('disabled', true);
+       }
     });
 
-    $('.checkboxForColor').click(function () {
+    $('.checkboxForProduct').click(function () {
        countChecked();
     });
 
     let countChecked = function () {
-        let count = $("input[name='checkOne']:checked").length;
-        if (count < 1) {
-            $('#restore').prop('disabled', true);
-            $('#delete').prop('disabled',true);
-        } else {
-            $('#restore').prop('disabled', false);
-            $('#delete').prop('disabled', false);
-        }
+      let count = $("input[name='checkOne']:checked").length;
+      if (count < 1) {
+          $('#restore').prop('disabled', true);
+          $('#delete').prop('disabled', true);
+      } else {
+          $('#restore').prop('disabled', false);
+          $('#delete').prop('disabled', false);
+      }
     };
+
     countChecked();
 </script>
 </body>

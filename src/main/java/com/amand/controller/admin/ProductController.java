@@ -39,7 +39,7 @@ public class ProductController {
 
     @GetMapping("/danh-sach-san-pham")
     public ModelAndView listProduct(@RequestParam(value = "page", defaultValue = "1") int page,
-                                    @RequestParam (value = "limit", defaultValue = "5") int limit){
+                                    @RequestParam (value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListProduct");
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<ProductDto> productDtos = productService.findAll(pageable, SystemConstant.ACTIVE_STATUS);
@@ -86,11 +86,24 @@ public class ProductController {
 
     @GetMapping("/them-san-pham")
     public ModelAndView createProduct() {
-        ModelAndView mav = new ModelAndView("/admin/views/CreateProduct");
+        ModelAndView mav = new ModelAndView("admin/views/CreateProduct");
         mav.addObject("categories", categoryService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
         mav.addObject("colors", colorService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
         mav.addObject("sizes", sizeService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
         return mav;
     }
 
+
+    @GetMapping("/danh-sach-san-pham-bi-an")
+    public ModelAndView listHideProduct(@RequestParam(value = "page", defaultValue = "1") int page,
+                                        @RequestParam(value = "limit", defaultValue = "3") int limit) {
+        ModelAndView mav = new ModelAndView("admin/views/ListHideProduct");
+        Pageable pageable = PageRequest.of(page-1, limit);
+        List<ProductDto> productDtos = productService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
+        mav.addObject("productDtos", productDtos);
+        mav.addObject("page", page);
+        mav.addObject("limit", limit);
+        mav.addObject("totalPages", (int) Math.ceil((double) productService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        return mav;
+    }
 }

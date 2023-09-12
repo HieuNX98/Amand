@@ -28,8 +28,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     List<ProductEntity> findAllByStatus(Pageable pageable, Integer status);
 
     @Modifying
-    @Query(value = "UPDATE ProductEntity p SET p.status = 0 WHERE p.id IN (:ids)")
-    void updateStatusByIds(@Param("ids") List<Integer> ids);
+    @Query(value = "UPDATE ProductEntity p SET p.status = (:status) WHERE p.id IN (:ids)")
+    void updateStatusByIds(@Param("ids") List<Integer> ids,
+                           @Param("status") Integer status);
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.sizes s WHERE s.id IN (:ids)")
     List<ProductEntity> findAllBySizeIds(@Param("ids") List<Integer> ids);
