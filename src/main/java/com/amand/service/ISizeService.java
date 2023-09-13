@@ -26,4 +26,5 @@ public interface ISizeService {
     void updateStatus(List<Integer> ids, int status);
 
     void deleteSize(List<Integer> ids);
+
 }

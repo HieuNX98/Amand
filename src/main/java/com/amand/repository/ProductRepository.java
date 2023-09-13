@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
@@ -35,5 +34,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
                            @Param("status") Integer status);
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.sizes s WHERE s.id IN (:ids)")
-    List<ProductEntity> findAllBySizeIds(@Param("ids") List<Integer> ids);
+    List<ProductEntity> findAllBySizeIdsAndStatus(@Param("ids") List<Integer> ids);
 }
