@@ -6,6 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách kích thước bị ẩn</title>
+    <style>
+        .msg_success {
+            color: green;
+        }
+    </style>
 </head>
 <body>
 <div class="page-heading" layout:fragment="pageheading">
@@ -14,6 +19,7 @@
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3>Danh sách kích thước sản phẩm bị ẩn</h3>
             </div>
+            <h2 class="msg_success" th:if="${messageSuccess != null}" th:text="${messageSuccess}"></h2>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
