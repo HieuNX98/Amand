@@ -28,4 +28,6 @@ public interface ICategoryService {
 
     void deleteCategory(List<Integer> ids);
 
+    String validateDelete(List<Integer> ids);
+
 }

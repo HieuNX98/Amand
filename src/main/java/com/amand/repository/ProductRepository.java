@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
@@ -16,8 +17,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     @Query(value = "SELECT p.name FROM ProductEntity p WHERE p.id = :id")
     String findOneNameById(@Param("id") Integer id);
 
-    @Query(value = "SELECT p FROM ProductEntity p WHERE p.category.id IN (:ids)")
-    List<ProductEntity> findAllByCategoryId(@Param("ids") List<Integer> ids);
+    @Query(value = "SELECT p FROM ProductEntity p WHERE p.status = :status AND p.category.id IN (:ids)")
+    List<ProductEntity> findAllByCategoryIdAndStatus(@Param("status") Integer status,
+                                                     @Param("ids") List<Integer> ids);
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.colors c WHERE c.id IN (:ids)")
     List<ProductEntity> findAllByColorId(@Param("ids") List<Integer> ids);
