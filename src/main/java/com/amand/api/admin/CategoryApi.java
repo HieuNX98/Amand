@@ -64,6 +64,10 @@ public class CategoryApi {
 
     @DeleteMapping("/delete-category")
     public ResponseEntity<?> deleteCategory(@RequestBody List<Integer> ids) {
+        String result = categoryService.validateDelete(ids);
+        if (Strings.isNotBlank(result)) {
+           return ResponseEntity.badRequest().body(result);
+        }
         categoryService.deleteCategory(ids);
         return ResponseEntity.ok().build();
     }

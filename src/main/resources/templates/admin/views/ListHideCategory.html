@@ -144,7 +144,7 @@
               window.location.replace("/admin/danh-sach-the-loai-san-pham");
           },
           error : function (result) {
-              alert("Có lỗi xảy ra");
+              alert(result.responseText);
               window.location.reload();
            }
        });

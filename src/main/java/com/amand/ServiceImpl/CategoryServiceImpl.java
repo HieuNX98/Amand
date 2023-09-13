@@ -126,9 +126,9 @@ public class CategoryServiceImpl implements ICategoryService {
             result = "Bạn cần chọn thể loại bạn muốn xoá";
             return result;
         }
-        List<ProductEntity> productEntities = productRepository.findAllByCategoryId(ids);
+        List<ProductEntity> productEntities = productRepository.findAllByCategoryIdAndStatus(SystemConstant.ACTIVE_STATUS ,ids);
         if (!CollectionUtils.isEmpty(productEntities)) {
-            result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách thể loại này trước";
+            result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn ẩn, bạn cần ẩn sản phẩm thuộc danh sách thể loại này trước";
         }
         return result;
 
@@ -144,6 +144,16 @@ public class CategoryServiceImpl implements ICategoryService {
     @Transactional
     public void deleteCategory(List<Integer> ids) {
         categoryRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public String validateDelete(List<Integer> ids) {
+        String result = "";
+        List<ProductEntity> productEntities = productRepository.findAllByCategoryIdAndStatus(SystemConstant.INACTIVE_STATUS, ids);
+        if (!CollectionUtils.isEmpty(productEntities)) {
+            result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách thể loại này trước";
+        }
+        return result;
     }
 
 }
