@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
                                                      @Param("ids") List<Integer> ids);
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.colors c WHERE c.id IN (:ids)")
-    List<ProductEntity> findAllByColorId(@Param("ids") List<Integer> ids);
+    List<ProductEntity> findAllByColorIds(@Param("ids") List<Integer> ids);
 
     @Query(value = "SELECT count(p) FROM ProductEntity p WHERE p.status = :status")
     int countByStatus(@Param("status") Integer status);

@@ -35,12 +35,8 @@ public class ColorApi {
 
     @PutMapping("/hide-color")
     public ResponseEntity<?> hideColor(@RequestBody List<Integer> ids) {
-        String validateResult = colorService.validateHide(ids);
-        if (Strings.isBlank(validateResult)) {
             colorService.updateStatus(ids, SystemConstant.INACTIVE_STATUS);
             return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().body(validateResult);
     }
 
     @PutMapping("/restore-color")
