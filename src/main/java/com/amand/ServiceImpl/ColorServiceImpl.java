@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -108,22 +107,15 @@ public class ColorServiceImpl implements IColorService {
     }
 
     @Override
-    public String validateHide(List<Integer> ids) {
-        String result = "";
-        if (ids == null || ids.isEmpty()) {
-            result = "Bạn cần chọn màu bạn muốn xoá";
-            return result;
-        }
-        List<ProductEntity> productEntities = productRepository.findAllByColorId(ids);
-        if (!CollectionUtils.isEmpty(productEntities)) {
-            result = "Đang có sản phẩm thuộc danh sách màu bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách màu này trước";
-        }
-        return result;
-    }
-
-    @Override
     @Transactional
     public void deleteColor(List<Integer> ids) {
+        List<ColorEntity> colorEntities = colorRepository.findAllByIds(ids);
+        List<ProductEntity> productEntities = productRepository.findAllByColorIds(ids);
+        for (ColorEntity color : colorEntities) {
+            for (ProductEntity product : productEntities) {
+                product.getColors().remove(color);
+            }
+        }
         colorRepository.deleteAllById(ids);
     }
 

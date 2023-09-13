@@ -124,13 +124,8 @@
         window.location.replace("/admin/danh-sach-mau-bi-an");
       },
       error : function (result) {
-        console.log(result);
-        if (!!result) {
-          alert(result.responseText);
-        } else {
-          alert("Có lỗi xảy ra");
-          window.location.reload();
-        }
+        alert("Có lỗi xảy ra");
+        window.location.reload();
       }
     });
   }
