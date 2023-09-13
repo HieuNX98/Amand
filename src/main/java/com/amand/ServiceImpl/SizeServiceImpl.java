@@ -8,7 +8,6 @@ import com.amand.entity.SizeEntity;
 import com.amand.form.SizeForm;
 import com.amand.repository.ProductRepository;
 import com.amand.repository.SizeRepository;
-import com.amand.service.IProductService;
 import com.amand.service.ISizeService;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,9 +103,9 @@ public class SizeServiceImpl implements ISizeService {
     @Override
     public String validateHide(List<Integer> ids) {
         String result = "";
-        List<ProductEntity> productEntities = productRepository.findAllBySizeIds(ids);
+        List<ProductEntity> productEntities = productRepository.findAllBySizeIdsAndStatus(ids);
         if (!CollectionUtils.isEmpty(productEntities)) {
-            result = "Đang có sản phẩm thuộc danh sách kích thước bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách kích thước" +
+            result = "Đang có sản phẩm thuộc danh sách kích thước bạn muốn ẩn, bạn cần ẩn sản phẩm thuộc danh sách kích thước" +
                     " này trước";
         }
         return result;
@@ -121,6 +120,11 @@ public class SizeServiceImpl implements ISizeService {
     @Override
     @Transactional
     public void deleteSize(List<Integer> ids) {
+        List<SizeEntity> sizeEntities = sizeRepository.findAllByIds(ids);
+        for (SizeEntity sizeEntity : sizeEntities) {
+            sizeEntity.setProducts(Collections.emptyList());
+        }
         sizeRepository.deleteAllById(ids);
     }
+
 }

@@ -32,4 +32,5 @@ public interface SizeRepository extends JpaRepository<SizeEntity, Integer> {
     @Query(value = "UPDATE SizeEntity s SET s.status = (:status) WHERE s.id IN (:ids)")
     void updateStatusByIds(@Param("status") int status,
                             @Param("ids") List<Integer> ids);
+
 }
