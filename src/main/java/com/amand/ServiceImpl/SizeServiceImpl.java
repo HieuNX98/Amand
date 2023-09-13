@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -101,17 +100,6 @@ public class SizeServiceImpl implements ISizeService {
     }
 
     @Override
-    public String validateHide(List<Integer> ids) {
-        String result = "";
-        List<ProductEntity> productEntities = productRepository.findAllBySizeIdsAndStatus(ids);
-        if (!CollectionUtils.isEmpty(productEntities)) {
-            result = "Đang có sản phẩm thuộc danh sách kích thước bạn muốn ẩn, bạn cần ẩn sản phẩm thuộc danh sách kích thước" +
-                    " này trước";
-        }
-        return result;
-    }
-
-    @Override
     @Transactional
     public void updateStatus(List<Integer> ids, int status) {
         sizeRepository.updateStatusByIds(status, ids);
@@ -121,8 +109,11 @@ public class SizeServiceImpl implements ISizeService {
     @Transactional
     public void deleteSize(List<Integer> ids) {
         List<SizeEntity> sizeEntities = sizeRepository.findAllByIds(ids);
-        for (SizeEntity sizeEntity : sizeEntities) {
-            sizeEntity.setProducts(Collections.emptyList());
+        List<ProductEntity> productEntities = productRepository.findAllBySizeIds(ids);
+        for (SizeEntity size : sizeEntities) {
+            for (ProductEntity product : productEntities) {
+                product.getSizes().remove(size);
+            }
         }
         sizeRepository.deleteAllById(ids);
     }

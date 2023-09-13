@@ -94,15 +94,9 @@ public class SizeController {
     @PostMapping("/an-kich-thuoc")
     public ModelAndView hideSize(@ModelAttribute HideForm form, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView();
-        String resultValidate = sizeService.validateHide(form.getIds());
-        if (Strings.isBlank(resultValidate)) {
             sizeService.updateStatus(form.getIds(), SystemConstant.INACTIVE_STATUS);
             redirectAttributes.addFlashAttribute("messageSuccess", "Cập nhật thành công");
             mav.setViewName("redirect:/admin/danh-sach-kich-thuoc-bi-an");
-        } else {
-            redirectAttributes.addFlashAttribute("messageError", resultValidate);
-            mav.setViewName("redirect:/admin/danh-sach-kich-thuoc");
-        }
         return mav;
     }
 

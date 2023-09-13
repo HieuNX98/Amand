@@ -21,8 +21,6 @@ public interface ISizeService {
 
     SizeDto findOneById(Integer id);
 
-    String validateHide(List<Integer> ids);
-
     void updateStatus(List<Integer> ids, int status);
 
     void deleteSize(List<Integer> ids);

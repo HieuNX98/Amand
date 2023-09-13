@@ -34,5 +34,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
                            @Param("status") Integer status);
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.sizes s WHERE s.id IN (:ids)")
-    List<ProductEntity> findAllBySizeIdsAndStatus(@Param("ids") List<Integer> ids);
+    List<ProductEntity> findAllBySizeIds(@Param("ids") List<Integer> ids);
 }
