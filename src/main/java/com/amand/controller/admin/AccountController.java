@@ -38,7 +38,8 @@ public class AccountController {
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
         Pageable pageable = PageRequest.of(page - 1, limit);
-        List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(SystemConstant.ROLE_CODE_IMPLOY, pageable, SystemConstant.ACTIVE_STATUS);
+        List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(SystemConstant.ROLE_CODE_IMPLOY, pageable,
+                SystemConstant.ACTIVE_STATUS);
         int totalItem = userService.getTotalItem(SystemConstant.ACTIVE_STATUS, SystemConstant.ROLE_CODE_IMPLOY);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         mav.addObject("userDtos", userDtos);
@@ -49,13 +50,28 @@ public class AccountController {
 
     @GetMapping("/chinh-sua-tai-khoan-admin")
     public ModelAndView editAdminAccount(@RequestParam(value = "id", required = false) Integer id) {
-        ModelAndView mav = new ModelAndView("/admin/views/EditAdminAccount");
+        ModelAndView mav = new ModelAndView("admin/views/EditAdminAccount");
         UserDto userDto = userService.findOneById(id);
         List<String> roleCodes = roleService.getRoleCodesByUserDto(userDto);
         mav.addObject("roleUsers", roleCodes);
         mav.addObject("userDto", userDto);
         List<RoleDto> roles = roleService.findAll();
         mav.addObject("roles", roles);
+        return mav;
+    }
+
+    @GetMapping("/danh-sach-tai-khoan-bi-an")
+    public ModelAndView listHideAccount(@RequestParam(value = "page", defaultValue = "1") int page,
+                                        @RequestParam(value = "limit", defaultValue = "3") int limit) {
+        ModelAndView mav = new ModelAndView("admin/views/ListHideAdminAccount");
+        mav.addObject("page", page);
+        mav.addObject("limit", limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(SystemConstant.ROLE_CODE_IMPLOY, pageable,
+                SystemConstant.INACTIVE_STATUS);
+        mav.addObject("userDtos", userDtos);
+        int totalItem = userService.getTotalItem(SystemConstant.INACTIVE_STATUS, SystemConstant.ROLE_CODE_IMPLOY);
+        mav.addObject("totalPages", (int) Math.ceil((double) totalItem / limit));
         return mav;
     }
 }

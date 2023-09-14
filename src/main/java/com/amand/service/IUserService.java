@@ -21,6 +21,8 @@ public interface IUserService {
 
     UserDto findOneById(Integer id);
 
-    void hide(List<Integer> ids);
+    void updateStatus(List<Integer> ids, int status);
+
+    void deleteUser(List<Integer> ids);
 
 }
