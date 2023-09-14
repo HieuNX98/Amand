@@ -158,15 +158,6 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public String validateHide(List<Integer> ids) {
-        String result = "";
-        if (ids == null || ids.isEmpty()) {
-            return result = "Bạn cần chọn sản phẩm bạn muốn ẩn";
-        }
-        return result;
-    }
-
-    @Override
     public List<ProductDto> findAll(Pageable pageable, Integer status) {
         List<ProductDto> productDtos = new ArrayList<>();
         List<ProductEntity> productEntities = productRepository.findAllByStatus(pageable, status);
@@ -221,6 +212,11 @@ public class ProductServiceImpl implements IProductService {
     @Override
     @Transactional
     public void deleteProduct(List<Integer> ids) {
+        List<ProductEntity> productEntities = productRepository.findAllByIds(ids);
+        for (ProductEntity product : productEntities) {
+            product.setSizes(Collections.emptyList());
+            product.setColors(Collections.emptyList());
+        }
         productRepository.deleteAllById(ids);
     }
 

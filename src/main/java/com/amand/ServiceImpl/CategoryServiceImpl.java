@@ -122,10 +122,6 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public String validateHide(List<Integer> ids) {
         String result ="";
-        if (ids == null || ids.isEmpty()) {
-            result = "Bạn cần chọn thể loại bạn muốn xoá";
-            return result;
-        }
         List<ProductEntity> productEntities = productRepository.findAllByCategoryIdAndStatus(SystemConstant.ACTIVE_STATUS ,ids);
         if (!CollectionUtils.isEmpty(productEntities)) {
             result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn ẩn, bạn cần ẩn sản phẩm thuộc danh sách thể loại này trước";
