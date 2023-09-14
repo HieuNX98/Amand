@@ -26,6 +26,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         int countByStatusAndRoleCode(@Param("status") Integer status, @Param("roleCode") String roleCode );
 
         @Modifying
-        @Query(value = "UPDATE UserEntity u SET u.status = 0 WHERE u.id IN (:ids)")
-        void updateStatusByIds(@Param("ids") List<Integer> ids);
+        @Query(value = "UPDATE UserEntity u SET u.status = :status WHERE u.id IN (:ids)")
+        void updateStatusByIds(@Param("status") int status,
+                               @Param("ids") List<Integer> ids);
+
+        @Query(value = "SELECT u FROM UserEntity u WHERE u.id IN (:ids)")
+        List<UserEntity> findAllByIds(@Param("ids") List<Integer> ids);
 }

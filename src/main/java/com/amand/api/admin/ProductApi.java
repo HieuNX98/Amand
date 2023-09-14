@@ -52,12 +52,9 @@ public class ProductApi {
 
     @PutMapping("/hide-product")
     public ResponseEntity<?> hideProduct(@RequestBody List<Integer> ids) {
-        String resultValidate = productService.validateHide(ids);
-        if (Strings.isBlank(resultValidate)) {
             productService.updateStatus(ids, SystemConstant.INACTIVE_STATUS);
             return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().body(resultValidate);
+
     }
 
     @PutMapping("/restore-product")

@@ -147,13 +147,8 @@
             window.location.replace("/admin/danh-sach-san-pham");
         },
         error : function (result) {
-            if (!!result) {
-                alert(result.responseText);
-            }
-            else {
                 alert("Có lỗi xảy ra");
                 window.location.reload();
-            }
         }
       });
   }

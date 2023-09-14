@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +46,19 @@ public class AccountAdminApi {
 
     @PutMapping("/hide-account")
     public ResponseEntity<?> hideAccount(@RequestBody List<Integer> ids) {
-        userService.hide(ids);
+        userService.updateStatus(ids, SystemConstant.INACTIVE_STATUS);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/restore-account")
+    public ResponseEntity<?> restoreAccount(@RequestBody List<Integer> ids) {
+        userService.updateStatus(ids, SystemConstant.ACTIVE_STATUS);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/delete-account")
+    public ResponseEntity<?> deleteAccount(@RequestBody List<Integer> ids) {
+        userService.deleteUser(ids);
         return ResponseEntity.ok().build();
     }
 

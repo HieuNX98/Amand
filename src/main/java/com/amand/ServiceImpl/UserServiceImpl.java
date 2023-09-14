@@ -18,10 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Service
@@ -157,8 +155,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     @Transactional
-    public void hide(List<Integer> ids) {
-        userRepository.updateStatusByIds(ids);
+    public void updateStatus(List<Integer> ids, int status) {
+        userRepository.updateStatusByIds(status, ids);
+    }
+
+    @Override
+    public void deleteUser(List<Integer> ids) {
+        List<UserEntity> userEntities = userRepository.findAllByIds(ids);
+        for (UserEntity user : userEntities) {
+            user.setRoles(Collections.emptyList());
+        }
+        userRepository.deleteAllById(ids);
     }
 
     private void extractRoleToUserEntity(UserForm userForm, UserEntity userEntity) {
