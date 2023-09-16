@@ -1,5 +1,6 @@
 package com.amand.ServiceImpl;
 
+import com.amand.Utils.FileUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.converter.RoleConverter;
 import com.amand.converter.UserConverter;
@@ -37,6 +38,9 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private FileUtils fileUtils;
+
     @Override
     @Transactional
     public UserDto save(UserForm userForm) {
@@ -44,19 +48,31 @@ public class UserServiceImpl implements IUserService {
         if (userForm.getId() != null) {
             UserEntity oldUserEntity = userRepository.findOneById(userForm.getId());
             userEntity = userConverter.toEntity(oldUserEntity, userForm);
-            extractRoleToUserEntity(userForm, userEntity);
         } else {
             userEntity = userConverter.toEntity(userForm);
-            extractRoleToUserEntity(userForm, userEntity);
             userEntity.setStatus(SystemConstant.ACTIVE_STATUS);
 
+        }
+        extractRoleToUserEntity(userForm, userEntity);
+        userEntity = userRepository.save(userEntity);
+        return userConverter.toDto(userEntity);
+    }
+
+    public UserDto updateAccountInformation(UserForm userForm) {
+        UserEntity oldUser = userRepository.findOneById(userForm.getId());
+        UserEntity userEntity = userConverter.toEntity(oldUser, userForm);
+        if (userForm.getAvatar() == null || userForm.getAvatar().isEmpty()) {
+            userEntity.setAvatar(oldUser.getAvatar());
+        } else {
+            String image = fileUtils.uploadFile(userForm.getAvatar());
+            userEntity.setAvatar(image);
         }
         userEntity = userRepository.save(userEntity);
         return userConverter.toDto(userEntity);
     }
 
 
-    public Map<String, String> validate(UserForm userForm, boolean isAdmin) {
+    public Map<String, String> validateRegisterAccount(UserForm userForm, boolean isAdmin) {
         Map<String, String> result = new HashMap<>();
         if (Strings.isBlank(userForm.getFullName())) {
             result.put("messageFullName", "Bạn không được để trống thông tin họ và tên ");
@@ -69,7 +85,7 @@ public class UserServiceImpl implements IUserService {
         if (Strings.isNotBlank(userForm.getUserName())) {
             if (userForm.getUserName().length() < 5 || userForm.getUserName().length() > 20) {
                 result.put("messageUserName", "Tên người dùng phải có độ dài từ 6 đến 20 ký tự VD: Amand123");
-            } else if (StringUtils.hasLength(userRepository.findOneByUserName(userForm.getUserName()))) {
+            } else if (StringUtils.hasLength(userRepository.findUsernameByUserName(userForm.getUserName()))) {
                 result.put("messageUserName", "Tên người dùng đã được sử dụng");
             }
         } else {
@@ -126,9 +142,38 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<UserDto> findAllByRoleCodeAndStatus(String roleCode, Pageable pageable, Integer status) {
+    public Map<String, String> validateUpdateAccountInformation(UserForm userForm) {
+        Map<String, String> result = new HashMap<>();
+        if (Strings.isBlank(userForm.getFullName())) {
+            result.put("messageFullName", "Bạn không được để trống thông tin họ và tên ");
+        }
+
+        if (Strings.isNotBlank(userForm.getPhone())) {
+            if (!userForm.getPhone().matches("^(03|05|07|08|09)\\d{8}$")) {
+                result.put("messagePhone", "Số điện thoại bắt buộc phải có 10 số và chỉ sử dụng các đầu số nhà mạng tại Việt Nam");
+            }
+        } else {
+            result.put("messagePhone", "Bạn không được để trống thông tin số điện thoại");
+        }
+
+        if (Strings.isBlank(userForm.getAddress())) {
+            result.put("messageAddress", "Bạn không được để trống thông tin địa chỉ");
+        }
+
+        if (Strings.isBlank(userForm.getEmail())) {
+            result.put("messageEmail", "Bạn không được để trống thông tin email");
+        }
+
+        if (Strings.isBlank(userForm.getDate())) {
+            result.put("messageDate", "Bạn không được để trông thông tin ngày tháng năm sinh");
+        }
+        return result;
+    }
+
+    @Override
+    public List<UserDto> findAllByRoleCodeAndStatus(List<String> roleCodes, Pageable pageable, Integer status) {
         List<UserDto> userDtos = new ArrayList<>();
-        List<UserEntity> userEntities = userRepository.findAllByRoleCodeAndStatus(roleCode, status, pageable);
+        List<UserEntity> userEntities = userRepository.findAllByRoleCodeAndStatus(roleCodes, status, pageable);
         for (UserEntity userEntity : userEntities) {
             List<RoleDto> roleDtos = new ArrayList<>();
             for (RoleEntity roleEntity : userEntity.getRoles()) {
@@ -166,6 +211,12 @@ public class UserServiceImpl implements IUserService {
             user.setRoles(Collections.emptyList());
         }
         userRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public UserDto findOneByUserName(String userName) {
+        UserEntity userEntity = userRepository.findOneByUserName(userName);
+        return userConverter.toDto(userEntity);
     }
 
     private void extractRoleToUserEntity(UserForm userForm, UserEntity userEntity) {

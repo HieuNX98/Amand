@@ -11,11 +11,15 @@ public interface IUserService {
 
     UserDto save(UserForm userForm);
 
-    Map<String, String> validate(UserForm userForm, boolean isAdmin);
+    Map<String, String> validateRegisterAccount(UserForm userForm, boolean isAdmin);
 
     Map<String, String> validateUpdateAccount(UserForm userForm);
 
-    List<UserDto> findAllByRoleCodeAndStatus(String roleCode, Pageable pageable, Integer status);
+    Map<String, String> validateUpdateAccountInformation(UserForm userForm);
+
+    List<UserDto> findAllByRoleCodeAndStatus(List<String> roleCodes, Pageable pageable, Integer status);
+
+    UserDto updateAccountInformation(UserForm userForm);
 
     int getTotalItem(Integer status, String roleCode);
 
@@ -24,5 +28,7 @@ public interface IUserService {
     void updateStatus(List<Integer> ids, int status);
 
     void deleteUser(List<Integer> ids);
+
+    UserDto findOneByUserName(String userName);
 
 }

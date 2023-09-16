@@ -1,16 +1,14 @@
 package com.amand.converter;
 
+import com.amand.Utils.FileUtils;
 import com.amand.dto.RoleDto;
 import com.amand.dto.UserDto;
 import com.amand.entity.RoleEntity;
 import com.amand.entity.UserEntity;
-import com.amand.form.RoleForm;
 import com.amand.form.UserForm;
-import com.amand.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,8 @@ public class UserConverter {
         userDto.setPhone(userEntity.getPhone());
         userDto.setStatus(userEntity.getStatus());
         userDto.setDate(userEntity.getDate());
+        userDto.setAvatar(userEntity.getAvatar());
+        userDto.setAddress(userEntity.getAddress());
         List<RoleDto> roleDtos = new ArrayList<>();
         for(RoleEntity role : userEntity.getRoles()) {
             RoleDto roleDto = roleConverter.toDto(role);
@@ -58,6 +58,7 @@ public class UserConverter {
         userEntity.setPhone(userForm.getPhone());
         userEntity.setEmail(userForm.getEmail());
         userEntity.setAddress(userForm.getAddress());
+        userEntity.setDate(userForm.getDate());
 
         return userEntity;
     }

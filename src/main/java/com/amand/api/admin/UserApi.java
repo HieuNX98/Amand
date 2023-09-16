@@ -3,6 +3,7 @@ package com.amand.api.admin;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
 import com.amand.form.UserForm;
+import com.amand.repository.UserRepository;
 import com.amand.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +16,46 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
-public class AccountAdminApi {
+public class UserApi {
 
     @Autowired
     private IUserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerAccount(@RequestBody UserForm userForm) {
-        Map<String, String> validateResult = userService.validate(userForm, true);
+    @Autowired
+    private UserRepository userRepository;
+
+    @PostMapping("/register-admin")
+    public ResponseEntity<?> registerAccountAdmin(@RequestBody UserForm userForm) {
+        Map<String, String> validateResult = userService.validateRegisterAccount(userForm, true);
         if (!CollectionUtils.isEmpty(validateResult)) {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateResult);
             return ResponseEntity.ok(response);
         } else {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userForm)));
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    @PostMapping( "/register-user")
+    public ResponseEntity<?> registerAccountUser(@RequestBody UserForm userForm){
+        Map<String, String> validateResult = userService.validateRegisterAccount(userForm, false);
+        if (!CollectionUtils.isEmpty(validateResult)) {
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, validateResult);
+            return ResponseEntity.ok(response);
+        } else {
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(userService.save(userForm)));
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    @PutMapping("/update-accountInformation")
+    public ResponseEntity updateAccountInformation(@ModelAttribute UserForm userForm) {
+        Map<String, String> resultValidate = userService.validateUpdateAccountInformation(userForm);
+        if (!CollectionUtils.isEmpty(resultValidate)) {
+            ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_NG, resultValidate);
+            return ResponseEntity.ok(response);
+        } else {
+            ApiResponse response = new ApiResponse(SystemConstant.ACTIVE_STATUS, List.of(userService.updateAccountInformation(userForm)));
             return ResponseEntity.ok(response);
         }
     }
@@ -61,6 +89,13 @@ public class AccountAdminApi {
         userService.deleteUser(ids);
         return ResponseEntity.ok().build();
     }
+
+
+    @GetMapping( "/user")
+    public ResponseEntity<?> createUser(){
+        return ResponseEntity.ok(userRepository.findAll());
+    }
+
 
 
 }

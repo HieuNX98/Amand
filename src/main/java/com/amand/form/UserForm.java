@@ -1,9 +1,8 @@
 package com.amand.form;
 
-import com.amand.dto.RoleDto;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,7 +16,7 @@ public class UserForm extends BaseForm<UserForm> {
 
     private String fullName;
 
-    private Date date;
+    private String date;
 
     private String phone;
 
@@ -32,5 +31,7 @@ public class UserForm extends BaseForm<UserForm> {
     private List<String> roleCodes;
 
     private String roleName;
+
+    private MultipartFile avatar;
 
 }

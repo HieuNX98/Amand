@@ -1,5 +1,6 @@
 package com.amand.controller.admin;
 
+import com.amand.Utils.ControllerUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.SizeDto;
 import com.amand.form.HideForm;
@@ -25,9 +26,14 @@ public class SizeController {
     @Autowired
     private ISizeService sizeService;
 
+    @Autowired
+    private ControllerUtils controllerUtils;
+
     @GetMapping("/them-kich-thuoc")
     public ModelAndView createSize() {
-        return new ModelAndView("admin/views/CreateSize");
+        ModelAndView mav = new ModelAndView("admin/views/CreateSize");
+        controllerUtils.setModelAndView(mav);
+        return mav;
     }
 
     @GetMapping("/danh-sach-kich-thuoc")
@@ -44,6 +50,7 @@ public class SizeController {
         mav.addObject("totalPages",(int) Math.ceil((double) totalItem / limit));
         mav.addObject("messageError", model.getAttribute("messageError"));
         mav.addObject("messageSuccess", model.getAttribute("messageSuccess"));
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -57,6 +64,7 @@ public class SizeController {
             return mav;
         }
         mav.addObject("sizeDto", sizeDto);
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -71,8 +79,8 @@ public class SizeController {
         } else {
             mav.addObject("messageError", validate);
             mav.addObject("sizeDto", sizeForm);
+            controllerUtils.setModelAndView(mav);
         }
-
         return mav;
     }
 
@@ -88,6 +96,7 @@ public class SizeController {
         }
         mav.addObject("sizeDto", sizeDto);
         mav.addObject("messageSuccess", model.getAttribute("messageSuccess"));
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -110,6 +119,7 @@ public class SizeController {
         List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
         mav.addObject("totalPages", (int) Math.ceil((double) sizeService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        controllerUtils.setModelAndView(mav);
         return  mav;
     }
 

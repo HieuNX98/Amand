@@ -42,19 +42,19 @@
                             <div class="form-group">
                                 <label for="fullName">Họ và tên</label>
                                 <input type="text" class="form-control" id="fullName" name="fullName"
-                                       placeholder="Họ và tên" th:value="${userDto.fullName}">
+                                       placeholder="Họ và tên" th:value="${user.fullName}">
                             </div>
                             <p class="msg_error" id="msgFullname"><p>
 
                             <div class="form-group">
                                 <label for="">UserName</label>
-                                <p class="form-control" th:text="${userDto.userName}"><p>
+                                <p class="form-control" th:text="${user.userName}"><p>
                             </div>
 
                             <div class="form-group">
                                 <label for="phone">Số điện thoại</label>
                                 <input type="text" class="form-control" id="phone" name="phone"
-                                       placeholder="Số điện thoại" th:value="${userDto.phone}">
+                                       placeholder="Số điện thoại" th:value="${user.phone}">
                             </div>
                             <p class="msg_error" id="msgPhone"><p>
                         </div>
@@ -63,7 +63,7 @@
                             <div class="form-group">
                                 <label for="fullName">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                       placeholder="Email" th:value="${userDto.email}">
+                                       placeholder="Email" th:value="${user.email}">
                             </div>
                             <p class="msg_error" id="msgEmail"><p>
 
@@ -85,7 +85,7 @@
                             <button type="reset"
                                     class="btn btn-light-secondary me-1 mb-1" id="cancel" onclick="warningCancel()">Huỷ</button>
                         </div>
-                        <input type="hidden" id="id" name="id" th:value="${userDto.id}">
+                        <input type="hidden" id="id" name="id" th:value="${user.id}">
                     </form>
                 </div>
             </div>

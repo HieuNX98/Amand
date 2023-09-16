@@ -1,5 +1,6 @@
 package com.amand.controller.admin;
 
+import com.amand.Utils.ControllerUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.dto.ColorDto;
@@ -37,6 +38,9 @@ public class ProductController {
     @Autowired
     private ISizeService sizeService;
 
+    @Autowired
+    private ControllerUtils controllerUtils;
+
     @GetMapping("/danh-sach-san-pham")
     public ModelAndView listProduct(@RequestParam(value = "page", defaultValue = "1") int page,
                                     @RequestParam (value = "limit", defaultValue = "5") int limit) {
@@ -48,6 +52,7 @@ public class ProductController {
         mav.addObject("totalPages", totalPages);
         mav.addObject("limit", limit);
         mav.addObject("page", page);
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -81,6 +86,8 @@ public class ProductController {
         List<SizeDto> sizeDtos = sizeService.findAllByStatus(SystemConstant.ACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
 
+        controllerUtils.setModelAndView(mav);
+
         return mav;
     }
 
@@ -90,6 +97,7 @@ public class ProductController {
         mav.addObject("categories", categoryService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
         mav.addObject("colors", colorService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
         mav.addObject("sizes", sizeService.findAllByStatus(SystemConstant.ACTIVE_STATUS));
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -104,6 +112,7 @@ public class ProductController {
         mav.addObject("page", page);
         mav.addObject("limit", limit);
         mav.addObject("totalPages", (int) Math.ceil((double) productService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 }
