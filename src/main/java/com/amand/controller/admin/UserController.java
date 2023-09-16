@@ -30,7 +30,7 @@ public class UserController {
     @Autowired
     private ControllerUtils controllerUtils;
 
-    @GetMapping("/tao-tai-khoan-admin")
+    @GetMapping("/quan-tri/tao-tai-khoan-admin")
     public ModelAndView createAdminAccount() {
         ModelAndView mav = new ModelAndView("admin/views/CreateAdminAccount");
         mav.addObject("roles", roleService.findAll());
@@ -38,7 +38,7 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/danh-sach-tai-khoan-admin")
+    @GetMapping("/quan-tri/danh-sach-tai-khoan-admin")
     public ModelAndView listAdminAccount(@RequestParam(value = "page", defaultValue = "1") int page,
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
@@ -54,7 +54,7 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/chinh-sua-tai-khoan-admin")
+    @GetMapping("/quan-tri/chinh-sua-tai-khoan-admin")
     public ModelAndView editAdminAccount(@RequestParam(value = "id", required = false) Integer id) {
         ModelAndView mav = new ModelAndView("admin/views/EditAdminAccount");
         UserDto userDto = userService.findOneById(id);
@@ -67,7 +67,7 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/danh-sach-tai-khoan-bi-an")
+    @GetMapping("/quan-tri/danh-sach-tai-khoan-bi-an")
     public ModelAndView listHideAccount(@RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideAdminAccount");
