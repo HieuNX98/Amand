@@ -81,7 +81,7 @@
             data["" + v.name + ""] = v.value;
         });
         $.ajax({
-            url: '/api/user',
+            url: '/api/register-user',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),

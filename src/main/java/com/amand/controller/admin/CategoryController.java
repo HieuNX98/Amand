@@ -1,5 +1,6 @@
 package com.amand.controller.admin;
 
+import com.amand.Utils.ControllerUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.service.ICategoryService;
@@ -22,9 +23,14 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
+    @Autowired
+    private ControllerUtils controllerUtils;
+
     @GetMapping("/them-the-loai")
     public ModelAndView createCategory() {
-        return new ModelAndView("admin/views/CreateCategory");
+        ModelAndView mav = new ModelAndView("admin/views/CreateCategory");
+        controllerUtils.setModelAndView(mav);
+        return mav;
     }
 
     @GetMapping("/danh-sach-the-loai-san-pham")
@@ -38,6 +44,7 @@ public class CategoryController {
         mav.addObject("totalPage", (int) Math.ceil( (double) totalItem / limit));
         mav.addObject("limit", limit);
         mav.addObject("page", page);
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -52,6 +59,7 @@ public class CategoryController {
             return mav;
         }
         mav.addObject("categoryDto", categoryDto);
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 
@@ -65,6 +73,7 @@ public class CategoryController {
         List<CategoryDto> categoryDtos = categoryService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("categoryDtos", categoryDtos);
         mav.addObject("totalPages", (int) Math.ceil( (double) categoryService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 

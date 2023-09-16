@@ -3,7 +3,6 @@ package com.amand.dto;
 
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -16,7 +15,7 @@ public class UserDto extends BaseDto<UserDto>{
 
     private String fullName;
 
-    private Date date;
+    private String date;
 
     private String phone;
 
@@ -29,5 +28,7 @@ public class UserDto extends BaseDto<UserDto>{
     private String roleCode;
 
     private List<RoleDto> roleDtos;
+
+    private String avatar;
 
 }

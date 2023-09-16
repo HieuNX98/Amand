@@ -12,5 +12,7 @@ public class SystemConstant {
 
     public static final String ROLE_CODE_IMPLOY = "ROLE_IMPLOY";
 
+    public static final String ROLE_CODE_ADMIN = "ROLE_ADMIN";
+
     public static  final int IMAGE_MAX_SIZE = 6 * 1024 * 1024;
 }

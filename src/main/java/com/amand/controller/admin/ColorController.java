@@ -1,5 +1,6 @@
 package com.amand.controller.admin;
 
+import com.amand.Utils.ControllerUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ColorDto;
 import com.amand.form.ColorForm;
@@ -23,9 +24,14 @@ public class ColorController {
     @Autowired
     private IColorService colorService;
 
+    @Autowired
+    private ControllerUtils controllerUtils;
+
     @GetMapping("/them-mau-sac")
     public ModelAndView createColor() {
-        return new ModelAndView("admin/views/CreateColor");
+        ModelAndView mav = new ModelAndView("admin/views/CreateColor");
+        controllerUtils.setModelAndView(mav);
+        return mav;
     }
 
     @GetMapping("/danh-sach-mau-san-pham")
@@ -39,6 +45,7 @@ public class ColorController {
         mav.addObject("limit", limit);
         int totalItem = colorService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
+        controllerUtils.setModelAndView(mav);
 
         return mav;
     }
@@ -53,6 +60,7 @@ public class ColorController {
                     "màu khác");
             return mav;
         }
+        controllerUtils.setModelAndView(mav);
         mav.addObject("colorDto", colorDto);
         return mav;
     }
@@ -68,6 +76,7 @@ public class ColorController {
         } else {
             mav.addObject("messageError", resultValidate);
             mav.addObject("colorDto", colorForm);
+            controllerUtils.setModelAndView(mav);
         }
         return mav;
     }
@@ -81,6 +90,7 @@ public class ColorController {
             redirectAttributes.addFlashAttribute("messageError", "Màu sản phẩm không tồn tại");
             return mav;
         }
+        controllerUtils.setModelAndView(mav);
         mav.addObject("colorDto", colorDto);
         return mav;
     }
@@ -95,6 +105,7 @@ public class ColorController {
         mav.addObject("page", page);
         mav.addObject("limit", limit);
         mav.addObject("totalPages", (int) Math.ceil((double) colorService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
+        controllerUtils.setModelAndView(mav);
         return mav;
     }
 }

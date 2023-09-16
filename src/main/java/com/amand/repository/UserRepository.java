@@ -15,10 +15,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         UserEntity findOneByUserNameAndStatus(String name , int status);
 
         @Query(value = "SELECT u.userName FROM UserEntity u WHERE u.userName = :username")
-        String findOneByUserName(@Param("username") String userName);
+        String findUsernameByUserName(@Param("username") String userName);
 
-        @Query(value = "SELECT u FROM UserEntity u INNER JOIN u.roles r WHERE r.code = :roleCode AND u.status = :status")
-        List<UserEntity> findAllByRoleCodeAndStatus(@Param("roleCode") String roleCode, @Param("status") Integer status, Pageable pageable);
+        @Query(value = "SELECT u FROM UserEntity u INNER JOIN u.roles r WHERE r.code IN (:roleCodes) AND u.status = :status")
+        List<UserEntity> findAllByRoleCodeAndStatus(@Param("roleCodes") List<String> roleCodes,
+                                                    @Param("status") Integer status, Pageable pageable);
 
         UserEntity findOneById(Integer id);
 
@@ -32,4 +33,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
         @Query(value = "SELECT u FROM UserEntity u WHERE u.id IN (:ids)")
         List<UserEntity> findAllByIds(@Param("ids") List<Integer> ids);
+
+        @Query("SELECT u FROM UserEntity u WHERE u.userName = :userName")
+        UserEntity findOneByUserName(@Param("userName") String userName);
 }

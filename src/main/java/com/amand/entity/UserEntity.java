@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -25,7 +24,7 @@ public class UserEntity extends BaseEntity {
     private String fullName;
 
     @Column
-    private Date date;
+    private String date;
 
     @Column
     private String phone;
@@ -39,6 +38,9 @@ public class UserEntity extends BaseEntity {
     @Column
     private Integer status;
 
+    @Column
+    private String avatar;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
                 joinColumns = @JoinColumn(name = "user_id"),
@@ -47,4 +49,5 @@ public class UserEntity extends BaseEntity {
 
     @OneToOne(mappedBy = "user")
     private BagEntity bag;
+
 }
