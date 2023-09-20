@@ -1,5 +1,6 @@
 package com.amand.repository;
 
+import com.amand.entity.CategoryEntity;
 import com.amand.entity.ColorEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

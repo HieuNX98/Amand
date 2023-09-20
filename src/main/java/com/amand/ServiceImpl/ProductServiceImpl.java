@@ -176,6 +176,11 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public int getTotalItemBySearch(String name, String season, Integer categoryId) {
+        return productRepository.countBySearch(name, season, categoryId);
+    }
+
+    @Override
     public ProductDto findOneById(Integer id) {
         Optional<ProductEntity> productEntity = productRepository.findById(id);
         if (productEntity.isEmpty()) return null;
@@ -218,6 +223,27 @@ public class ProductServiceImpl implements IProductService {
             product.setColors(Collections.emptyList());
         }
         productRepository.deleteAllById(ids);
+    }
+
+    @Override
+    public ProductDto outstandingProduct(Integer status, Integer limit) {
+        ProductEntity productEntity = productRepository.findProductByRecentlyCreatedAndStatus(status, limit);
+        return productConverter.toDto(productEntity);
+    }
+
+    @Override
+    public List<ProductDto> search(Pageable pageable, String name, String season, Integer categoryId) {
+        List<ProductDto> productDtos = new ArrayList<>();
+        List<ProductEntity> productEntities = productRepository.findAllByProductNameAndSeasonAndCategory(
+                name,
+                season,
+                categoryId,
+                pageable);
+        for (ProductEntity productEntity : productEntities) {
+            ProductDto productDto = productConverter.toDto(productEntity);
+            productDtos.add(productDto);
+        }
+        return productDtos;
     }
 
     private String getErrorImage(MultipartFile image, boolean isRegister) {

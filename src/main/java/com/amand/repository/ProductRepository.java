@@ -17,8 +17,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     String findOneNameById(@Param("id") Integer id);
 
     @Query(value = "SELECT p FROM ProductEntity p WHERE p.status = :status AND p.category.id IN (:ids)")
-    List<ProductEntity> findAllByCategoryIdAndStatus(@Param("status") Integer status,
-                                                     @Param("ids") List<Integer> ids);
+    List<ProductEntity> findAllByCategoryIdsAndStatus(@Param("status") Integer status,
+                                                      @Param("ids") List<Integer> ids);
 
     @Query(value = "SELECT p FROM ProductEntity p LEFT JOIN p.colors c WHERE c.id IN (:ids)")
     List<ProductEntity> findAllByColorIds(@Param("ids") List<Integer> ids);
@@ -38,4 +38,35 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
     @Query(value = "SELECT p FROM ProductEntity p WHERE p.id IN (:ids)")
     List<ProductEntity> findAllByIds(@Param("ids") List<Integer> ids);
+
+    @Query(value = "SELECT p FROM ProductEntity p WHERE p.status = :status")
+    List<ProductEntity> findAllByStatus(@Param("status") Integer status);
+
+    @Query(value = "SELECT * FROM Product WHERE category_id = :categoryId AND status = :status ORDER BY created_date desc " +
+            "LIMIT :limit ", nativeQuery = true)
+    List<ProductEntity> findTop3ProductByCategoryIdAndStatus(@Param("categoryId") Integer id,
+                                                             @Param("status") Integer status,
+                                                             @Param("limit") Integer limit);
+
+    @Query(value = "SELECT * FROM Product WHERE status = :status ORDER BY created_date desc LIMIT :limit", nativeQuery = true)
+    ProductEntity findProductByRecentlyCreatedAndStatus(@Param("status") Integer status,
+                                                        @Param("limit") Integer limit);
+
+    @Query(value = "SELECT * FROM Product WHERE IF(:name is null, true, name LIKE %:name%)" +
+            " AND IF(:season is null, true, season LIKE %:season%) " +
+            " AND IF(:category is null, true, category_id = :category)" +
+            " AND status = 1", nativeQuery = true)
+    List<ProductEntity> findAllByProductNameAndSeasonAndCategory(@Param("name") String name,
+                                                      @Param("season") String season,
+                                                      @Param("category") Integer categoryId,
+                                                      Pageable pageable);
+    @Query(value = "SELECT count(*) FROM Product WHERE IF(:name is null, true, name LIKE %:name%)" +
+            " AND IF(:season is null, true, season LIKE %:season%)" +
+            " AND IF(:category is null, true, category_id = :category)" +
+            " AND status = 1", nativeQuery = true)
+    int countBySearch(@Param("name") String name,
+                      @Param("season") String season,
+                      @Param("category") Integer categoryId);
+
+
 }

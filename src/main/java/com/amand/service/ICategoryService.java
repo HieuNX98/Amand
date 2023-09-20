@@ -30,4 +30,6 @@ public interface ICategoryService {
 
     String validateDelete(List<Integer> ids);
 
+    List<CategoryDto> findTop3ByStatusAndLimit(Integer status, Integer limit);
+
 }

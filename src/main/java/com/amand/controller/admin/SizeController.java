@@ -6,7 +6,6 @@ import com.amand.dto.SizeDto;
 import com.amand.form.HideForm;
 import com.amand.form.SizeForm;
 import com.amand.service.ISizeService;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
