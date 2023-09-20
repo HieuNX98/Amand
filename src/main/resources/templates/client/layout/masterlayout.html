@@ -12,10 +12,16 @@
     <link rel="stylesheet" th:href="@{/client/assets/css/basee.css}">
     <link rel="stylesheet" th:href="@{/client/assets/css/style.css}">
     <link rel="stylesheet" th:href="@{/client/assets/css/styleinfor.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet"
-          th:href="@{/admin/assets/font/fontawesome-free-5.15.3-web/fontawesome-free-5.15.3-web/css/all.min.css}">
+          th:href="@{/client/assets/font/fontawesome-free-5.15.3-web/fontawesome-free-5.15.3-web/css/all.min.css}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="  https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <style>
+        .wrapper {
+            padding-top: 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="app">
@@ -26,5 +32,7 @@
         <div th:replace="client/fragments/footer::footer"></div>
     </div>
 </div>
+<script layout:fragment=js></script>
+<script layout:fragment=pagination></script>
 </body>
 </html>

@@ -2,7 +2,9 @@ package com.amand.ServiceImpl;
 
 import com.amand.constant.SystemConstant;
 import com.amand.converter.CategoryConverter;
+import com.amand.converter.ProductConverter;
 import com.amand.dto.CategoryDto;
+import com.amand.dto.ProductDto;
 import com.amand.entity.CategoryEntity;
 import com.amand.entity.ProductEntity;
 import com.amand.form.CategoryForm;
@@ -30,6 +32,9 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductConverter productConverter;
 
     @Override
     @Transactional
@@ -122,7 +127,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public String validateHide(List<Integer> ids) {
         String result ="";
-        List<ProductEntity> productEntities = productRepository.findAllByCategoryIdAndStatus(SystemConstant.ACTIVE_STATUS ,ids);
+        List<ProductEntity> productEntities = productRepository.findAllByCategoryIdsAndStatus(SystemConstant.ACTIVE_STATUS ,ids);
         if (!CollectionUtils.isEmpty(productEntities)) {
             result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn ẩn, bạn cần ẩn sản phẩm thuộc danh sách thể loại này trước";
         }
@@ -145,11 +150,32 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public String validateDelete(List<Integer> ids) {
         String result = "";
-        List<ProductEntity> productEntities = productRepository.findAllByCategoryIdAndStatus(SystemConstant.INACTIVE_STATUS, ids);
+        List<ProductEntity> productEntities = productRepository.findAllByCategoryIdsAndStatus(SystemConstant.INACTIVE_STATUS, ids);
         if (!CollectionUtils.isEmpty(productEntities)) {
             result = "Đang có sản phẩm thuộc danh sách thể loại bạn muốn xoá, bạn cần xoá sản phẩm thuộc danh sách thể loại này trước";
         }
         return result;
+    }
+
+    @Override
+    public List<CategoryDto> findTop3ByStatusAndLimit(Integer status, Integer limit) {
+        List<CategoryDto> categoryDtos = new ArrayList<>();
+        List<CategoryEntity> categoryEntities = categoryRepository.findTop3ByStatus(status, limit);
+        for (CategoryEntity categoryEntity : categoryEntities) {
+            CategoryDto categoryDto = categoryConverter.toDto(categoryEntity);
+            List<ProductEntity> productEntities = productRepository.findTop3ProductByCategoryIdAndStatus(categoryEntity.getId(),
+                    status, limit);
+            if (!CollectionUtils.isEmpty(productEntities)) {
+                List<ProductDto> productDtos = new ArrayList<>();
+                for (ProductEntity productEntity : productEntities) {
+                    ProductDto productDto = productConverter.toDto(productEntity);
+                    productDtos.add(productDto);
+                }
+                categoryDto.setProductDtos(productDtos);
+            }
+            categoryDtos.add(categoryDto);
+        }
+        return categoryDtos;
     }
 
 }

@@ -34,4 +34,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
     void updateStatusByIds(@Param("status") Integer status,
                             @Param("ids") List<Integer> ids);
 
+    @Query(value = "SELECT * FROM Category WHERE status = :status ORDER BY created_date desc LIMIT :limit", nativeQuery = true)
+    List<CategoryEntity> findTop3ByStatus(@Param("status") Integer status,
+                                          @Param("limit") Integer limit);
+
 }
