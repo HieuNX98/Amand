@@ -64,9 +64,8 @@ public class AdminProductController {
             mav.setViewName("redirect:/404");
             redirectAttributes.addFlashAttribute("messageError", "Sản phẩm không tồn tại, vui lòng chọn sản phẩm khác");
             return mav;
-        } else {
-            mav.addObject("productDto", productDto);
         }
+        mav.addObject("productDto", productDto);
         List<Integer> colorIds = productDto.getColorIds();
         mav.addObject("colorIds", colorIds);
 

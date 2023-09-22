@@ -55,8 +55,16 @@ public class ProductController {
     }
 
     @GetMapping("/thong-tin-san-pham")
-    public ModelAndView information() {
+    public ModelAndView information(@RequestParam(value = "productId") Integer productId,
+                                    RedirectAttributes redirectAttributes) {
        ModelAndView mav = new ModelAndView("client/views/information");
+       ProductDto productDto = productService.findOneById(productId);
+       if (productDto == null) {
+           mav.setViewName("redirect:/404");
+           redirectAttributes.addFlashAttribute("messageError", "Sản phẩm không tồn tại");
+           return mav;
+       }
+       mav.addObject("productDto", productDto);
        controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         return mav;
     }

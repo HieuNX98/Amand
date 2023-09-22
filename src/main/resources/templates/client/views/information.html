@@ -11,11 +11,11 @@
     <div class="row">
         <div class="col l-9 l-o-2">
             <div class="product__item-new">
-                <img th:src="@{/client/assets/img/amand1.png}" alt="" class="product__item-new-img">
+                <img th:src="${productDto.image1}" alt="" class="product__item-new-img">
                 <div class="product__item-info">
-                    <h3 class="product__item-heading">Cubban shirts white</h3>
+                    <h3 class="product__item-heading" th:text="${productDto.name}"></h3>
                     <div class="special__price">
-                        <span class="product__item-current">900.000vnd</span>
+                        <span class="product__item-current" th:text="${productDto.oldPrice}"></span>
                     </div>
 
                     <div class="DIV">
@@ -23,37 +23,32 @@
                     </div>
                     <div id="radiobut">
                         <div class="abc">
-                            <div class="pretty p-icon p-curve p-tada" >
-                                <input type="radio" name="radio"/>
-                                <div class="state p-primary-o">
-                                    <i class="icon fa fa-check" aria-hidden="true"></i>
-                                    <label>S</label>
+                            <th:block th:each="item : ${productDto.sizes}">
+                                <div class="pretty p-icon p-curve p-tada" >
+                                    <input type="radio" name="sizeIds"/>
+                                    <div class="state p-primary-o">
+                                        <i class="icon fa fa-check" aria-hidden="true"></i>
+                                        <label th:text="${item}"></label>
+                                    </div>
                                 </div>
-                            </div>
+                            </th:block>
+                        </div>
+                    </div>
 
-                            <div class="pretty p-icon p-curve p-rotate">
-                                <input type="radio" name="radio" />
-                                <div class="state p-success-o">
-                                    <i class="icon fa fa-check" aria-hidden="true"></i>
-                                    <label> M</label>
+                    <div class="DIV">
+                        <p class="text">Màu</p>
+                    </div>
+                    <div id="radiobut">
+                        <div class="abc">
+                            <th:block th:each="item : ${productDto.colors}">
+                                <div class="pretty p-icon p-curve p-tada" >
+                                    <input type="radio" name="colorIds"/>
+                                    <div class="state p-primary-o">
+                                        <i class="icon fa fa-check" aria-hidden="true"></i>
+                                        <label th:text="${item}"></label>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="pretty p-icon p-curve p-pulse">
-                                <input type="radio" name="radio" />
-                                <div class="state p-info-o">
-                                    <i class="icon fa fa-check" aria-hidden="true"></i>
-                                    <label> L</label>
-                                </div>
-                            </div>
-
-                            <div class="pretty p-icon p-curve p-jelly">
-                                <input type="radio" name="radio" />
-                                <div class="state p-warning">
-                                    <i class="icon fa fa-check" aria-hidden="true"></i>
-                                    <label> XL</label>
-                                </div>
-                            </div>
+                            </th:block>
                         </div>
                     </div>
 
@@ -61,7 +56,7 @@
                         <p class="text">Số Lượng</p>
                     </div>
                     <div class="quantity">
-                        <input class="product__color-text" type="number" step="1" id="number" min="1" name="number" value="1"/>
+                        <input class="product__color-text" type="number" step="1" id="amount" min="1" name="amount" value="1"/>
                     </div>
 
                     <div class="button">
