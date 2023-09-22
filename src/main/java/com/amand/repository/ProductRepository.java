@@ -55,18 +55,22 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     @Query(value = "SELECT * FROM Product WHERE IF(:name is null, true, name LIKE %:name%)" +
             " AND IF(:season is null, true, season LIKE %:season%) " +
             " AND IF(:category is null, true, category_id = :category)" +
-            " AND status = 1", nativeQuery = true)
+            " AND IF(:sale_price, sale_price is not null, true)" +
+            " AND status = 1 ORDER BY created_date desc", nativeQuery = true)
     List<ProductEntity> findAllByProductNameAndSeasonAndCategory(@Param("name") String name,
                                                       @Param("season") String season,
                                                       @Param("category") Integer categoryId,
+                                                      @Param("sale_price") Boolean salePrice,
                                                       Pageable pageable);
     @Query(value = "SELECT count(*) FROM Product WHERE IF(:name is null, true, name LIKE %:name%)" +
             " AND IF(:season is null, true, season LIKE %:season%)" +
             " AND IF(:category is null, true, category_id = :category)" +
+            " AND IF(:sale_price, sale_price is not null, true)" +
             " AND status = 1", nativeQuery = true)
     int countBySearch(@Param("name") String name,
                       @Param("season") String season,
-                      @Param("category") Integer categoryId);
+                      @Param("category") Integer categoryId,
+                      @Param("sale_price") Boolean salePrice);
 
 
 }

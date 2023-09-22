@@ -176,8 +176,8 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public int getTotalItemBySearch(String name, String season, Integer categoryId) {
-        return productRepository.countBySearch(name, season, categoryId);
+    public int getTotalItemBySearch(String name, String season, Integer categoryId, Boolean salePrice) {
+        return productRepository.countBySearch(name, season, categoryId, salePrice);
     }
 
     @Override
@@ -232,12 +232,13 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<ProductDto> search(Pageable pageable, String name, String season, Integer categoryId) {
+    public List<ProductDto> search(Pageable pageable, String name, String season, Integer categoryId, Boolean salePrice) {
         List<ProductDto> productDtos = new ArrayList<>();
         List<ProductEntity> productEntities = productRepository.findAllByProductNameAndSeasonAndCategory(
                 name,
                 season,
                 categoryId,
+                salePrice,
                 pageable);
         for (ProductEntity productEntity : productEntities) {
             ProductDto productDto = productConverter.toDto(productEntity);

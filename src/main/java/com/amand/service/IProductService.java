@@ -16,7 +16,7 @@ public interface IProductService {
 
     int getTotalItem(Integer status);
 
-    int getTotalItemBySearch(String name, String season, Integer categoryId);
+    int getTotalItemBySearch(String name, String season, Integer categoryId, Boolean salePrice);
 
     ProductDto findOneById(Integer id);
 
@@ -26,6 +26,6 @@ public interface IProductService {
 
     ProductDto outstandingProduct(Integer status, Integer limit);
 
-    List<ProductDto> search(Pageable pageable, String name, String season, Integer categoryId);
+    List<ProductDto> search(Pageable pageable, String name, String season, Integer categoryId, Boolean salePrice);
 
 }

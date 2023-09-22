@@ -12,61 +12,36 @@
                     <a th:href="@{/trang-chu}" class="header__navbar-item-link">Home</a>
                 </li>
                 <li class="header__navbar-item">
-                    <a href="" class="header__navbar-item-link">Sản Phẩm Mới </a>
+                    <a th:href="@{/danh-sach-san-pham-moi}" class="header__navbar-item-link">Sản phẩm mới</a>
 
                 </li>
                 <li class="header__navbar-item header__navbar-item-has-notifyy">
-                    <a href="" class="header__navbar-item-link">
+                    <label class="header__navbar-item-link">
                         Bộ Sưu Tập
-                    </a>
+                    </label>
+                        <div class="header__notifyy">
+                            <ul class="header__notifyy-list">
+                                <th:block th:each="item : ${categoryDtos}">
+                                    <li class="header__notify-item">
+                                        <a th:href="@{/danh-sach-san-pham(categoryId=${item.id})}"
+                                           class="header__notify-item-link" th:text="${item.name}">
+                                        </a>
+                                    </li>
+                                </th:block>
 
-                    <div class="header__notifyy">
-                        <ul class="header__notifyy-list">
-                            <li class="header__notify-item">
-                                <a href="#" class="header__notify-item-link">
-                                    Shirts/Top
-                                </a>
-                            </li>
-
-                            <li class="header__notify-item">
-                                <a href="#" class="header__notify-item-link">
-                                    Pants
-                                </a>
-                            </li>
-
-                            <li class="header__notify-item">
-                                <a href="#" class="header__notify-item-link">
-                                    Sweater
-                                </a>
-                            </li>
-
-                            <li class="header__notify-item">
-                                <a href="#" class="header__notify-item-link">
-                                    Coats & Jacket
-                                </a>
-                            </li>
-
-                            <li class="header__notify-item">
-                                <a href="#" class="header__notify-item-link">
-                                    Picked By Look
-                                </a>
-                            </li>
-
-
-                        </ul>
-                    </div>
-
-
+                            </ul>
+                        </div>
                 </li>
+
                 <li class="header__navbar-item">
-                    <a href="" class="header__navbar-item-link">
+                    <a th:href="@{/danh-sach-san-pham-sale}" class="header__navbar-item-link">
                         Sale
                     </a>
                 </li>
 
                 <li class="header__navbar-item ">
                     <a href="" class="header__navbar-item-link">
-                        Về Chúng Tôi
+                        Về chúng tôi
                     </a>
                 </li>
             </ul>
@@ -74,7 +49,7 @@
             <ul class="header__navbar-list-right">
                 <li class="header__navbar-item">
                     <div class="header__search">
-                        <input type="text" class="header__search-input" placeholder="Tìm kiếm sản  phẩm ">
+                        <input type="text" class="header__search-input" placeholder="Tìm kiếm sản phẩm ">
 
                     </div>
                 </li>
