@@ -18,4 +18,10 @@ public class YearUtils {
         }
         return years;
     }
+
+    public String getCurrentYear() {
+        Calendar calendar = Calendar.getInstance();
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        return year;
+    }
 }

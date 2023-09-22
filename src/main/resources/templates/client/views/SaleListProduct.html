@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout/masterlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Amand</title>
+</head>
+<body>
+<div class="app" layout:fragment="content">
+    <div class="container">
+        <div class="wrapper">
+            <div class="grid">
+                <div class="row">
+                    <div class="col l-12">
+                        <div class="product__distance title_category">
+                            <h1 class="product__distance-name">Danh sách sản phẩm</h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col l-12">
+                        <div class="product__distance"></div>
+                    </div>
+                </div>
+                <!--                    START SEARCH-->
+                <div class="wrapper-search">
+                    <div class="infor-search">
+                        <form id="formSubmit" action="">
+                            <input type="hidden" value="" id="page" name="page">
+                            <input type="hidden" value="" id="limit" name="limit">
+                            <div class="infor-search-child">
+                                <label for="productName" class="title-search">Tên sản phẩm</label>
+                                <input th:if="${productName == null}"
+                                       placeholder="Tên sản phẩm" id="productName" class="content-search" name="productName"/>
+                                <input th:if="${productName != null}"
+                                       th:value="${productName}" placeholder="Tên sản phẩm" id="productName" class="content-search" name="productName"/>
+                            </div>
+                            <div class="infor-search-child">
+                                <label for="categoryId" class="title-search">Thể loại</label>
+                                <select id="categoryId" class="content-search" name="categoryId">
+                                    <option value="">Chọn thể loại sản phẩm</option>
+                                    <th:block th:each="item : ${categoryDtos}">
+                                        <option th:if="${item.id != (categoryId)}" th:value="${item.id}" th:text="${item.name}"></option>
+                                        <th:block th:if="${item.id == (categoryId)}">
+                                            <option th:value="${item.id}" th:text="${item.name}" selected="selected"></option>
+                                        </th:block>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="infor-search-child">
+                                <label for="season" class="title-search">Mùa</label>
+                                <select id="season" class="content-search" name="season">
+                                    <option value="">Chọn mùa sản phẩm</option>
+                                    <th:block th:each="item : ${years}">
+                                        <option th:if="${!item.equals(season)}" th:value="${item}" th:text="${item}"></option>
+                                        <th:block th:if="${item.equals(season)}">
+                                            <option th:value="${item}" th:text="${item}" selected="selected"></option>
+                                        </th:block>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div>
+                        <button id="button-search" class="button-search">Tìm kiếm</button>
+                    </div>
+                </div>
+                <!--                    START SEARCH-->
+                <div class="row">
+                    <div class="col l-12">
+                        <div class="product__distance"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <th:block th:each="item : ${productDtos}">
+                        <div class="col l-4 m-6 c-12">
+                            <a href="" class="product__item">
+                                <img th:src="${item.image1}" alt="" class="product__item-img">
+                                <h4 class="product__item-name" th:text="${item.name}"></h4>
+                                <div class="product__item-price">
+                                    <div class="product-item__price-current" th:text="${item.oldPrice}"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+                <div id = "pagination" class="wrapper-pagination">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="pagination" th:src="@{/client/assets/js/customPagination.js}"></script>
+<script layout:fragment="js" th:inline="javascript">
+    document.getElementById('button-search').addEventListener("click", function() {
+        $('#page').val(1);
+        $('#limit').val(3);
+        $('#formSubmit').submit();
+    });
+
+    var eventClickPage = function(pageClick) {
+        $('#page').val(pageClick);
+        $('#limit').val(3);
+        $('#formSubmit').submit();
+    }
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        let totalPages = [[${totalPages}]];
+        let currentPage = [[${page}]];
+        let visiblePages = 4
+        renderPagination(totalPages, currentPage, visiblePages);
+    });
+</script>
+</body>
+</html>

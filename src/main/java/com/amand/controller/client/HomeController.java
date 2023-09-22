@@ -1,6 +1,8 @@
 package com.amand.controller.client;
 
+import com.amand.Utils.ControllerUtils;
 import com.amand.Utils.SecurityUtils;
+import com.amand.Utils.YearUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.dto.ProductDto;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
@@ -24,6 +25,12 @@ public class HomeController {
 
     @Autowired
     private ICategoryService categoryService;
+
+    @Autowired
+    private ControllerUtils controllerUtils;
+
+    @Autowired
+    private YearUtils yearUtils;
 
     @GetMapping("/trang-chu")
     public ModelAndView home() {
@@ -46,6 +53,7 @@ public class HomeController {
         ProductDto productDto = productService.outstandingProduct(SystemConstant.ACTIVE_STATUS, 1);
         mav.addObject("productDto", productDto);
         mav.addObject("fullName", fullName);
+        controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         return mav;
 
 
