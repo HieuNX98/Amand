@@ -42,8 +42,8 @@
                                     <select id="categoryId" class="content-search" name="categoryId">
                                             <option value="">Chọn thể loại sản phẩm</option>
                                             <th:block th:each="item : ${categoryDtos}">
-                                                <option th:if="${item.id != (categoryId)}" th:value="${item.id}" th:text="${item.name}"></option>
-                                                <th:block th:if="${item.id == (categoryId)}">
+                                                <option th:if="${item.id != categoryId}" th:value="${item.id}" th:text="${item.name}"></option>
+                                                <th:block th:if="${item.id == categoryId}">
                                                     <option th:value="${item.id}" th:text="${item.name}" selected="selected"></option>
                                                 </th:block>
                                             </th:block>

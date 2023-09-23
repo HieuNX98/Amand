@@ -103,8 +103,30 @@ public class ProductController {
         controllerUtils.setPageAndLimit(mav, page, limit);
         mav.addObject("season", season);
         mav.addObject("productName", productName);
+        mav.addObject("categoryId", categoryId);
         mav.addObject("years", yearUtils.getYears());
         controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
+        return mav;
+    }
+
+    @GetMapping("/tim-kiem-san-pham")
+    public ModelAndView searchProduct(@RequestParam(value = "productName", required = false) String productName,
+                                      @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                                      @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                      @RequestParam(value = "limit", defaultValue = "3") Integer limit,
+                                      @RequestParam(value = "season", required = false) String season) {
+        ModelAndView mav = new ModelAndView("/client/views/SearchProduct");
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        List<ProductDto> productDtos = productService.search(pageable, productName, season, categoryId, false);
+        int totalItem = productService.getTotalItemBySearch(productName, season, categoryId, false);
+        mav.addObject("totalPages", (int) Math.ceil((double) totalItem / limit));
+        mav.addObject("productDtos", productDtos);
+        mav.addObject("season", season);
+        mav.addObject("categoryId", categoryId);
+        mav.addObject("productName", productName);
+        controllerUtils.setPageAndLimit(mav, page, limit);
+        controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
+        mav.addObject("years", yearUtils.getYears());
         return mav;
     }
 }
