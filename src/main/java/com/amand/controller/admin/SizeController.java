@@ -40,8 +40,7 @@ public class SizeController {
                                  @RequestParam (value = "limit", defaultValue = "3") Integer limit,
                                  Model model) {
         ModelAndView mav = new ModelAndView("admin/views/ListSize");
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         Pageable pageable = PageRequest.of(page-1, limit);
         List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
@@ -112,8 +111,7 @@ public class SizeController {
         public ModelAndView listHideSize(@RequestParam(value = "page", defaultValue = "1") int page,
                                           @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideSize");
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);

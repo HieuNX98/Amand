@@ -50,8 +50,7 @@ public class AdminProductController {
         mav.addObject("productDtos", productDtos);
         int totalPages = (int) Math.ceil((double) productService.getTotalItem(SystemConstant.ACTIVE_STATUS) / limit);
         mav.addObject("totalPages", totalPages);
-        mav.addObject("limit", limit);
-        mav.addObject("page", page);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         controllerUtils.setModelAndView(mav);
         return mav;
     }
@@ -108,8 +107,7 @@ public class AdminProductController {
         Pageable pageable = PageRequest.of(page-1, limit);
         List<ProductDto> productDtos = productService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("productDtos", productDtos);
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         mav.addObject("totalPages", (int) Math.ceil((double) productService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
         controllerUtils.setModelAndView(mav);
         return mav;

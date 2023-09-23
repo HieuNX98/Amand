@@ -17,4 +17,6 @@ public class MyUser extends User {
 
     private String fullName;
 
+    private Integer userId;
+
 }

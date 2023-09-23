@@ -14,6 +14,15 @@ public class BagEntity extends BaseEntity {
     private String size;
 
     @Column
+    private String productName;
+
+    @Column
+    private String productImage;
+
+    @Column
+    private Double oldPrice;
+
+    @Column
     private String color;
 
     @Column

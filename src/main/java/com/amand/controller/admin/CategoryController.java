@@ -42,8 +42,7 @@ public class CategoryController {
         mav.addObject("categoryDtos", categoryDtos);
         int totalItem = categoryService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil( (double) totalItem / limit));
-        mav.addObject("limit", limit);
-        mav.addObject("page", page);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         controllerUtils.setModelAndView(mav);
         return mav;
     }
@@ -67,8 +66,7 @@ public class CategoryController {
     public ModelAndView listHideCategory(@RequestParam(value = "page", defaultValue = "1") int page,
                                          @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideCategory");
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<CategoryDto> categoryDtos = categoryService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("categoryDtos", categoryDtos);

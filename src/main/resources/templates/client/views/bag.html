@@ -4,7 +4,7 @@
       layout:decorate="~{client/layout/masterlayout.html}">
 <head>
     <meta charset="UTF-8">
-    <title layout:fragment="title">Document</title>
+    <title layout:fragment="title">Giỏ hàng</title>
 </head>
 <body>
 <div class="cart" layout:fragment="content">
@@ -17,33 +17,35 @@
                     </div>
 
                     <div class="cart__infor">
-                        <img th:src="@{/client/assets/img/amand5.png}" alt="" class="cart__img">
+                        <img th:src="${bagDto.productImage}" alt="" class="cart__img">
 
                         <div class="cart__intro">
                             <ul class="cart__list cart__list--active ">
                                 <li class="cart__item-icon">
-                                    <!-- <div class="cart__bonus"> -->
-                                    <span class="icon__heading">Cuban-shirst</span>
+                                    <span class="icon__heading" th:text="${bagDto.productName}"></span>
                                     <a href="" class="icon__delete-link">
-                                        <!-- icon-delete -->
                                         <i class="fas icon-delete fa-times"></i>
                                     </a>
 
-                                    <!-- </div> -->
                                 </li>
-                                <li class="cart__item">333.000vnd</li>
-                                <li class="cart__item">Size  :S</li>
-                                <li class="cart__item-price">
-                                    <div class="cart__price">
-                                        <span class="price__text">Chất liệu :Cotton</span>
-                                        <span class="price__current">500.000vnd</span>
-                                    </div>
-
+                                <li class="cart__item-icon">
+                                    <span class="icon__heading" >Giá sản phẩm </span>
+                                    <span class="icon__heading" th:text="${bagDto.oldPrice}"></span>
+                                </li>
+                                <li class="cart__item-icon">
+                                    <span class="icon__heading" >Size sản phẩm </span>
+                                    <span class="icon__heading" th:text="${bagDto.size}"></span>
+                                </li>
+                                <li class="cart__item-icon">
+                                    <span class="icon__heading" >Màu sản phẩm</span>
+                                    <span class="icon__heading" th:text="${bagDto.color}"></span>
+                                </li>
+                                <li class="cart__item-icon">
+                                    <span class="icon__heading" >Số lượng</span>
+                                    <span class="icon__heading" th:text="${bagDto.amount}"></span>
                                 </li>
                             </ul>
                         </div>
-
-
                     </div>
 
 
