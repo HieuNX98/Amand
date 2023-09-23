@@ -41,8 +41,7 @@ public class ColorController {
         Pageable pageable = PageRequest.of(page -1, limit);
         List<ColorDto> colorDtos = colorService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         int totalItem = colorService.getTotalItem(SystemConstant.ACTIVE_STATUS);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         controllerUtils.setModelAndView(mav);
@@ -102,8 +101,7 @@ public class ColorController {
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<ColorDto> colorDtos = colorService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         mav.addObject("totalPages", (int) Math.ceil((double) colorService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));
         controllerUtils.setModelAndView(mav);
         return mav;

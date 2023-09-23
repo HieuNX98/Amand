@@ -35,10 +35,6 @@ public class HomeController {
     @GetMapping("/trang-chu")
     public ModelAndView home() {
         ModelAndView mav = new ModelAndView("client/views/home");
-        String fullName = null;
-        if (SecurityUtils.getPrincipal() != null) {
-            fullName = SecurityUtils.getPrincipal().getFullName();
-        }
         List<CategoryDto> categoryDtos = categoryService.findTop3ByStatusAndLimit(SystemConstant.ACTIVE_STATUS, 3);
         if (categoryDtos.size() >= 1) {
             mav.addObject("categoryDto1", categoryDtos.get(0));
@@ -52,7 +48,6 @@ public class HomeController {
 
         ProductDto productDto = productService.outstandingProduct(SystemConstant.ACTIVE_STATUS, 1);
         mav.addObject("productDto", productDto);
-        mav.addObject("fullName", fullName);
         controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         return mav;
 

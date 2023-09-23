@@ -31,6 +31,11 @@ public class ControllerUtils {
 
     public void setModelAndViewClient(ModelAndView mav, Integer status) {
         List<CategoryDto> categoryDtos = categoryService.findAllByStatus(status);
+        String fullName = null;
+        if (SecurityUtils.getPrincipal() != null) {
+            fullName = SecurityUtils.getPrincipal().getFullName();
+        }
+        mav.addObject("fullName", fullName);
         mav.addObject("categoryDtos", categoryDtos);
     }
 

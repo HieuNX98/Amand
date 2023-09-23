@@ -48,8 +48,7 @@ public class UserController {
         int totalItem = userService.getTotalItem(SystemConstant.ACTIVE_STATUS, SystemConstant.ROLE_CODE_IMPLOY);
         mav.addObject("totalPage", (int) Math.ceil((double) totalItem / limit));
         mav.addObject("userDtos", userDtos);
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         controllerUtils.setModelAndView(mav);
         return mav;
     }
@@ -71,8 +70,7 @@ public class UserController {
     public ModelAndView listHideAccount(@RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideAdminAccount");
-        mav.addObject("page", page);
-        mav.addObject("limit", limit);
+        controllerUtils.setPageAndLimit(mav, page, limit);
         Pageable pageable = PageRequest.of(page - 1, limit);
         List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(List.of(SystemConstant.ROLE_CODE_IMPLOY,
                 SystemConstant.ROLE_CODE_ADMIN), pageable, SystemConstant.INACTIVE_STATUS);

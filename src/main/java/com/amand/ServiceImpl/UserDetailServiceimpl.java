@@ -38,6 +38,7 @@ public class UserDetailServiceimpl implements UserDetailsService {
         MyUser myUser = new MyUser(userEntity.getUserName(), userEntity.getPassword(), true, true,
                 true, true, authorities);
         myUser.setFullName(userEntity.getFullName());
+        myUser.setUserId(userEntity.getId());
         return myUser;
     }
 
