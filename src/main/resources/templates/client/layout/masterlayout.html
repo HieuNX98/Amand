@@ -34,5 +34,13 @@
 </div>
 <script layout:fragment=js></script>
 <script layout:fragment=pagination></script>
+<script>
+    $("#searchAll").on('keyup', function (e) {
+        if (e.key === 'Enter' || e.keyCode === 13) {
+            let inputValue = $("#searchAll").val();
+            window.location.replace("/tim-kiem-san-pham?productName=" + inputValue);
+        }
+    });
+</script>
 </body>
 </html>

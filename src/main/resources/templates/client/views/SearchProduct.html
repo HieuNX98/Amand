@@ -4,7 +4,7 @@
       layout:decorate="~{client/layout/masterlayout.html}">
 <head>
     <meta charset="UTF-8">
-    <title layout:fragment="title">Danh sách sản phẩm sale</title>
+    <title layout:fragment="title">Danh sách sản phẩm</title>
 </head>
 <body>
 <div class="app" layout:fragment="content">
@@ -37,6 +37,7 @@
                                 <input th:if="${productName != null}"
                                        th:value="${productName}" placeholder="Tên sản phẩm" id="productName" class="content-search" name="productName"/>
                             </div>
+
                             <div class="infor-search-child">
                                 <label for="categoryId" class="title-search">Thể loại</label>
                                 <select id="categoryId" class="content-search" name="categoryId">
@@ -49,6 +50,7 @@
                                     </th:block>
                                 </select>
                             </div>
+
                             <div class="infor-search-child">
                                 <label for="season" class="title-search">Mùa</label>
                                 <select id="season" class="content-search" name="season">
