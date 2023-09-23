@@ -35,7 +35,6 @@ public class ProductController {
     @GetMapping("/danh-sach-san-pham")
     public ModelAndView listProduct(@RequestParam(value = "categoryId", required = false) Integer categoryId,
             @RequestParam(value = "productName", required = false) String productName,
-            @RequestParam(value = "sale_price", required = false) String salePrice,
             @RequestParam(value = "season", required = false) String season,
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "limit", defaultValue = "3") Integer limit) {

@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="DIV">
-                        <p class="text">Kích Thước</p>
+                        <p class="text">Kích thước</p>
                     </div>
                     <div id="radiobut">
                         <th:block th:each="item : ${productDto.sizes}">
@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="product__detail">
-                        <a th:href="@{/thong-tin-san-pham}" class="product__detail-link" >Chi tiết sản phẩm </a>
+                        <a th:href="@{/thong-tin-san-pham(productId=${productDto.id})}" class="product__detail-link" >Chi tiết sản phẩm </a>
                     </div>
                 </div>
             </div>
