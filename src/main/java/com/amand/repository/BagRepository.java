@@ -7,6 +7,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface BagRepository extends JpaRepository<BagEntity, Integer> {
 
-    @Query("SELECT b FROM BagEntity b WHERE b.user.id = :userId")
+    @Query(value = "SELECT b FROM BagEntity b WHERE b.user.id = :userId")
     BagEntity findByUserId(@Param("userId") Integer userId);
+
+    @Query(value = "SELECT count(b) FROM BagEntity b WHERE b.user.id = :id")
+    int countByUserId(@Param("id") Integer userId);
+
 }

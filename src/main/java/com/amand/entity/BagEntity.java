@@ -11,25 +11,13 @@ import java.util.List;
 public class BagEntity extends BaseEntity {
 
     @Column
-    private String size;
+    private Double totalPrice;
 
     @Column
-    private String productName;
+    private Integer amount;
 
-    @Column
-    private String productImage;
-
-    @Column
-    private Double oldPrice;
-
-    @Column
-    private String color;
-
-    @Column
-    private int amount;
-
-    @ManyToMany(mappedBy = "bags")
-    private List<ProductEntity> products ;
+    @OneToMany(mappedBy = "bag")
+    private List<ProductBagEntity> productBags ;
 
     @OneToOne
     @JoinColumn(name = "User_id")

@@ -258,15 +258,34 @@
     text-transform: uppercase;
     font-size: 2rem;
     font-weight: 500;
-}    
+}
+.special__price__oldPrice {
+    position: relative;
+    margin-top: 30px;
+}
+.special__price__oldPrice::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #000; /* Màu và chiều rộng của đường gạch ngang */
+    transform: translateY(-50%);
+}
 .special__price{
     margin-top: 30px;
 }
-.product__item-current{
+.product__item-current-color-black{
     font-size: 3rem;
     color: #242424;
     line-height: 3.8rem;
 }
+.product__item-current-color-red{
+    font-size: 3rem;
+    color: #FF0000;
+    line-height: 3.8rem;
+}
+
 
 #radiobut{
     display: flex;

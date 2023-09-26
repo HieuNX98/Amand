@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProductDto extends BaseDto<ProductDto>{
+public class ProductDto extends BaseDto {
     private String name;
 
     private Double oldPrice;

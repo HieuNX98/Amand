@@ -16,39 +16,49 @@
                         <h3>Giỏ Hàng</h3>
                     </div>
 
-                    <div class="cart__infor">
-                        <img th:src="${bagDto.productImage}" alt="" class="cart__img">
+                    <th:block th:each="item : ${productBagDtos}">
+                        <div class="cart__infor">
+                            <img th:src="${item.productDto.image1}" alt="" class="cart__img">
 
-                        <div class="cart__intro">
-                            <ul class="cart__list cart__list--active ">
-                                <li class="cart__item-icon">
-                                    <span class="icon__heading" th:text="${bagDto.productName}"></span>
-                                    <a href="" class="icon__delete-link">
-                                        <i class="fas icon-delete fa-times"></i>
-                                    </a>
+                            <div class="cart__intro">
+                                <ul class="cart__list cart__list--active ">
+                                    <li class="cart__item-icon">
+                                        <span class="icon__heading" th:text="${item.productDto.name}"></span>
+                                        <a href="" class="icon__delete-link">
+                                            <i class="fas icon-delete fa-times"></i>
+                                        </a>
 
-                                </li>
-                                <li class="cart__item-icon">
-                                    <span class="icon__heading" >Giá sản phẩm </span>
-                                    <span class="icon__heading" th:text="${bagDto.oldPrice}"></span>
-                                </li>
-                                <li class="cart__item-icon">
-                                    <span class="icon__heading" >Size sản phẩm </span>
-                                    <span class="icon__heading" th:text="${bagDto.size}"></span>
-                                </li>
-                                <li class="cart__item-icon">
-                                    <span class="icon__heading" >Màu sản phẩm</span>
-                                    <span class="icon__heading" th:text="${bagDto.color}"></span>
-                                </li>
-                                <li class="cart__item-icon">
-                                    <span class="icon__heading" >Số lượng</span>
-                                    <span class="icon__heading" th:text="${bagDto.amount}"></span>
-                                </li>
-                            </ul>
+                                    </li>
+                                    <th:block th:if="${item.productDto.oldPrice != null}">
+                                        <li class="cart__item-icon">
+                                                <span class="icon__heading">Giá sản phẩm </span>
+                                                <span class="icon__heading" th:text="${item.productDto.oldPrice}"></span>
+                                        </li>
+                                    </th:block>
+
+                                    <th:block th:if="${item.productDto.salePrice != null}">
+                                        <li class="cart__item-icon">
+                                            <span class="icon__heading">Giá sản phẩm </span>
+                                            <span class="icon__heading" th:text="${item.productDto.salePrice}" ></span>
+                                        </li>
+                                    </th:block>
+
+                                    <li class="cart__item-icon">
+                                        <span class="icon__heading" >Size sản phẩm </span>
+                                        <span class="icon__heading" th:text="${item.sizeName}"></span>
+                                    </li>
+                                    <li class="cart__item-icon">
+                                        <span class="icon__heading" >Màu sản phẩm</span>
+                                        <span class="icon__heading" th:text="${item.colorName}"></span>
+                                    </li>
+                                    <li class="cart__item-icon">
+                                        <span class="icon__heading" >Số lượng</span>
+                                        <span class="icon__heading" th:text="${item.amount}"></span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-
-
+                    </th:block>
 
                 </div>
             </div>
@@ -56,25 +66,25 @@
             <div class="col l-6">
                 <div class="infor__pay">
                     <div class="header__cart">
-                        <h3>Thông tin thanh toán  </h3>
+                        <h3>Thông tin đơn hàng </h3>
                     </div>
 
                     <div class="infor__value">
                         <span class="value__text">Giá trị</span>
-                        <span class="infor__current">333.000vnd</span>
+                        <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
                     </div>
 
                     <div class="infor__transport">
                         <span class="transport__text">Vận chuyển</span>
-                        <span class="transport__current">30.000vnd</span>
+                        <span class="transport__current">0vnd</span>
                     </div>
 
                     <div class="infor__total">
                         <span class="total__text">Tổng</span>
-                        <span class="total__current">0</span>
+                        <span class="total__current" th:text="${bagDto.totalPrice}"></span>
                     </div>
 
-                    <button class="btn btn--primary">THANH TOÁN </button>
+                    <button class="btn btn--primary">ĐẶT HÀNG </button>
 
                     <ul class="infor__list">
                         <li class="infor__item">Giao hàng toàn quốc</li>

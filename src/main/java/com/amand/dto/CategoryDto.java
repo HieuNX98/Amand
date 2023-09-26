@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CategoryDto extends BaseDto<CategoryDto>{
+public class CategoryDto extends BaseDto {
     private String name;
 
     private String code;
