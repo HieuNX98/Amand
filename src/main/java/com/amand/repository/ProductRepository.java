@@ -13,6 +13,12 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     @Query(value = "SELECT p.name FROM ProductEntity p WHERE p.name = :name")
     String findOneNameByName(@Param("name") String name);
 
+    @Query(value = "SELECT p FROM ProductEntity p WHERE p.id = :id AND p.status = 1")
+    ProductEntity findOneByIdAndStatus(@Param("id") Integer id);
+
+    @Query(value = "SELECT p FROM ProductEntity p Where p.id = :id")
+    ProductEntity findOneById(@Param("id") Integer id);
+
     @Query(value = "SELECT p.name FROM ProductEntity p WHERE p.id = :id")
     String findOneNameById(@Param("id") Integer id);
 

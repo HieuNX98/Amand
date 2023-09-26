@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Data
-public class ProductForm extends BaseForm<ProductForm> {
+public class ProductForm extends BaseForm {
 
     private Integer categoryId;
 

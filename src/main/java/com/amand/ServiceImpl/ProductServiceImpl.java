@@ -182,10 +182,9 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public ProductDto findOneById(Integer id) {
-        Optional<ProductEntity> productEntity = productRepository.findById(id);
-        if (productEntity.isEmpty()) return null;
-        ProductDto productDto =  productConverter.toDto(productEntity.get());
-        List<ColorEntity> colorEntities = productEntity.get().getColors();
+        ProductEntity productEntity = productRepository.findOneByIdAndStatus(id);
+        ProductDto productDto =  productConverter.toDto(productEntity);
+        List<ColorEntity> colorEntities = productEntity.getColors();
         List<Integer> colorIds = new ArrayList<>();
         for (ColorEntity colorEntity : colorEntities) {
             int colorId = colorEntity.getId();
@@ -193,7 +192,7 @@ public class ProductServiceImpl implements IProductService {
         }
         productDto.setColorIds(colorIds);
 
-        List<SizeEntity> sizeEntities = productEntity.get().getSizes();
+        List<SizeEntity> sizeEntities = productEntity.getSizes();
         List<Integer> sizeIds = new ArrayList<>();
         for (SizeEntity sizeEntity : sizeEntities) {
             int sizeId = sizeEntity.getId();
@@ -201,7 +200,7 @@ public class ProductServiceImpl implements IProductService {
         }
         productDto.setSizeIds(sizeIds);
 
-        CategoryEntity categoryEntity = productEntity.get().getCategory();
+        CategoryEntity categoryEntity = productEntity.getCategory();
         productDto.setCategoryName(categoryEntity.getName());
         productDto.setCategoryId(categoryEntity.getId());
         return productDto;

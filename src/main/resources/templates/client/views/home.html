@@ -5,6 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title layout:fragment="title">Amand</title>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div class="slider" layout:fragment="slider">
@@ -50,73 +55,89 @@
         </div>
     </div>
 
-
-    <div class="row">
-        <div class="col l-9 l-o-2">
-            <div class="product__item-new">
-                <img th:src="${productDto.image1}" alt="" class="product__item-new-img">
-                <div class="product__item-info">
-                    <h3 class="product__item-heading" th:text="${productDto.name}"></h3>
-                    <div class="special__price">
-                        <span class="product__item-current" th:text="${productDto.oldPrice + ' VND'}"></span>
-                    </div>
-
-                    <div class="DIV">
-                        <p class="text">Kích thước</p>
-                    </div>
-                    <div id="radiobut">
-                        <th:block th:each="item : ${productDto.sizes}">
-                            <div class="abc">
-                                <div class="pretty p-icon p-curve p-tada" >
-                                    <input type="radio" name="radio66">
-                                    <div class="state p-primary-o">
-                                        <i class="icon fa fa-check" aria-hidden="true"></i>
-                                        <label th:text="${item}"></label>
-                                    </div>
-                                </div>
+    <form id="formSubmit">
+        <div class="row">
+            <div class="col l-9 l-o-2">
+                <div class="product__item-new">
+                    <img th:src="${productDto.image1}" alt="" class="product__item-new-img">
+                    <div class="product__item-info">
+                        <h3 class="product__item-heading" th:text="${productDto.name}"></h3>
+                        <th:block th:if="${productDto.salePrice == null}">
+                            <div class="special__price">
+                                <span class="product__item-current-" th:text="${productDto.oldPrice + ' VND'}"></span>
                             </div>
                         </th:block>
-                    </div>
 
-                    <div class="DIV">
-                        <p class="text">Màu</p>
-                    </div>
-                    <div id="radiobut">
-                        <th:block th:each="item : ${productDto.colors}">
-                            <div class="abc">
-                                <div class="pretty p-icon p-curve p-tada" >
-                                    <input type="radio" name="radio66">
-                                    <div class="state p-primary-o">
-                                        <i class="icon fa fa-check" aria-hidden="true"></i>
-                                        <label th:text="${item}"></label>
-                                    </div>
-                                </div>
+                        <th:block th:unless="${productDto.salePrice == null}">
+                            <div class="special__price__oldPrice">
+                                <span class="product__item-current-color-red" th:text="${productDto.oldPrice + ' VND'}"></span>
+                            </div>
+                            <div class="special__price">
+                                <span class="product__item-current-color-black" th:text="${productDto.salePrice + ' VND'}"></span>
                             </div>
                         </th:block>
-                    </div>
 
-                    <div class="DIV2">
-                        <p class="text">Số lượng</p>
-                    </div>
-                    <div class="quantity">
-                        <input onclick="var result = document.getElementById('quantity'); var qty = result.value; if( !isNaN(qty) &amp; qty > 1 ) result.value--;return false;" type='button' value='-' />
-                        <input id='quantity' min='1' name='quantity' type='text' value='1' />
-                        <input onclick="var result = document.getElementById('quantity'); var qty = result.value; if( !isNaN(qty)) result.value++;return false;" type='button' value='+' />
-                    </div>
 
-                    <div class="button">
-                        <button class="btn btn--primary">Thêm vào giỏ hàng</button>
-                        <button class="btn btn--primary">Mua ngay</button>
-                    </div>
 
-                    <div class="product__detail">
-                        <a th:href="@{/thong-tin-san-pham(productId=${productDto.id})}" class="product__detail-link" >Chi tiết sản phẩm </a>
+
+                        <div class="DIV">
+                            <p class="text">Kích thước</p>
+                        </div>
+                        <div id="radiobut">
+                            <th:block th:each="item : ${productDto.sizes}">
+                                <div class="abc">
+                                    <div class="pretty p-icon p-curve p-tada" >
+                                        <input type="radio" class="checked" name="sizeName" th:value="${item}">
+                                        <div class="state p-primary-o">
+                                            <i class="icon fa fa-check" aria-hidden="true"></i>
+                                            <label th:text="${item}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+
+                        <div class="DIV">
+                            <p class="text">Màu</p>
+                        </div>
+                        <div id="radiobut">
+                            <th:block th:each="item : ${productDto.colors}">
+                                <div class="abc">
+                                    <div class="pretty p-icon p-curve p-tada" >
+                                        <input type="radio" class="checked" name="colorName" th:value="${item}">
+                                        <div class="state p-primary-o">
+                                            <i class="icon fa fa-check" aria-hidden="true"></i>
+                                            <label th:text="${item}"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
+
+                        <div class="DIV2">
+                            <p class="text">Số lượng</p>
+                        </div>
+                        <div class="quantity">
+                            <input onclick="var result = document.getElementById('quantity'); var qty = result.value; if( !isNaN(qty) &amp; qty > 1 ) result.value--;return false;" type='button' value='-' />
+                            <input id='quantity' min='1' name='amount' type='text' value='1' />
+                            <input onclick="var result = document.getElementById('quantity'); var qty = result.value; if( !isNaN(qty)) result.value++;return false;" type='button' value='+' />
+                        </div>
+
+                        <div class="button">
+                            <button type="button" class="btn btn--primary" id="addBag">Thêm vào giỏ hàng</button>
+                            <button type="button" class="btn btn--primary" id="buy">Mua ngay</button>
+                        </div>
+
+                        <div class="product__detail">
+                            <a th:href="@{/thong-tin-san-pham(productId=${productDto.id})}" class="product__detail-link" >Chi tiết sản phẩm </a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
+    </form>
+
 
     <th:block th:if="${categoryDto2 != null}">
         <div class="row">
@@ -190,5 +211,57 @@
     </th:block>
 
 </div>
+<script layout:fragment="js" th:inline="javascript">
+
+    $('.checked').click(function () {
+        countChecked();
+    });
+
+    let countChecked = function () {
+        let count = $("input[class='checked']:checked").length;
+        if (count < 2) {
+            $('#addBag').prop("disabled", true);
+            $("#addBag").css({ opacity: 0.8 });
+            $("#addBag").css({cursor:"default"});
+            $('#buy').prop("disabled", true);
+            $("#buy").css({ opacity: 0.8 });
+            $("#buy").css({cursor:"default"});
+        } else {
+            $('#addBag').prop("disabled", false);
+            $("#addBag").css({ opacity: 1 });
+            $("#addBag").css({cursor:"pointer"});
+            $('#buy').prop("disabled", false);
+            $("#buy").css({ opacity: 1 });
+            $("#buy").css({cursor:"pointer"});
+        }
+    };
+
+    countChecked();
+
+    $('#addBag').click(function (e) {
+        let data = {};
+        let formData = $('#formSubmit').serializeArray();
+        $.each(formData, function (i, v) {
+           data["" + v.name + ""] = v.value;
+        });
+       let id = [[${productDto.id}]]
+        data["productId"] = id;
+        $.ajax({
+           url: '/api/add-bag',
+           type: 'POST',
+           contentType: 'application/json',
+           data: JSON.stringify(data),
+           dataType: 'json',
+           success : function () {
+               alert("Thêm thành công");
+               window.location.reload();
+           },
+           error : function () {
+               alert("Có lỗi xảy ra");
+               window.location.reload();
+           }
+        });
+    }) ;
+</script>
 </body>
 </html>

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OrderDto extends BaseDto<OrderDto>{
+public class OrderDto extends BaseDto {
     private String codeOrder;
 
     private String fullName;

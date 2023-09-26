@@ -20,7 +20,7 @@ public class ProductEntity extends BaseEntity {
     private Double salePrice;
 
     @Column
-    private int amount;
+    private Integer amount;
 
     @Column
     private String season;
@@ -37,11 +37,8 @@ public class ProductEntity extends BaseEntity {
                 inverseJoinColumns = @JoinColumn(name = "color_id"))
     private List<ColorEntity> colors;
 
-    @ManyToMany
-    @JoinTable(name = "product_bag",
-                joinColumns = @JoinColumn(name = "product_id"),
-                inverseJoinColumns = @JoinColumn(name = "bag_id"))
-    private List<BagEntity> bags;
+    @OneToMany(mappedBy = "product")
+    private List<ProductBagEntity> productBags;
 
     @ManyToMany
     @JoinTable(name = "product_order",

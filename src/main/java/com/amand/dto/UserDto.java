@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserDto extends BaseDto<UserDto>{
+public class UserDto extends BaseDto {
     private String userName;
 
     private String password;

@@ -3,17 +3,15 @@ package com.amand.dto;
 import lombok.Data;
 
 @Data
-public class BagDto extends BaseDto<BagDto> {
-    private String productName;
+public class BagDto extends BaseDto {
 
-    private String size;
+    private String productName;
 
     private Integer amount;
 
-    private String color;
+    private Double totalPrice;
 
-    private String productImage;
+    private Integer userId;
 
-    private Double oldPrice;
 
 }
