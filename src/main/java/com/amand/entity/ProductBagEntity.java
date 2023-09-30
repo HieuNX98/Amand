@@ -17,11 +17,11 @@ public class ProductBagEntity extends BaseEntity {
     @JoinColumn(name = "bag_id")
     private BagEntity bag;
 
-    @Column
-    private String color_name;
+    @Column(name = "color_name")
+    private String colorName;
 
-    @Column
-    private String size_name;
+    @Column(name = "size_name")
+    private String sizeName;
 
     @Column
     private Integer amount;

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("admin")
-public class OrderController {
+public class AdminOrderController {
 
     @Autowired
     private ControllerUtils controllerUtils;

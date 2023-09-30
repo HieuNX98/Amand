@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class PaymentController {
+public class OrderController {
 
     @Autowired
     private ControllerUtils controllerUtils;
