@@ -83,9 +83,20 @@
                             <a href="" class="product__item">
                                 <img th:src="${item.image1}" alt="" class="product__item-img">
                                 <h4 class="product__item-name" th:text="${item.name}"></h4>
-                                <div class="product__item-price">
-                                    <div class="product-item__price-current" th:text="${item.oldPrice}"></div>
-                                </div>
+                                <th:block th:if="${item.salePrice == null}">
+                                    <div class="special__price">
+                                        <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                                    </div>
+                                </th:block>
+
+                                <th:block th:unless="${item.salePrice == null}">
+                                    <div class="special__price__oldPrice">
+                                        <span class="product__item-current-color-red special__price__oldPrice_content" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                                    </div>
+                                    <div class="special__price">
+                                        <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.salePrice)}"></span>
+                                    </div>
+                                </th:block>
                             </a>
                         </div>
                     </th:block>

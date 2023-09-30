@@ -5,11 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <title layout:fragment="title">Amand</title>
-    <style>
-        .msg_error {
-            color: red;
-        }
-    </style>
 </head>
 <body>
 <div class="slider" layout:fragment="slider">
@@ -33,9 +28,21 @@
                     <a th:href="@{/thong-tin-san-pham(productId=${item.id})}" class="product__item">
                         <img th:src="${item.image1}" alt="" class="product__item-img">
                         <h4 class="product__item-name" th:text="${item.name}"></h4>
-                        <div class="product__item-price">
-                            <div class="product-item__price-current" th:text="${item.oldPrice +' VND'}"></div>
-                        </div>
+                        <th:block th:if="${item.salePrice == null}">
+                            <div class="special__price">
+                                <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                            </div>
+                        </th:block>
+
+                        <th:block th:unless="${item.salePrice == null}">
+                            <div class="special__price__oldPrice">
+                                <span class="product__item-current-color-red special__price__oldPrice_content" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                            </div>
+                            <div class="special__price">
+                                <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.salePrice)}"></span>
+                            </div>
+                        </th:block>
+
 
                     </a>
                 </div>
@@ -64,21 +71,18 @@
                         <h3 class="product__item-heading" th:text="${productDto.name}"></h3>
                         <th:block th:if="${productDto.salePrice == null}">
                             <div class="special__price">
-                                <span class="product__item-current-" th:text="${productDto.oldPrice + ' VND'}"></span>
+                                <span class="product__item-current-" th:text="${@getUtils.formatMoney(productDto.oldPrice)}"></span>
                             </div>
                         </th:block>
 
                         <th:block th:unless="${productDto.salePrice == null}">
                             <div class="special__price__oldPrice">
-                                <span class="product__item-current-color-red" th:text="${productDto.oldPrice + ' VND'}"></span>
+                                <span class="product__item-current-color-red special__price__oldPrice_content" th:text="${@getUtils.formatMoney(productDto.oldPrice)}"></span>
                             </div>
                             <div class="special__price">
-                                <span class="product__item-current-color-black" th:text="${productDto.salePrice + ' VND'}"></span>
+                                <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(productDto.salePrice)}"></span>
                             </div>
                         </th:block>
-
-
-
 
                         <div class="DIV">
                             <p class="text">Kích thước</p>
@@ -151,12 +155,23 @@
         <div class="row">
                 <th:block th:each="item : ${categoryDto2.productDtos}">
                     <div class="col l-4 m-4 c-12">
-                        <a th:href="@{/thong-tin-san-pham}" class="product__item">
+                        <a th:href="@{/thong-tin-san-pham(productId=${item.id})}" class="product__item">
                             <img th:src="${item.image1}" alt="" class="product__item-img">
                             <h4 class="product__item-name" th:text="${item.name}"></h4>
-                            <div class="product__item-price">
-                                <div class="product-item__price-current" th:text="${item.oldPrice + ' VND'}"></div>
-                            </div>
+                            <th:block th:if="${item.salePrice == null}">
+                                <div class="special__price">
+                                    <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                                </div>
+                            </th:block>
+
+                            <th:block th:unless="${item.salePrice == null}">
+                                <div class="special__price__oldPrice">
+                                    <span class="product__item-current-color-red special__price__oldPrice_content" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                                </div>
+                                <div class="special__price">
+                                    <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.salePrice)}"></span>
+                                </div>
+                            </th:block>
                         </a>
                     </div>
                 </th:block>
@@ -176,7 +191,7 @@
         <div class="col l-12">
             <div class="introduce">
                 <img src="https://bizweb.dktcdn.net/100/358/122/themes/788488/assets/img_tab_1.jpg?1621838958247" alt="" class="introduce__img">
-                <p class="introduce__text">Ra đời vào những ngày đầu năm 2014 mang tên "AMAND" nằm trên con đường 33 Quán Thánh, Hà Nội - thương hiệu do người Việt phát triển cùng niềm đam mê bất tận với thời trang của "anh bạn trẻ" đầy nhiệt huyết
+                <p class="introduce__text">Ra đời vào những ngày đầu năm 2014 mang tên "AMAND" nằm trên con đường 33 Quán Thánh, Hà Nội - thương hiệu do người Việt phát triển cùng niềm đam mê bất tận với thời trang của "ANH BẠN TRẺ" đầy nhiệt huyết
                 </p>
             </div>
         </div>
@@ -194,12 +209,23 @@
         <div class="row">
             <th:block th:each="item : ${categoryDto3.productDtos}">
                 <div class="col l-4 m-4 c-12">
-                    <a href="" class="product__item">
+                    <a th:href="@{/thong-tin-san-pham(productId=${item.id})}" class="product__item">
                         <img th:src="${item.image1}" alt="" class="product__item-img">
                         <h4 class="product__item-name" th:text="${item.name}"></h4>
-                        <div class="product__item-price">
-                            <div class="product-item__price-current" th:text="${item.oldPrice + ' VND'}"></div>
-                        </div>
+                        <th:block th:if="${item.salePrice == null}">
+                            <div class="special__price">
+                                <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                            </div>
+                        </th:block>
+
+                        <th:block th:unless="${item.salePrice == null}">
+                            <div class="special__price__oldPrice">
+                                <span class="product__item-current-color-red special__price__oldPrice_content" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                            </div>
+                            <div class="special__price">
+                                <span class="product__item-current-color-black" th:text="${@getUtils.formatMoney(item.salePrice)}"></span>
+                            </div>
+                        </th:block>
                     </a>
                 </div>
             </th:block>
