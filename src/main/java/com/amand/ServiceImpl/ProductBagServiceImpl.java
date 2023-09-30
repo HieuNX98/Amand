@@ -32,7 +32,6 @@ public class ProductBagServiceImpl implements IProductBagService {
     @Override
     public List<ProductBagDto> findAllByBagId(Integer bagId) {
         List<ProductBagDto> productBagDtos = new ArrayList<>();
-        List<ProductEntity> productEntities = new ArrayList<>();
         List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagId);
         for (ProductBagEntity productBagEntity : productBagEntities) {
             ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());

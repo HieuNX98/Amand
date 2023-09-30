@@ -28,7 +28,7 @@
                                                 </a>
 
                                             </li>
-                                            <th:block th:if="${item.productDto.oldPrice != null}">
+                                            <th:block th:if="${item.productDto.salePrice == null}">
                                                 <li class="cart__item-icon">
                                                     <span class="icon__heading">Giá sản phẩm </span>
                                                     <span class="icon__heading" th:text="${@getUtils.formatMoney(item.productDto.oldPrice)}"></span>
@@ -38,7 +38,7 @@
                                             <th:block th:if="${item.productDto.salePrice != null}">
                                                 <li class="cart__item-icon">
                                                     <span class="icon__heading">Giá sản phẩm </span>
-                                                    <span class="icon__heading" th:text="${item.productDto.salePrice}" ></span>
+                                                    <span class="icon__heading" th:text="${@getUtils.formatMoney(item.productDto.salePrice)}" ></span>
                                                 </li>
                                             </th:block>
 
@@ -60,16 +60,15 @@
                             </th:block>
                     </div>
                 </div>
-
+            <th:block th:if="${bagDto != null}">
                 <div class="col l-6">
                     <div class="infor__pay">
                         <div class="header__cart">
                             <h3>Thông tin đơn hàng </h3>
                         </div>
-
                         <div class="infor__value">
                             <span class="value__text">Giá trị</span>
-                            <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
+                            <span class="infor__current" th:text="${@getUtils.formatMoney(bagDto.totalPrice)}"></span>
                         </div>
 
                         <div class="infor__transport">
@@ -79,7 +78,7 @@
 
                         <div class="infor__total">
                             <span class="total__text">Tổng</span>
-                            <span class="total__current" th:text="${bagDto.totalPrice}"></span>
+                            <span class="total__current" th:text="${@getUtils.formatMoney(bagDto.totalPrice)}"></span>
                         </div>
                         <button class="btn btn--primary" id="order">ĐẶT HÀNG </button>
                         <ul class="infor__list">
@@ -91,6 +90,7 @@
                         </ul>
                     </div>
                 </div>
+            </th:block>
         </div>
     </div>
 <!--    comment-->

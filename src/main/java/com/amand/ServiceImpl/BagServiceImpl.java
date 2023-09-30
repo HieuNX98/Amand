@@ -42,6 +42,9 @@ public class BagServiceImpl implements IBagService {
     @Override
     public BagDto findByUserId(Integer userId) {
         BagEntity bagEntity = bagRepository.findByUserId(userId);
+        if (bagEntity == null) {
+            return null;
+        }
         return bagConverter.toDto(bagEntity);
     }
 
