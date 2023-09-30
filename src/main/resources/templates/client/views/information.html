@@ -14,9 +14,23 @@
                 <img th:src="${productDto.image1}" alt="" class="product__item-new-img">
                 <div class="product__item-info">
                     <h3 class="product__item-heading" th:text="${productDto.name}"></h3>
-                    <div class="special__price">
-                        <span class="product__item-current" th:text="${productDto.oldPrice}"></span>
-                    </div>
+                    <th:block th:if="${productDto.salePrice == null}">
+                        <div class="special__price">
+                            <span class="product__item-current-color-black"
+                                  th:text="${@getUtils.formatMoney(productDto.oldPrice)}"></span>
+                        </div>
+                    </th:block>
+
+                    <th:block th:unless="${productDto.salePrice == null}">
+                        <div class="special__price__oldPrice">
+                            <span class="product__item-current-color-red special__price__oldPrice_content"
+                                  th:text="${@getUtils.formatMoney(productDto.oldPrice)}"></span>
+                        </div>
+                        <div class="special__price">
+                            <span class="product__item-current-color-black"
+                                  th:text="${@getUtils.formatMoney(productDto.salePrice)}"></span>
+                        </div>
+                    </th:block>
 
                     <div class="DIV">
                         <p class="text">Kích thước</p>
