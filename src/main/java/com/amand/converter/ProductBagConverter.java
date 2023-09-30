@@ -14,8 +14,8 @@ public class ProductBagConverter {
       ProductBagEntity productBag = new ProductBagEntity();
         productBag.setProduct(product);
         productBag.setBag(bag);
-        productBag.setColor_name(bagForm.getColorName());
-        productBag.setSize_name(bagForm.getSizeName());
+        productBag.setColorName(bagForm.getColorName());
+        productBag.setSizeName(bagForm.getSizeName());
         productBag.setAmount(bagForm.getAmount());
       return productBag;
     }
@@ -23,8 +23,8 @@ public class ProductBagConverter {
     public ProductBagDto toDto(ProductBagEntity productBagEntity) {
         ProductBagDto productBagDto = new ProductBagDto();
         productBagDto.setId(productBagEntity.getId());
-        productBagDto.setSizeName(productBagEntity.getSize_name());
-        productBagDto.setColorName(productBagEntity.getColor_name());
+        productBagDto.setSizeName(productBagEntity.getSizeName());
+        productBagDto.setColorName(productBagEntity.getColorName());
         productBagDto.setAmount(productBagEntity.getAmount());
         return productBagDto;
     }

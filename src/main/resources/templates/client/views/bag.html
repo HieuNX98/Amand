@@ -10,95 +10,96 @@
 <div class="cart" layout:fragment="content">
     <div class="grid wide">
         <div class="row">
-            <div class="col l-6">
-                <div class="product__cart">
-                    <div class="header__cart">
-                        <h3>Giỏ Hàng</h3>
-                    </div>
-
-                    <th:block th:each="item : ${productBagDtos}">
-                        <div class="cart__infor">
-                            <img th:src="${item.productDto.image1}" alt="" class="cart__img">
-
-                            <div class="cart__intro">
-                                <ul class="cart__list cart__list--active ">
-                                    <li class="cart__item-icon">
-                                        <span class="icon__heading" th:text="${item.productDto.name}"></span>
-                                        <a href="" class="icon__delete-link">
-                                            <i class="fas icon-delete fa-times"></i>
-                                        </a>
-
-                                    </li>
-                                    <th:block th:if="${item.productDto.oldPrice != null}">
-                                        <li class="cart__item-icon">
-                                                <span class="icon__heading">Giá sản phẩm </span>
-                                                <span class="icon__heading" th:text="${item.productDto.oldPrice}"></span>
-                                        </li>
-                                    </th:block>
-
-                                    <th:block th:if="${item.productDto.salePrice != null}">
-                                        <li class="cart__item-icon">
-                                            <span class="icon__heading">Giá sản phẩm </span>
-                                            <span class="icon__heading" th:text="${item.productDto.salePrice}" ></span>
-                                        </li>
-                                    </th:block>
-
-                                    <li class="cart__item-icon">
-                                        <span class="icon__heading" >Size sản phẩm </span>
-                                        <span class="icon__heading" th:text="${item.sizeName}"></span>
-                                    </li>
-                                    <li class="cart__item-icon">
-                                        <span class="icon__heading" >Màu sản phẩm</span>
-                                        <span class="icon__heading" th:text="${item.colorName}"></span>
-                                    </li>
-                                    <li class="cart__item-icon">
-                                        <span class="icon__heading" >Số lượng</span>
-                                        <span class="icon__heading" th:text="${item.amount}"></span>
-                                    </li>
-                                </ul>
-                            </div>
+                <div class="col l-6">
+                    <div class="product__cart">
+                        <div class="header__cart">
+                            <h3>Giỏ Hàng</h3>
                         </div>
-                    </th:block>
+                            <th:block th:each="item : ${productBagDtos}">
+                                <div class="cart__infor">
+                                    <img th:src="${item.productDto.image1}" alt="" class="cart__img">
 
+                                    <div class="cart__intro">
+                                        <ul class="cart__list cart__list--active ">
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" th:text="${item.productDto.name}"></span>
+                                                <a href="" class="icon__delete-link">
+                                                    <i class="fas icon-delete fa-times"></i>
+                                                </a>
+
+                                            </li>
+                                            <th:block th:if="${item.productDto.oldPrice != null}">
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading">Giá sản phẩm </span>
+                                                    <span class="icon__heading" th:text="${item.productDto.oldPrice}"></span>
+                                                </li>
+                                            </th:block>
+
+                                            <th:block th:if="${item.productDto.salePrice != null}">
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading">Giá sản phẩm </span>
+                                                    <span class="icon__heading" th:text="${item.productDto.salePrice}" ></span>
+                                                </li>
+                                            </th:block>
+
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" >Size sản phẩm </span>
+                                                <span class="icon__heading" th:text="${item.sizeName}"></span>
+                                            </li>
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" >Màu sản phẩm</span>
+                                                <span class="icon__heading" th:text="${item.colorName}"></span>
+                                            </li>
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" >Số lượng</span>
+                                                <span class="icon__heading" th:text="${item.amount}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th:block>
+                    </div>
                 </div>
-            </div>
 
-            <div class="col l-6">
-                <div class="infor__pay">
-                    <div class="header__cart">
-                        <h3>Thông tin đơn hàng </h3>
+                <div class="col l-6">
+                    <div class="infor__pay">
+                        <div class="header__cart">
+                            <h3>Thông tin đơn hàng </h3>
+                        </div>
+
+                        <div class="infor__value">
+                            <span class="value__text">Giá trị</span>
+                            <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
+                        </div>
+
+                        <div class="infor__transport">
+                            <span class="transport__text">Vận chuyển</span>
+                            <span class="transport__current">0vnd</span>
+                        </div>
+
+                        <div class="infor__total">
+                            <span class="total__text">Tổng</span>
+                            <span class="total__current" th:text="${bagDto.totalPrice}"></span>
+                        </div>
+                        <button class="btn btn--primary" id="order">ĐẶT HÀNG </button>
+                        <ul class="infor__list">
+                            <li class="infor__item">Giao hàng toàn quốc</li>
+                            <li class="infor__item">Giao hàng trong 3-5 ngày</li>
+                            <li class="infor__item">Giao hàng tiêu chuẩn đồng giá 30.000</li>
+                            <li class="infor__item">Cách thức thanh toán: COD (nhận hàng rồi thanh toán)</li>
+                            <li class="infor__item">Miễn phí đổi trả sản phẩm trong 7 ngày ( Không áp dụng với sản phẩm có giá ưu đãi</li>
+                        </ul>
                     </div>
-
-                    <div class="infor__value">
-                        <span class="value__text">Giá trị</span>
-                        <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
-                    </div>
-
-                    <div class="infor__transport">
-                        <span class="transport__text">Vận chuyển</span>
-                        <span class="transport__current">0vnd</span>
-                    </div>
-
-                    <div class="infor__total">
-                        <span class="total__text">Tổng</span>
-                        <span class="total__current" th:text="${bagDto.totalPrice}"></span>
-                    </div>
-
-                    <button class="btn btn--primary">ĐẶT HÀNG </button>
-
-                    <ul class="infor__list">
-                        <li class="infor__item">Giao hàng toàn quốc</li>
-                        <li class="infor__item">Giao hàng trong 3-5 ngày</li>
-                        <li class="infor__item">Giao hàng tiêu chuẩn đồng giá 30.000</li>
-                        <li class="infor__item">Cách thức thanh toán: COD (nhận hàng rồi thanh toán)</li>
-                        <li class="infor__item">Miễn phí đổi trả sản phẩm trong 7 ngày ( Không áp dụng với sản phẩm có giá ưu đãi</li>
-                    </ul>
                 </div>
-            </div>
-
         </div>
     </div>
 <!--    comment-->
 </div>
+<script layout:fragment="js" th:inline="javascript">
+    $('#order').click(function (e) {
+       e.preventDefault();
+        window.location.replace("/thanh-toan");
+    });
+</script>
 </body>
 </html>

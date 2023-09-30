@@ -40,11 +40,8 @@ public class ProductEntity extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<ProductBagEntity> productBags;
 
-    @ManyToMany
-    @JoinTable(name = "product_order",
-                joinColumns = @JoinColumn(name = "product_id"),
-                inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<OrderEntity> orders;
+    @OneToMany(mappedBy = "product")
+    private List<ProductOrderEntity> productOrders;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

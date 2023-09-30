@@ -2,10 +2,7 @@ package com.amand.entity;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -13,34 +10,38 @@ import java.util.List;
 @Data
 public class OrderEntity extends BaseEntity {
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<ProductOrderEntity> productOrder;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
     @Column(name = "code_order")
     private String codeOrder;
-
-    @Column(name = "full_name")
-    private String fullName;
-
-    @Column
-    private String address;
-
-    @Column
-    private String phone;
-
-    @Column
-    private int price;
-
-    @Column(name = "total_price")
-    private int totalPrice;
 
     @Column
     private String email;
 
     @Column
-    private String amount;
-
-    @ManyToMany(mappedBy = "orders")
-    private List<ProductEntity> products;
+    private String address;
 
     @Column
-    private Integer status;
+    private String fullName;
+
+    @Column
+    private String phone;
+
+    @Column
+    private String note;
+
+    @Column
+    private Double subtotal;
+
+    @Column
+    private Double transportFee;
+
+    @Column(name = "total_price")
+    private Double totalPrice;
 
 }

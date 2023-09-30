@@ -16,13 +16,15 @@ public class OrderDto extends BaseDto {
 
     private String email;
 
-    private List<String> nameProducts;
-
     private int amount;
 
-    private int price;
+    private Double subtotal;
 
-    private int totalPrice;
+    private Double totalPrice;
+
+    private Double transportFee;
+
+    private String note;
 
 
 }

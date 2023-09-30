@@ -252,11 +252,11 @@
            contentType: 'application/json',
            data: JSON.stringify(data),
            dataType: 'json',
-           success : function () {
+           success : function (result) {
                alert("Thêm thành công");
                window.location.reload();
            },
-           error : function () {
+           error : function (result) {
                alert("Có lỗi xảy ra");
                window.location.reload();
            }

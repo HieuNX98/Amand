@@ -35,122 +35,155 @@
     </div>
     <div class="cart">
         <div class="grid wide">
-            <div class="row">
-                <div class="col l-6">
-                    <div class="infor__pay">
-                        <div class="header__cart">
-                            <h3>Thông tin thanh toán  </h3>
-                        </div>
-                        <div class = "info-payment">
-                            <label class = "info-payment-title">Email</label>
-                            <input class = "info-payment-txt" placeholder="Email" type="text" th:value="${userDto.email}"/>
-                        </div>
-                        <div class = "info-payment">
-                            <label class = "info-payment-title">Họ và tên</label>
-                            <input class = "info-payment-txt" placeholder="Họ và tên" type="text" th:value="${userDto.fullName}"/>
-                        </div>
-                        <div class = "info-payment">
-                            <label class = "info-payment-title">Số điện thoại</label>
-                            <input class = "info-payment-txt" placeholder="Số điện thoại" type="text" th:value="${userDto.phone}"/>
-                        </div>
-                        <div class = "info-payment">
-                            <label class = "info-payment-title">Địa chỉ</label>
-                            <input class = "info-payment-txt" placeholder="Địa chỉ" type="text" th:value="${userDto.address}"/>
-                        </div>
-                        <div class = "info-payment">
-                            <label class = "info-payment-title">Ghi chú</label>
-                            <textarea class = "info-payment-txt" placeholder="Ghi chú (tuỳ chọn)" type="text" value=""></textarea>
-                        </div>
-
-                        <div class="infor__value">
-                            <span class="value__text">Giá Trị</span>
-                            <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
-                        </div>
-
-                        <div class="infor__transport">
-                            <span class="transport__text">vận chuyển</span>
-                            <span class="transport__current">0vnd</span>
-                        </div>
-
-                        <div class="infor__total">
-                            <span class="total__text">Tổng</span>
-                            <span class="total__current" th:text="${bagDto.totalPrice}"></span>
-                        </div>
-
-                        <button class="btn btn--primary">Thanh toán </button>
-
-                        <ul class="infor__list">
-                            <li class="infor__item">Giao hàng toàn quốc</li>
-                            <li class="infor__item">Giao hàng trong 3-5 ngày</li>
-                            <li class="infor__item">Giao hàng tiêu chuẩn đồng giá 30.000</li>
-                            <li class="infor__item">Cách thức thanh toán: COD (nhận hàng rồi thanh toán)</li>
-                            <li class="infor__item">Miễn phí đổi trả sản phẩm trong 7 ngày ( Không áp dụng với sản phẩm có giá ưu đãi</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col l-6">
-                    <div class="product__cart">
-                        <div class="header__cart">
-                            <h3>Danh sách sản phẩm</h3>
-                        </div>
-                        <th:block th:each="item : ${productBagDtos}">
-                            <div class="cart__infor">
-                                <img th:src="${item.productDto.image1}" alt="" class="cart__img">
-
-                                <div class="cart__intro">
-                                    <ul class="cart__list cart__list--active ">
-                                        <li class="cart__item-icon">
-                                            <!-- <div class="cart__bonus"> -->
-                                            <span class="icon__heading">Tên sản phẩm</span>
-                                            <span class="icon__heading" th:text="${item.productDto.name}"></span>
-
-                                            <!-- </div> -->
-                                        </li>
-                                        <th:block th:if="${item.productDto.oldPrice != null}">
-                                            <li class="cart__item-icon">
-                                                <span class="icon__heading">Giá sản phẩm </span>
-                                                <span class="icon__heading" th:text="${item.productDto.oldPrice}"></span>
-                                            </li>
-                                        </th:block>
-
-                                        <th:block th:if="${item.productDto.salePrice != null}">
-                                            <li class="cart__item-icon">
-                                                <span class="icon__heading">Giá sản phẩm </span>
-                                                <span class="icon__heading" th:text="${item.productDto.salePrice}" ></span>
-                                            </li>
-                                        </th:block>
-
-                                        <li class="cart__item-icon">
-                                            <span class="icon__heading" >Size sản phẩm </span>
-                                            <span class="icon__heading" th:text="${item.sizeName}"></span>
-                                        </li>
-
-                                        <li class="cart__item-icon">
-                                            <span class="icon__heading" >Màu sản phẩm</span>
-                                            <span class="icon__heading" th:text="${item.colorName}"></span>
-                                        </li>
-
-                                        <li class="cart__item-icon">
-                                            <span class="icon__heading" >Số lượng</span>
-                                            <span class="icon__heading" th:text="${item.amount}"></span>
-                                        </li>
-                                        <!--<li class="cart__item-price">
-                                            <div class="cart__price">
-                                                <span class="price__text">Chất liệu :Cotton</span>
-                                                <span class="price__current">500.000vnd</span>
-                                            </div>
-
-                                        </li>-->
-                                    </ul>
-                                </div>
+            <form id="formSubmit">
+                <div class="row">
+                    <div class="col l-6">
+                        <div class="infor__pay">
+                            <div class="header__cart">
+                                <h3>Thông tin thanh toán  </h3>
                             </div>
-                        </th:block>
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Email</label>
+                                <input class = "info-payment-txt" placeholder="Email" type="text"
+                                       name="email" th:value="${userDto.email}"/>
+                            </div>
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Họ và tên</label>
+                                <input class = "info-payment-txt" placeholder="Họ và tên" type="text"
+                                       name="fullName" th:value="${userDto.fullName}"/>
+                            </div>
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Số điện thoại</label>
+                                <input class = "info-payment-txt" placeholder="Số điện thoại" type="text"
+                                       name="phone" th:value="${userDto.phone}"/>
+                            </div>
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Địa chỉ</label>
+                                <input class = "info-payment-txt" placeholder="Địa chỉ" type="text"
+                                       name="address" th:value="${userDto.address}"/>
+                            </div>
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Ghi chú</label>
+                                <textarea class = "info-payment-txt" placeholder="Ghi chú (tuỳ chọn)" type="text"
+                                          name="note" value=""></textarea>
+                            </div>
+
+                            <div class="infor__value">
+                                <span class="value__text">Giá Trị</span>
+                                <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
+                            </div>
+
+                            <div class="infor__transport">
+                                <span class="transport__text">vận chuyển</span>
+                                <span class="transport__current">0vnd</span>
+                            </div>
+
+                            <div class="infor__total">
+                                <span class="total__text">Tổng</span>
+                                <span class="total__current" th:text="${bagDto.totalPrice}"></span>
+                            </div>
+
+                            <button class="btn btn--primary" id="payment">Thanh toán </button>
+
+                            <ul class="infor__list">
+                                <li class="infor__item">Giao hàng toàn quốc</li>
+                                <li class="infor__item">Giao hàng trong 3-5 ngày</li>
+                                <li class="infor__item">Giao hàng tiêu chuẩn đồng giá 30.000</li>
+                                <li class="infor__item">Cách thức thanh toán: COD (nhận hàng rồi thanh toán)</li>
+                                <li class="infor__item">Miễn phí đổi trả sản phẩm trong 7 ngày ( Không áp dụng với sản phẩm có giá ưu đãi</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="product__cart">
+                            <div class="header__cart">
+                                <h3>Danh sách sản phẩm</h3>
+                            </div>
+                            <th:block th:each="item : ${productBagDtos}">
+                                <div class="cart__infor">
+                                    <img th:src="${item.productDto.image1}" alt="" class="cart__img">
+
+                                    <div class="cart__intro">
+                                        <ul class="cart__list cart__list--active ">
+                                            <li class="cart__item-icon">
+                                                <!-- <div class="cart__bonus"> -->
+                                                <span class="icon__heading">Tên sản phẩm</span>
+                                                <span class="icon__heading" th:text="${item.productDto.name}"></span>
+
+                                                <!-- </div> -->
+                                            </li>
+                                            <th:block th:if="${item.productDto.oldPrice != null}">
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading">Giá sản phẩm </span>
+                                                    <span class="icon__heading" th:text="${item.productDto.oldPrice}"></span>
+                                                </li>
+                                            </th:block>
+
+                                            <th:block th:if="${item.productDto.salePrice != null}">
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading">Giá sản phẩm </span>
+                                                    <span class="icon__heading" th:text="${item.productDto.salePrice}" ></span>
+                                                </li>
+                                            </th:block>
+
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" >Size sản phẩm </span>
+                                                <span class="icon__heading" th:text="${item.sizeName}"></span>
+                                            </li>
+
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" >Màu sản phẩm</span>
+                                                <span class="icon__heading" th:text="${item.colorName}"></span>
+                                            </li>
+
+                                            <li class="cart__item-icon">
+                                                <span class="icon__heading" >Số lượng</span>
+                                                <span class="icon__heading" th:text="${item.amount}"></span>
+                                            </li>
+                                            <!--<li class="cart__item-price">
+                                                <div class="cart__price">
+                                                    <span class="price__text">Chất liệu :Cotton</span>
+                                                    <span class="price__current">500.000vnd</span>
+                                                </div>
+
+                                            </li>-->
+                                        </ul>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </div>
                     </div>
                 </div>
-
-            </div>
+            </form>
         </div>
     </div>
 </div>
+<script layout:fragment="js" th:inline="javascript">
+    $('#payment').click(function (e) {
+       e.preventDefault();
+       let data = {};
+       let bagId = [[${bagDto.id}]];
+       data["bagId"] = bagId;
+       let formData = $('#formSubmit').serializeArray();
+       $.each(formData, function (i, v) {
+          data ["" + v.name + ""] = v.value;
+       });
+        $.ajax({
+           url: '/api/create-order',
+           type: 'POST',
+           contentType: 'application/json',
+           data: JSON.stringify(data),
+           dataType: 'json',
+           success : function (result) {
+               alert('Oke');
+               window.location.replace('/trang-chu');
+           },
+            error : function (result) {
+               alert('Có lỗi xảy ra');
+               window.location.reload();
+            }
+        });
+    });
+</script>
 </body>
 </html>
