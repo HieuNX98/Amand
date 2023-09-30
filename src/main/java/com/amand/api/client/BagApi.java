@@ -23,6 +23,6 @@ public class BagApi {
         if (bagDto == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(bagDto);
+        return ResponseEntity.ok().build();
     }
 }

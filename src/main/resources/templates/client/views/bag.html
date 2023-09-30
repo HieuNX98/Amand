@@ -31,7 +31,7 @@
                                             <th:block th:if="${item.productDto.oldPrice != null}">
                                                 <li class="cart__item-icon">
                                                     <span class="icon__heading">Giá sản phẩm </span>
-                                                    <span class="icon__heading" th:text="${item.productDto.oldPrice}"></span>
+                                                    <span class="icon__heading" th:text="${@getUtils.formatMoney(item.productDto.oldPrice)}"></span>
                                                 </li>
                                             </th:block>
 
