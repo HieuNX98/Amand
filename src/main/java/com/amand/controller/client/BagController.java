@@ -35,12 +35,15 @@ public class BagController {
     @GetMapping("/gio-hang")
     public ModelAndView bag() {
         ModelAndView mav = new ModelAndView("client/views/bag");
+        controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         int userId = SecurityUtils.getPrincipal().getUserId();
         BagDto bagDto = bagService.findByUserId(userId);
+        if (bagDto == null) {
+            return mav;
+        }
         List<ProductBagDto> productBagDtos = productBagService.findAllByBagId(bagDto.getId());
         mav.addObject("productBagDtos", productBagDtos);
         mav.addObject("bagDto", bagDto);
-        controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         return mav;
     }
 
