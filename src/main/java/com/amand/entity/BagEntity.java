@@ -11,9 +11,6 @@ import java.util.List;
 public class BagEntity extends BaseEntity {
 
     @Column
-    private Double totalPrice;
-
-    @Column
     private Integer amount;
 
     @OneToMany(mappedBy = "bag")

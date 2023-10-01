@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class BagServiceImpl implements IBagService {
 
@@ -45,15 +47,28 @@ public class BagServiceImpl implements IBagService {
         if (bagEntity == null) {
             return null;
         }
-        return bagConverter.toDto(bagEntity);
+        BagDto bagDto = bagConverter.toDto(bagEntity);
+        Double totalPrice = 0.0;
+        List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
+        for (ProductBagEntity productBagEntity : productBagEntities) {
+            ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
+            if (productEntity.getSalePrice() == null) {
+                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
+            } else {
+                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+            }
+            bagDto.setTotalPrice(totalPrice);
+        }
+        return bagDto;
     }
+
 
     @Override
     @Transactional
-    public BagDto addBag(BagForm bagForm) {
+    public Boolean addBag(BagForm bagForm) {
         ProductEntity productEntity = productRepository.findOneByIdAndStatus(bagForm.getProductId());
         if (productEntity == null) {
-            return null;
+            return false;
         }
         int userId = SecurityUtils.getPrincipal().getUserId();
         UserEntity userEntity = userRepository.findOneById(userId);
@@ -61,13 +76,13 @@ public class BagServiceImpl implements IBagService {
         BagEntity bagEntity;
         ProductBagEntity productBagEntity;
         if (totalItem < 1) {
-            bagEntity = bagConverter.toEntity(bagForm, userEntity, productEntity);
+            bagEntity = bagConverter.toEntity(bagForm, userEntity);
             bagEntity = bagRepository.save(bagEntity);
             productBagEntity = productBagConverter.toEntity(productEntity, bagEntity, bagForm);
             productBagRepository.save(productBagEntity);
         } else {
             bagEntity = bagRepository.findByUserId(userId);
-            bagEntity = bagConverter.toEntity(bagEntity, productEntity, bagForm);
+            bagEntity = bagConverter.toEntity(bagEntity, bagForm);
             bagEntity = bagRepository.save(bagEntity);
             ProductBagEntity oldProductBagEntity = productBagRepository.findAllByBagIdAndSizeNameAndColorName(bagEntity.getId(),
                                                                                                               bagForm.getSizeName(),
@@ -80,7 +95,20 @@ public class BagServiceImpl implements IBagService {
                     productBagRepository.save(productBagEntity);
                 }
         }
-        return bagConverter.toDto(bagEntity);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer id) {
+        ProductBagEntity productBag = productBagRepository.findOneById(id);
+        BagEntity bagEntity = bagRepository.findOneById(productBag.getBag().getId());
+        bagEntity = bagConverter.toEntity(productBag, bagEntity);
+        bagRepository.save(bagEntity);
+        if (bagEntity.getAmount() == 0) {
+            bagRepository.deleteById(bagEntity.getId());
+        }
+        productBagRepository.deleteById(id);
     }
 
 }

@@ -4,15 +4,9 @@ import com.amand.constant.SystemConstant;
 import com.amand.converter.OrderConverter;
 import com.amand.converter.ProductOrderConverter;
 import com.amand.dto.OrderDto;
-import com.amand.entity.BagEntity;
-import com.amand.entity.OrderEntity;
-import com.amand.entity.ProductBagEntity;
-import com.amand.entity.ProductOrderEntity;
+import com.amand.entity.*;
 import com.amand.form.OrderForm;
-import com.amand.repository.BagRepository;
-import com.amand.repository.OrderRepository;
-import com.amand.repository.ProductBagRepository;
-import com.amand.repository.ProductOrderRepository;
+import com.amand.repository.*;
 import com.amand.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +21,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private BagRepository bagRepository;
@@ -49,15 +46,23 @@ public class OrderServiceImpl implements IOrderService {
         OrderEntity orderEntity;
         ProductOrderEntity productOrderEntity;
         List<ProductOrderEntity> productOrderEntities = new ArrayList<>();
+        Double totalPrice = 0.0;
         BagEntity bagEntity = bagRepository.findOneById(orderForm.getBagId());
         orderEntity = orderConverter.toEntity(bagEntity, orderForm);
-        orderEntity.setCodeOrder(generateRandomCodeOrder());
-        orderEntity = orderRepository.save(orderEntity);
         List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
         for (ProductBagEntity productBagEntity : productBagEntities) {
+            ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
+            if (productEntity.getSalePrice() == null) {
+                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
+            } else {
+                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+            }
             productOrderEntity = productOrderConverter.toEntity(productBagEntity, orderEntity);
             productOrderEntities.add(productOrderEntity);
         }
+        orderEntity.setTotalPrice(totalPrice);
+        orderEntity.setCodeOrder(generateRandomCodeOrder());
+        orderEntity = orderRepository.save(orderEntity);
         productOrderRepository.saveAll(productOrderEntities);
         productBagRepository.deleteAllByBagId(bagEntity.getId());
         bagRepository.deleteById(bagEntity.getId());
