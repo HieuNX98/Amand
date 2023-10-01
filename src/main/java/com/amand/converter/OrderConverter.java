@@ -16,8 +16,6 @@ public class OrderConverter {
         orderEntity.setEmail(orderForm.getEmail());
         orderEntity.setNote(orderForm.getNote());
         orderEntity.setPhone(orderForm.getPhone());
-        orderEntity.setSubtotal(bagEntity.getTotalPrice());
-        orderEntity.setTotalPrice(bagEntity.getTotalPrice());
         return orderEntity;
     }
 

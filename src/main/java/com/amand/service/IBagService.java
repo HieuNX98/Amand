@@ -6,5 +6,7 @@ import com.amand.form.BagForm;
 public interface IBagService {
     BagDto findByUserId(Integer userId);
 
-    BagDto addBag(BagForm bagForm);
+    Boolean addBag(BagForm bagForm);
+
+    void delete(Integer id);
 }
