@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="../assets/font/fontawesome-free-5.15.3-web/fontawesome-free-5.15.3-web/css/all.min.css">
+
+</head>
+<body>
+<div class='wrapper'>
+    <div class='content'>
+        <header class='content-header'>
+            <i class="fas fa-check-circle header-icon header-icon-success"></i>
+            <h2 class='header-title header-title-success'>Giao dịch thành công</h2>
+            <span>Amand cảm ơn quý khách đã tin tưởng và lựa chọn dịch vụ của chúng tôi</span>
+            <hr></hr>
+        </header>
+        <div class='payment-info'>
+
+            <p class='payment-info-title'>Thông tin giao dich</p>
+            <div class='payment-info-row'>
+                <span class='payment-info-row-title'>Mã giao dịch</span>
+                <span class='payment-info-row-valuw'>
+                            paymentResponse.vnpTxnRef
+                        </span>
+            </div>
+            <div class='payment-info-row'>
+                <span class='payment-info-row-title'>Số tiền thanh toán</span>
+                <span class='payment-info-row-valuw'>
+                            paymentResponse.vnpAmount
+                        </span>
+            </div>
+
+            <div class='payment-info-row'>
+                <span class='payment-info-row-title'>Đơn vị tiền tệ</span>
+                <span class='payment-info-row-valuw'>VND</span>
+            </div>
+
+            <div class='payment-info-row'>
+                <span class='payment-info-row-title'>Ngân hàng</span>
+                <span class='payment-info-row-valuw'>
+                            paymentResponse.vnpBankCode
+                        </span>
+            </div>
+
+            <div class='payment-info-row'>
+                <span class='payment-info-row-title'>Thông tin giao dịch</span>
+                <span class='payment-info-row-valuw'>
+                            paymentResponse.vnpOrderInfo
+                        </span>
+            </div>
+
+            <div class='payment-info-row'>
+                <span class='payment-info-row-title'>Ngày khám bệnh</span>
+                <span class='payment-info-row-valuw'>
+                            paymentResponse.medicalExaminationSchedule.date
+                        </span>
+            </div>
+        </div>
+        <div class='payment-redirect'>
+            <a href="/home" class='payment-btn'>
+                Trở về trang chủ
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

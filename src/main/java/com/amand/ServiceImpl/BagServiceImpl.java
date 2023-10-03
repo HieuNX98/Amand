@@ -111,4 +111,22 @@ public class BagServiceImpl implements IBagService {
         productBagRepository.deleteById(id);
     }
 
+    @Override
+    public BagDto findOneById(Integer id) {
+        BagEntity bagEntity = bagRepository.findOneById(id);
+        BagDto bagDto = bagConverter.toDto(bagEntity);
+        Double totalPrice = 0.0;
+        List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
+        for (ProductBagEntity productBagEntity : productBagEntities) {
+            ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
+            if (productEntity.getSalePrice() == null) {
+                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
+            } else {
+                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+            }
+            bagDto.setTotalPrice(totalPrice);
+        }
+        return bagDto;
+    }
+
 }

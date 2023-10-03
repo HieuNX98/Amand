@@ -168,19 +168,33 @@
        $.each(formData, function (i, v) {
           data ["" + v.name + ""] = v.value;
        });
+        // $.ajax({
+        //    url: '/api/create-order',
+        //    type: 'POST',
+        //    contentType: 'application/json',
+        //    data: JSON.stringify(data),
+        //    dataType: 'json',
+        //    success : function (result) {
+        //        alert('Oke');
+        //        window.location.replace('/trang-chu');
+        //    },
+        //     error : function (result) {
+        //        alert('Có lỗi xảy ra');
+        //        window.location.reload();
+        //     }
+        // });
         $.ajax({
-           url: '/api/create-order',
-           type: 'POST',
-           contentType: 'application/json',
-           data: JSON.stringify(data),
-           dataType: 'json',
-           success : function (result) {
-               alert('Oke');
-               window.location.replace('/trang-chu');
-           },
+            url: '/api/create-payment-url',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success : function (result) {
+                console.log(result)
+                window.location.href = result;
+            },
             error : function (result) {
-               alert('Có lỗi xảy ra');
-               window.location.reload();
+                alert('Có lỗi xảy ra');
+                window.location.reload();
             }
         });
     });
