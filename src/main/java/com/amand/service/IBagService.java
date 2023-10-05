@@ -8,5 +8,7 @@ public interface IBagService {
 
     Boolean addBag(BagForm bagForm);
 
-    void delete(Integer id);
+    void deleteByProductBagId(Integer id);
+
+    BagDto findOneById(Integer id);
 }

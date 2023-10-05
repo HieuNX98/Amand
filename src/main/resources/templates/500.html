@@ -22,8 +22,9 @@
             <img class="img-error" th:src="@{/admin/assets/images/samples/error-500.png}" alt="Not Found">
             <div class="text-center">
                 <h1 class="error-title">LỖI</h1>
-                <p class="fs-5 text-gray-600">Trang web hiện không có sẵn. Hãy thử lại sau hoặc liên hệ với
+                <p th:if="${messageError == null && messageError == ''}" class="fs-5 text-gray-600">Trang web hiện không có sẵn. Hãy thử lại sau hoặc liên hệ với
                     nhà phát triển.</p>
+                <p th:if="${messageError != null && messageError != ''}" class="fs-5 text-gray-600" th:text="${messageError}"></p>
                 <a href="/trang-chu" class="btn btn-lg btn-outline-primary mt-3">Quay lại</a>
             </div>
         </div>

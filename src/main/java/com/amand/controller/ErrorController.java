@@ -23,7 +23,9 @@ public class ErrorController {
     }
 
     @GetMapping("/500")
-    public ModelAndView statusError() {
-        return new ModelAndView("500");
+    public ModelAndView statusError(Model model) {
+        ModelAndView mav = new ModelAndView("500");
+        mav.addObject("messageError", model.getAttribute("messageError"));
+        return mav;
     }
 }

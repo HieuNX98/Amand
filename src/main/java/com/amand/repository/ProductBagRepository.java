@@ -18,14 +18,14 @@ public interface ProductBagRepository extends JpaRepository<ProductBagEntity, In
     @Query(value = "SELECT p FROM ProductBagEntity p WHERE p.bag.id = :id")
     List<ProductBagEntity> findAllByBagId(@Param("id") Integer id);
 
-    /*@Query(value = "DELETE FROM ProductBagEntity p WHERE p.bag.id = :bagId")
-    @Modifying
-    void deleteAllByBagId(@Param("bagId") Integer bagId);*/
-
-    @Query(value = "DELETE FROM product_bag WHERE bag_id = :bagId", nativeQuery = true)
+    @Query(value = "DELETE FROM ProductBagEntity p WHERE p.bag.id = :bagId")
     @Modifying
     void deleteAllByBagId(@Param("bagId") Integer bagId);
 
+    /*@Query(value = "DELETE FROM product_bag WHERE bag_id = :bagId", nativeQuery = true)
+    @Modifying
+    void deleteAllByBagId(@Param("bagId") Integer bagId);
+*/
     @Query(value = "SELECT p FROM ProductBagEntity p WHERE p.id = :id")
     ProductBagEntity findOneById(@Param("id") Integer id);
 

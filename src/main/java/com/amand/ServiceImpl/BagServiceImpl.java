@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BagServiceImpl implements IBagService {
@@ -48,7 +49,7 @@ public class BagServiceImpl implements IBagService {
             return null;
         }
         BagDto bagDto = bagConverter.toDto(bagEntity);
-        Double totalPrice = 0.0;
+        double totalPrice = 0.0;
         List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
         for (ProductBagEntity productBagEntity : productBagEntities) {
             ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
@@ -70,7 +71,7 @@ public class BagServiceImpl implements IBagService {
         if (productEntity == null) {
             return false;
         }
-        int userId = SecurityUtils.getPrincipal().getUserId();
+        int userId = Objects.requireNonNull(SecurityUtils.getPrincipal()).getUserId();
         UserEntity userEntity = userRepository.findOneById(userId);
         int totalItem = bagRepository.countByUserId(userId);
         BagEntity bagEntity;
@@ -100,7 +101,7 @@ public class BagServiceImpl implements IBagService {
 
     @Override
     @Transactional
-    public void delete(Integer id) {
+    public void deleteByProductBagId(Integer id) {
         ProductBagEntity productBag = productBagRepository.findOneById(id);
         BagEntity bagEntity = bagRepository.findOneById(productBag.getBag().getId());
         bagEntity = bagConverter.toEntity(productBag, bagEntity);
@@ -109,6 +110,27 @@ public class BagServiceImpl implements IBagService {
             bagRepository.deleteById(bagEntity.getId());
         }
         productBagRepository.deleteById(id);
+    }
+
+    @Override
+    public BagDto findOneById(Integer id) {
+        BagEntity bagEntity = bagRepository.findOneById(id);
+        if (bagEntity == null) {
+            return null;
+        }
+        BagDto bagDto = bagConverter.toDto(bagEntity);
+        double totalPrice = 0.0;
+        List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
+        for (ProductBagEntity productBagEntity : productBagEntities) {
+            ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
+            if (productEntity.getSalePrice() == null) {
+                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
+            } else {
+                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+            }
+            bagDto.setTotalPrice(totalPrice);
+        }
+        return bagDto;
     }
 
 }

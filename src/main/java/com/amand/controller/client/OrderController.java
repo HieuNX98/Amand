@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -40,7 +41,7 @@ public class OrderController {
         mav.addObject("userDto", userDto);
         BagDto bagDto = bagService.findByUserId(userId);
         mav.addObject("bagDto", bagDto);
-        List<ProductBagDto> productBagDtos = productBagService.findAllByBagId(bagDto.getId());
+        List<ProductBagDto> productBagDtos = bagDto != null ? productBagService.findAllByBagId(bagDto.getId()) : Collections.emptyList();
         mav.addObject("productBagDtos", productBagDtos);
         controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         return mav;
