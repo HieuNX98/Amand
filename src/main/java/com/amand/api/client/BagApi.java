@@ -28,7 +28,7 @@ public class BagApi {
 
     @DeleteMapping("/delete-product-in-the-bag")
     public ResponseEntity<?> deleteProductInTheBag(@RequestBody Integer id) {
-        bagService.delete(id);
+        bagService.deleteByProductBagId(id);
         return ResponseEntity.ok().build();
     }
 }

@@ -44,4 +44,7 @@ public class OrderEntity extends BaseEntity {
     @Column(name = "total_price")
     private Double totalPrice;
 
+    @OneToOne(mappedBy = "order")
+    private PayEntity pay;
+
 }

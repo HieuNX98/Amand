@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <title layout:fragment="title">Thanh toán</title>
     <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
+    <style>
         .info-payment{
             display: flex;
             flex-direction: column;
@@ -38,7 +43,7 @@
             <form id="formSubmit">
                 <div class="row">
                     <div class="col l-6">
-                        <div class="infor__pay">
+                        <div class="infor__pay" >
                             <div class="header__cart">
                                 <h3>Thông tin thanh toán  </h3>
                             </div>
@@ -47,41 +52,50 @@
                                 <input class = "info-payment-txt" placeholder="Email" type="text"
                                        name="email" th:value="${userDto.email}"/>
                             </div>
+                            <p class="msg_error" id="msgEmail"></p>
+
                             <div class = "info-payment">
                                 <label class = "info-payment-title">Họ và tên</label>
                                 <input class = "info-payment-txt" placeholder="Họ và tên" type="text"
                                        name="fullName" th:value="${userDto.fullName}"/>
                             </div>
+                            <p class="msg_error" id="msgFullName"></p>
+
                             <div class = "info-payment">
                                 <label class = "info-payment-title">Số điện thoại</label>
                                 <input class = "info-payment-txt" placeholder="Số điện thoại" type="text"
                                        name="phone" th:value="${userDto.phone}"/>
                             </div>
+                            <p class="msg_error" id="msgPhone"></p>
+
                             <div class = "info-payment">
                                 <label class = "info-payment-title">Địa chỉ</label>
                                 <input class = "info-payment-txt" placeholder="Địa chỉ" type="text"
                                        name="address" th:value="${userDto.address}"/>
                             </div>
+                            <p class="msg_error" id="msgAddress"></p>
+
                             <div class = "info-payment">
                                 <label class = "info-payment-title">Ghi chú</label>
                                 <textarea class = "info-payment-txt" placeholder="Ghi chú (tuỳ chọn)" type="text"
                                           name="note" value=""></textarea>
                             </div>
+                            <th:block th:if="${bagDto != null}">
+                                <div class="infor__value">
+                                    <span class="value__text">Giá Trị</span>
+                                    <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
+                                </div>
 
-                            <div class="infor__value">
-                                <span class="value__text">Giá Trị</span>
-                                <span class="infor__current" th:text="${bagDto.totalPrice}"></span>
-                            </div>
+                                <div class="infor__transport">
+                                    <span class="transport__text">vận chuyển</span>
+                                    <span class="transport__current">0vnd</span>
+                                </div>
 
-                            <div class="infor__transport">
-                                <span class="transport__text">vận chuyển</span>
-                                <span class="transport__current">0vnd</span>
-                            </div>
-
-                            <div class="infor__total">
-                                <span class="total__text">Tổng</span>
-                                <span class="total__current" th:text="${bagDto.totalPrice}"></span>
-                            </div>
+                                <div class="infor__total">
+                                    <span class="total__text">Tổng</span>
+                                    <span class="total__current" th:text="${bagDto.totalPrice}"></span>
+                                </div>
+                            </th:block>
 
                             <button class="btn btn--primary" id="payment">Thanh toán </button>
 
@@ -161,43 +175,57 @@
 <script layout:fragment="js" th:inline="javascript">
     $('#payment').click(function (e) {
        e.preventDefault();
+        let bagId = [[${bagDto != null ? bagDto.id : 0}]];
        let data = {};
-       let bagId = [[${bagDto.id}]];
-       data["bagId"] = bagId;
        let formData = $('#formSubmit').serializeArray();
        $.each(formData, function (i, v) {
-          data ["" + v.name + ""] = v.value;
+           data["" + v.name + ""] = v.value;
        });
-        // $.ajax({
-        //    url: '/api/create-order',
-        //    type: 'POST',
-        //    contentType: 'application/json',
-        //    data: JSON.stringify(data),
-        //    dataType: 'json',
-        //    success : function (result) {
-        //        alert('Oke');
-        //        window.location.replace('/trang-chu');
-        //    },
-        //     error : function (result) {
-        //        alert('Có lỗi xảy ra');
-        //        window.location.reload();
-        //     }
-        // });
+
+       data["bagId"] = bagId;
         $.ajax({
-            url: '/api/create-payment-url',
-            type: 'POST',
+           url: '/api/create-payment-url',
+           type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success : function (result) {
-                console.log(result)
-                window.location.href = result;
+                if (result.status === 0) {
+                    showMessageError(result);
+                } else {
+                    result.results.forEach(function (listItem){
+                        window.location.href = listItem;
+                    });
+                }
             },
             error : function (result) {
-                alert('Có lỗi xảy ra');
-                window.location.reload();
+                alert("Có lỗi xảy ra");
+                window.location.replace("/trang-chu");
             }
         });
-    });
+        });
+
+    function showMessageError(result) {
+        $('.msg_error').hide();
+        if (result.error["email"]) {
+            $('#msgEmail').html(result.error["email"]);
+            $('#msgEmail').show();
+        }
+        if (result.error["fullName"]) {
+            $('#msgFullName').html(result.error["fullName"]);
+            $('#msgFullName').show();
+        }
+        if (result.error["phone"]) {
+            $('#msgPhone').html(result.error["phone"]);
+            $('#msgPhone').show();
+        }
+        if (result.error["address"]) {
+            $('#msgAddress').html(result.error["address"]);
+            $('#msgAddress').show();
+        }
+        $('html, body').animate({scrollTop: $(".cart").offset().top}, 800);
+    };
+
+
 </script>
 </body>
 </html>

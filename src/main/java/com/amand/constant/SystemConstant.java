@@ -18,7 +18,15 @@ public class SystemConstant {
 
     public static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
+    public static final String vnp_Version = "2.1.0";
+
+    public static final String vnp_Command = "pay";
+
+    public static final String vnp_OrderInfo = "Thanh toán đơn hàng";
+
     public static final String vnp_TmnCode = "8H5455DZ";
+
+    public static final String vnp_Locale = "vn";
 
     public static final String vnp_Returnurl = "http://localhost:8080/payment-response";
 
@@ -26,9 +34,4 @@ public class SystemConstant {
 
     public static final String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 
-    public static final String vnp_Locale = "vn";
-
-    public static final String vnp_Command = "pay";
-
-    public static final String vnp_Version = "2.1.0";
 }

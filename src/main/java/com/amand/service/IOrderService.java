@@ -1,8 +1,13 @@
 package com.amand.service;
 
-import com.amand.dto.OrderDto;
+import com.amand.entity.OrderEntity;
 import com.amand.form.OrderForm;
+import org.springframework.validation.BindingResult;
+
+import java.util.Map;
 
 public interface IOrderService {
-    OrderDto save (OrderForm orderForm);
+    OrderEntity save (OrderForm orderForm);
+
+    Map<String, String> validatePay(BindingResult result);
 }

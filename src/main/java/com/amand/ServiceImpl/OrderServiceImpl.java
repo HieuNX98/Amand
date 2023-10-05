@@ -8,13 +8,19 @@ import com.amand.entity.*;
 import com.amand.form.OrderForm;
 import com.amand.repository.*;
 import com.amand.service.IOrderService;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -42,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     @Transactional
-    public OrderDto save(OrderForm orderForm) {
+    public OrderEntity save(OrderForm orderForm) {
         OrderEntity orderEntity;
         ProductOrderEntity productOrderEntity;
         List<ProductOrderEntity> productOrderEntities = new ArrayList<>();
@@ -66,7 +72,25 @@ public class OrderServiceImpl implements IOrderService {
         productOrderRepository.saveAll(productOrderEntities);
         productBagRepository.deleteAllByBagId(bagEntity.getId());
         bagRepository.deleteById(bagEntity.getId());
-        return orderConverter.toDto(orderEntity);
+        return orderEntity;
+    }
+
+    @Override
+    public Map<String, String> validatePay(BindingResult result) {
+        Map<String, String> responseMsg = new HashMap<>();
+        if (result.hasErrors()) {
+            List<FieldError> errors = result.getFieldErrors();
+            for (FieldError error : errors) {
+                if (responseMsg.containsKey(error.getField())) {
+                   String msg = error.getDefaultMessage() + "," + responseMsg.get(error.getField());
+                   responseMsg.put(error.getField(), msg);
+                } else {
+                    responseMsg.put(error.getField(), error.getDefaultMessage());
+                }
+
+            }
+        }
+        return responseMsg;
     }
 
 

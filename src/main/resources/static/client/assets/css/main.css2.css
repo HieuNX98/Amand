@@ -1,0 +1,86 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+}
+
+.content {
+
+    box-shadow: 0 0.1rem 2rem 0.5rem rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.content-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-header hr {
+    margin: 10px 0;
+}
+
+.content-header * {
+    text-align: center;
+}
+
+.header-icon {
+    font-size: 3.0rem;
+}
+
+.header-icon-success {
+    color: rgb(22 163 74);
+}
+
+.header-icon-error {
+    color: red;
+}
+
+.header-title {
+    font-size: 2rem;
+}
+
+.header-title-success {
+    color: rgb(22 163 74);
+}
+
+.header-title-error {
+    color: red;
+}
+
+.payment-info-title {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.payment-info-row {
+    padding: 8px 0;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.payment-redirect {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.payment-btn {
+    margin-top: 6px;
+    background-color: rgb(22, 163, 74);
+    padding: 8px 10px;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.payment-btn:hover {
+    opacity: 0.8;
+}
