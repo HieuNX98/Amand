@@ -32,55 +32,108 @@
                         </div>
                     </th:block>
 
-                    <div class="DIV">
-                        <p class="text">Kích thước</p>
-                    </div>
-                    <div id="radiobut">
-                        <div class="abc">
-                            <th:block th:each="item : ${productDto.sizes}">
-                                <div class="pretty p-icon p-curve p-tada" >
-                                    <input type="radio" name="sizeIds"/>
-                                    <div class="state p-primary-o">
-                                        <i class="icon fa fa-check" aria-hidden="true"></i>
-                                        <label th:text="${item}"></label>
-                                    </div>
-                                </div>
-                            </th:block>
+                    <form id="formSubmit">
+                        <div class="DIV">
+                            <p class="text">Kích thước</p>
                         </div>
-                    </div>
-
-                    <div class="DIV">
-                        <p class="text">Màu</p>
-                    </div>
-                    <div id="radiobut">
-                        <div class="abc">
-                            <th:block th:each="item : ${productDto.colors}">
-                                <div class="pretty p-icon p-curve p-tada" >
-                                    <input type="radio" name="colorIds"/>
-                                    <div class="state p-primary-o">
-                                        <i class="icon fa fa-check" aria-hidden="true"></i>
-                                        <label th:text="${item}"></label>
+                        <div id="radiobut">
+                            <div class="abc">
+                                <th:block th:each="item : ${productDto.sizes}">
+                                    <div class="pretty p-icon p-curve p-tada" >
+                                        <input type="radio" class="checked" name="sizeName" th:value="${item}"/>
+                                        <div class="state p-primary-o">
+                                            <i class="icon fa fa-check" aria-hidden="true"></i>
+                                            <label th:text="${item}"></label>
+                                        </div>
                                     </div>
-                                </div>
-                            </th:block>
+                                </th:block>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="DIV">
-                        <p class="text">Số Lượng</p>
-                    </div>
-                    <div class="quantity">
-                        <input class="product__color-text" type="number" step="1" id="amount" min="1" name="amount" value="1"/>
-                    </div>
+                        <div class="DIV">
+                            <p class="text">Màu</p>
+                        </div>
+                        <div id="radiobut">
+                            <div class="abc">
+                                <th:block th:each="item : ${productDto.colors}">
+                                    <div class="pretty p-icon p-curve p-tada" >
+                                        <input type="radio" class="checked" name="colorName" th:value="${item}"/>
+                                        <div class="state p-primary-o">
+                                            <i class="icon fa fa-check" aria-hidden="true"></i>
+                                            <label th:text="${item}"></label>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+
+                        <div class="DIV">
+                            <p class="text">Số Lượng</p>
+                        </div>
+                        <div class="quantity">
+                            <input class="product__color-text" type="number" step="1" id="amount" min="1" name="amount" value="1"/>
+                        </div>
+                    </form>
 
                     <div class="button">
-                        <button class="btn btn--primary">Thêm vào giỏ hàng</button>
-                        <button class="btn btn--primary">Mua ngay</button>
+                        <button class="btn btn--primary" id="addBag">Thêm vào giỏ hàng</button>
+                        <button class="btn btn--primary" id="buy">Mua ngay</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script layout:fragment="js" th:inline="javascript">
+
+    $('#addBag').click(function (e) {
+        e.preventDefault();
+        let data = {};
+        let formData = $('#formSubmit').serializeArray();
+        $.each(formData, function (i, v) {
+            data["" + v.name + ""] = v.value;
+        });
+        let id = [[${productDto.id}]];
+        data["productId"] = id;
+        $.ajax({
+           url: '/api/add-bag',
+           type: 'POST',
+           contentType: 'application/json',
+           data: JSON.stringify(data),
+           success : function (result) {
+                alert("Thêm thành công");
+                window.location.reload();
+           },
+           error : function (result) {
+               alert("Có lỗi xảy ra");
+               window.location.replace('/trang-chu');
+           }
+        });
+    });
+
+    $('.checked').click(function () {
+        countChecked();
+    });
+
+    let countChecked = function () {
+        let count = $("input[class='checked']:checked").length;
+        if (count < 2) {
+            $('#addBag').prop("disabled", true);
+            $('#addBag').css({ opacity: 0.8 });
+            $('#addBag').css({cursor:"default"});
+            $('#buy').prop("disabled", true);
+            $('#buy').css({ opacity: 0.8 });
+            $('#buy').css({cursor:"default"});
+        } else {
+            $('#addBag').prop("disabled", false);
+            $('#addBag').css({ opacity: 1 });
+            $('#addBag').css({cursor:"pointer"});
+            $('#buy').prop("disabled", false);
+            $('#buy').css({ opacity: 1 });
+            $('#buy').css({cursor:"pointer"});
+        }
+    };
+        countChecked();
+</script>
 </body>
 </html>
