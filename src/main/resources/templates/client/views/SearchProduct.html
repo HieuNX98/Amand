@@ -80,7 +80,7 @@
                 <div class="row">
                     <th:block th:each="item : ${productDtos}">
                         <div class="col l-4 m-6 c-12">
-                            <a href="" class="product__item">
+                            <a th:href="@{/thong-tin-san-pham(productId=${item.id})}" class="product__item">
                                 <img th:src="${item.image1}" alt="" class="product__item-img">
                                 <h4 class="product__item-name" th:text="${item.name}"></h4>
                                 <th:block th:if="${item.salePrice == null}">
