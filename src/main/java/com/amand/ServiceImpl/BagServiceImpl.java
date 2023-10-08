@@ -1,6 +1,7 @@
 package com.amand.ServiceImpl;
 
 import com.amand.Utils.SecurityUtils;
+import com.amand.constant.SystemConstant;
 import com.amand.converter.BagConverter;
 import com.amand.converter.ProductBagConverter;
 import com.amand.dto.BagDto;
@@ -49,16 +50,17 @@ public class BagServiceImpl implements IBagService {
             return null;
         }
         BagDto bagDto = bagConverter.toDto(bagEntity);
-        double totalPrice = 0.0;
+        double subtotal = 0.0;
         List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
         for (ProductBagEntity productBagEntity : productBagEntities) {
             ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
             if (productEntity.getSalePrice() == null) {
-                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
+                subtotal += productEntity.getOldPrice() * productBagEntity.getAmount();
             } else {
-                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+                subtotal += productEntity.getSalePrice() * productBagEntity.getAmount();
             }
-            bagDto.setTotalPrice(totalPrice);
+            bagDto.setSubtotal(subtotal);
+            bagDto.setTotalPrice(subtotal + SystemConstant.TRANSPORT_FEE);
         }
         return bagDto;
     }
@@ -119,16 +121,17 @@ public class BagServiceImpl implements IBagService {
             return null;
         }
         BagDto bagDto = bagConverter.toDto(bagEntity);
-        double totalPrice = 0.0;
+        double subtotal = 0.0;
         List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
         for (ProductBagEntity productBagEntity : productBagEntities) {
             ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
             if (productEntity.getSalePrice() == null) {
-                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
+                subtotal += productEntity.getOldPrice() * productBagEntity.getAmount();
             } else {
-                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+                subtotal += productEntity.getSalePrice() * productBagEntity.getAmount();
             }
-            bagDto.setTotalPrice(totalPrice);
+            bagDto.setSubtotal(subtotal);
+            bagDto.setTotalPrice(subtotal + SystemConstant.TRANSPORT_FEE);
         }
         return bagDto;
     }

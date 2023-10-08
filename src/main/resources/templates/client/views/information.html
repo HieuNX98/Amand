@@ -32,7 +32,7 @@
                         </div>
                     </th:block>
 
-                    <form id="formSubmit">
+                    <form id="formSubmit" th:action="@{/thanh-toan}" method="POST">
                         <div class="DIV">
                             <p class="text">Kích thước</p>
                         </div>
@@ -71,8 +71,9 @@
                             <p class="text">Số Lượng</p>
                         </div>
                         <div class="quantity">
-                            <input class="product__color-text" type="number" step="1" id="amount" min="1" name="amount" value="1"/>
+                            <input class="product__color-text" type="number" step="1" min="1" name="amount" value="1"/>
                         </div>
+                        <input type="hidden" name="id" th:value="${productDto.id}">
                     </form>
 
                     <div class="button">
@@ -109,6 +110,10 @@
                window.location.replace('/trang-chu');
            }
         });
+    });
+
+    $('#buy').click(function () {
+        $('#formSubmit').submit();
     });
 
     $('.checked').click(function () {

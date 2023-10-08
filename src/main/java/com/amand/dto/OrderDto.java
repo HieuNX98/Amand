@@ -22,7 +22,7 @@ public class OrderDto extends BaseDto {
 
     private Double totalPrice;
 
-    private Double transportFee;
+    private Integer transportFee;
 
     private String note;
 

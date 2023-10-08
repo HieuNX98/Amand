@@ -34,4 +34,6 @@ public class SystemConstant {
 
     public static final String vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 
+    public static final int TRANSPORT_FEE = 30000;
+
 }

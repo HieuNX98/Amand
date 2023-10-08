@@ -24,6 +24,10 @@ public class ProductForm extends BaseForm {
 
     private List<Integer> sizeIds;
 
+    private String colorName;
+
+    private String sizeName;
+
     private MultipartFile image1;
 
     private MultipartFile image2;

@@ -1,21 +1,21 @@
 package com.amand.converter;
 
+import com.amand.constant.SystemConstant;
 import com.amand.dto.OrderDto;
-import com.amand.entity.BagEntity;
 import com.amand.entity.OrderEntity;
 import com.amand.form.OrderForm;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrderConverter {
-    public OrderEntity toEntity(BagEntity bagEntity, OrderForm orderForm) {
+    public OrderEntity toEntity(OrderForm orderForm) {
         OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setUser(bagEntity.getUser());
         orderEntity.setFullName(orderForm.getFullName());
         orderEntity.setAddress(orderForm.getAddress());
         orderEntity.setEmail(orderForm.getEmail());
         orderEntity.setNote(orderForm.getNote());
         orderEntity.setPhone(orderForm.getPhone());
+        orderEntity.setTransportFee(SystemConstant.TRANSPORT_FEE);
         return orderEntity;
     }
 

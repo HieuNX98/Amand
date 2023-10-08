@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <form id="formSubmit">
+    <form id="formSubmit" th:action="@{/thanh-toan}" method="POST">
         <div class="row">
             <div class="col l-9 l-o-2">
                 <div class="product__item-new">
@@ -135,6 +135,7 @@
                         <div class="product__detail">
                             <a th:href="@{/thong-tin-san-pham(productId=${productDto.id})}" class="product__detail-link" >Chi tiết sản phẩm </a>
                         </div>
+                        <input type="hidden" name="id" th:value="${productDto.id}">
                     </div>
                 </div>
 
@@ -191,7 +192,7 @@
         <div class="col l-12">
             <div class="introduce">
                 <img src="https://bizweb.dktcdn.net/100/358/122/themes/788488/assets/img_tab_1.jpg?1621838958247" alt="" class="introduce__img">
-                <p class="introduce__text">Ra đời vào những ngày đầu năm 2014 mang tên "AMAND" nằm trên con đường 33 Quán Thánh, Hà Nội - thương hiệu do người Việt phát triển cùng niềm đam mê bất tận với thời trang của "ANH BẠN TRẺ" đầy nhiệt huyết
+                <p class="introduce__text">Ra đời vào những ngày đầu năm 2014 mang tên "AMAND" nằm trên con đường 33 Quán Thánh, Hà Nội - thương hiệu do người Việt phát triển cùng niềm đam mê bất tận với thời trang của "ANH BẠN TRẺ" đầy nhiệt huyết.
                 </p>
             </div>
         </div>
@@ -265,6 +266,7 @@
     countChecked();
 
     $('#addBag').click(function (e) {
+        e.preventDefault();
         let data = {};
         let formData = $('#formSubmit').serializeArray();
         $.each(formData, function (i, v) {
@@ -287,6 +289,10 @@
            }
         });
     }) ;
+
+    $('#buy').click(function () {
+        $('#formSubmit').submit();
+    });
 </script>
 </body>
 </html>

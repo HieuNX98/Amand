@@ -33,18 +33,18 @@ public class PaymentResponseController {
     private PayRepository payRepository;
 
     @GetMapping("/payment-response")
-    public ModelAndView paymentResponse(@RequestParam("vnp_ResponseCode") String vnp_ResponseCode,
-                                        @RequestParam("vnp_Amount") String vnp_Amount,
-                                        @RequestParam("vnp_BankCode") String vnp_BankCode,
+    public ModelAndView paymentResponse(@RequestParam(value = "vnp_ResponseCode") String vnp_ResponseCode,
+                                        @RequestParam(value = "vnp_Amount") String vnp_Amount,
+                                        @RequestParam(value = "vnp_BankCode") String vnp_BankCode,
                                         @RequestParam(value = "vnp_BankTranNo", required = false) String vnp_BankTranNo,
-                                        @RequestParam("vnp_CardType") String vnp_CardType,
-                                        @RequestParam("vnp_OrderInfo") String vnp_OrderInfo,
-                                        @RequestParam("vnp_PayDate") String vnp_PayDate,
-                                        @RequestParam("vnp_TmnCode") String vnp_TmnCode,
-                                        @RequestParam("vnp_TransactionNo") String vnp_TransactionNo,
-                                        @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus,
-                                        @RequestParam("vnp_TxnRef") String vnp_TxnRef,
-                                        @RequestParam("vnp_SecureHash") String vnp_SecureHash,
+                                        @RequestParam(value = "vnp_CardType") String vnp_CardType,
+                                        @RequestParam(value = "vnp_OrderInfo") String vnp_OrderInfo,
+                                        @RequestParam(value = "vnp_PayDate") String vnp_PayDate,
+                                        @RequestParam(value = "vnp_TmnCode") String vnp_TmnCode,
+                                        @RequestParam(value = "vnp_TransactionNo") String vnp_TransactionNo,
+                                        @RequestParam(value = "vnp_TransactionStatus") String vnp_TransactionStatus,
+                                        @RequestParam(value = "vnp_TxnRef") String vnp_TxnRef,
+                                        @RequestParam(value = "vnp_SecureHash") String vnp_SecureHash,
                                         HttpSession session,
                                         RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, ParseException {
         int status = PaymentUtils.isStatusPaymentReturn(vnp_ResponseCode, vnp_Amount, vnp_BankCode, vnp_BankTranNo, vnp_CardType,
@@ -70,7 +70,8 @@ public class PaymentResponseController {
             //Mã giao dịch
             redirectAttributes.addFlashAttribute("vnp_TxnRef", vnp_TxnRef);
             //Số tiền thanh toán
-            redirectAttributes.addFlashAttribute("vnp_Amount", vnp_Amount);
+            double totalPrice = Double.valueOf(vnp_Amount) / 100;
+            redirectAttributes.addFlashAttribute("vnp_Amount", totalPrice);
             // Đơn vị tiền tệ
             redirectAttributes.addFlashAttribute("vnp_CurrCode", "VND");
             //Ngân hàng

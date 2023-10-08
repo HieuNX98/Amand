@@ -28,7 +28,7 @@
             </div>
             <div class='payment-info-row'>
                 <span class='payment-info-row-title'>Số tiền thanh toán</span>
-                <span class='payment-info-row-valuw' th:text="${vnp_Amount}"></span>
+                <span class='payment-info-row-valuw' th:text="${@getUtils.formatMoney(vnp_Amount)}"></span>
             </div>
 
             <div class='payment-info-row'>

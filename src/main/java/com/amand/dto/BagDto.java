@@ -13,5 +13,7 @@ public class BagDto extends BaseDto {
 
     private Integer userId;
 
+    private Double subtotal;
+
 
 }
