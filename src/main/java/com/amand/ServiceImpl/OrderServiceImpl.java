@@ -1,5 +1,6 @@
 package com.amand.ServiceImpl;
 
+import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.converter.OrderConverter;
 import com.amand.converter.ProductOrderConverter;
@@ -46,32 +47,52 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private ProductOrderRepository productOrderRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     @Transactional
     public OrderEntity save(OrderForm orderForm) {
         OrderEntity orderEntity;
         ProductOrderEntity productOrderEntity;
         List<ProductOrderEntity> productOrderEntities = new ArrayList<>();
-        Double totalPrice = 0.0;
-        BagEntity bagEntity = bagRepository.findOneById(orderForm.getBagId());
-        orderEntity = orderConverter.toEntity(bagEntity, orderForm);
-        List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
-        for (ProductBagEntity productBagEntity : productBagEntities) {
-            ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
-            if (productEntity.getSalePrice() == null) {
-                totalPrice += productEntity.getOldPrice() * productBagEntity.getAmount();
-            } else {
-                totalPrice += productEntity.getSalePrice() * productBagEntity.getAmount();
+        if (orderForm.getBagId() == null) {
+            orderEntity = orderConverter.toEntity(orderForm);
+            UserEntity userEntity = userRepository.findOneById(SecurityUtils.getPrincipal().getUserId());
+            orderEntity.setUser(userEntity);
+            orderEntity.setTotalPrice(orderForm.getTotalPrice());
+            orderEntity.setSubtotal(orderForm.getTotalPrice() - orderEntity.getTransportFee());
+            orderEntity.setCodeOrder(generateRandomCodeOrder());
+            productOrderEntity = productOrderConverter.toEntity(orderForm, orderEntity);
+            ProductEntity productEntity = productRepository.findOneById(orderForm.getProductId());
+            productOrderEntity.setProduct(productEntity);
+            orderEntity = orderRepository.save(orderEntity);
+            productOrderRepository.save(productOrderEntity);
+        } else {
+            Double subtotal = 0.0;
+            BagEntity bagEntity = bagRepository.findOneById(orderForm.getBagId());
+            orderEntity = orderConverter.toEntity(orderForm);
+            UserEntity userEntity = userRepository.findOneById(SecurityUtils.getPrincipal().getUserId());
+            orderEntity.setUser(userEntity);
+            List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
+            for (ProductBagEntity productBagEntity : productBagEntities) {
+                ProductEntity productEntity = productRepository.findOneById(productBagEntity.getProduct().getId());
+                if (productEntity.getSalePrice() == null) {
+                    subtotal += productEntity.getOldPrice() * productBagEntity.getAmount();
+                } else {
+                    subtotal += productEntity.getSalePrice() * productBagEntity.getAmount();
+                }
+                productOrderEntity = productOrderConverter.toEntity(productBagEntity, orderEntity);
+                productOrderEntities.add(productOrderEntity);
             }
-            productOrderEntity = productOrderConverter.toEntity(productBagEntity, orderEntity);
-            productOrderEntities.add(productOrderEntity);
+            orderEntity.setSubtotal(subtotal);
+            orderEntity.setTotalPrice(subtotal + orderEntity.getTransportFee());
+            orderEntity.setCodeOrder(generateRandomCodeOrder());
+            orderEntity = orderRepository.save(orderEntity);
+            productOrderRepository.saveAll(productOrderEntities);
+            productBagRepository.deleteAllByBagId(bagEntity.getId());
+            bagRepository.deleteById(bagEntity.getId());
         }
-        orderEntity.setTotalPrice(totalPrice);
-        orderEntity.setCodeOrder(generateRandomCodeOrder());
-        orderEntity = orderRepository.save(orderEntity);
-        productOrderRepository.saveAll(productOrderEntities);
-        productBagRepository.deleteAllByBagId(bagEntity.getId());
-        bagRepository.deleteById(bagEntity.getId());
         return orderEntity;
     }
 

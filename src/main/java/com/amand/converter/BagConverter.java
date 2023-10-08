@@ -16,6 +16,7 @@ public class BagConverter {
         bagDto.setId(bagEntity.getId());
         bagDto.setAmount(bagEntity.getAmount());
         bagDto.setUserId(bagEntity.getUser().getId());
+
         return bagDto;
     }
 

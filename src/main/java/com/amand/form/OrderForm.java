@@ -25,4 +25,14 @@ public class OrderForm {
     private String note;
 
     private Integer bagId;
+
+    private Double totalPrice;
+
+    private String sizeName;
+
+    private String colorName;
+
+    private Integer amount;
+
+    private Integer productId;
 }

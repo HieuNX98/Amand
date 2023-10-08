@@ -39,7 +39,7 @@ public class OrderEntity extends BaseEntity {
     private Double subtotal;
 
     @Column
-    private Double transportFee;
+    private Integer transportFee;
 
     @Column(name = "total_price")
     private Double totalPrice;

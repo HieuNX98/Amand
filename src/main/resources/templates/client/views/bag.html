@@ -23,7 +23,7 @@
                                         <ul class="cart__list cart__list--active ">
                                             <li class="cart__item-icon">
                                                 <span class="icon__heading" th:text="${item.productDto.name}"></span>
-                                                <a id="delete" class="icon__delete-link" th:data-custom-value="${item.id}">
+                                                <a class="icon__delete-link" th:data-custom-value="${item.id}">
                                                     <i class="fas icon-delete fa-times"></i>
                                                 </a>
 
@@ -73,12 +73,12 @@
                         </div>
                         <div class="infor__value">
                             <span class="value__text">Giá trị</span>
-                            <span class="infor__current" th:text="${@getUtils.formatMoney(bagDto.totalPrice)}"></span>
+                            <span class="infor__current" th:text="${@getUtils.formatMoney(bagDto.subtotal)}"></span>
                         </div>
 
                         <div class="infor__transport">
                             <span class="transport__text">Vận chuyển</span>
-                            <span class="transport__current">0vnd</span>
+                            <span class="transport__current" th:text="${@getUtils.formatMoney(30000)}"></span>
                         </div>
 
                         <div class="infor__total">
@@ -106,9 +106,9 @@
         window.location.replace("/thanh-toan");
     });
 
-    $('#delete').click(function (e) {
+    $('.icon__delete-link').click(function (e) {
         e.preventDefault();
-        let id = $('#delete').data('custom-value');
+        let id = $(this).data('custom-value');
         $.ajax({
             url: '/api/delete-product-in-the-bag',
             type: 'DELETE',
@@ -123,9 +123,9 @@
                 window.location.reload();
             }
         });
-        window.location.replace();
-
     });
+
+
 </script>
 </body>
 </html>
