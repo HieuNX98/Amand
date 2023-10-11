@@ -26,5 +26,4 @@ public class OrderDto extends BaseDto {
 
     private String note;
 
-
 }

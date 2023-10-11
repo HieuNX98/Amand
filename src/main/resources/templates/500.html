@@ -25,7 +25,14 @@
                 <p th:if="${messageError == null && messageError == ''}" class="fs-5 text-gray-600">Trang web hiện không có sẵn. Hãy thử lại sau hoặc liên hệ với
                     nhà phát triển.</p>
                 <p th:if="${messageError != null && messageError != ''}" class="fs-5 text-gray-600" th:text="${messageError}"></p>
-                <a href="/trang-chu" class="btn btn-lg btn-outline-primary mt-3">Quay lại</a>
+
+                <th:block th:if="${isAdmin}">
+                    <a href="/admin/home" class="btn btn-lg btn-outline-primary mt-3">Quay lại</a>
+                </th:block>
+
+                <th:block th:if="${!isAdmin}">
+                    <a href="/trang-chu" class="btn btn-lg btn-outline-primary mt-3">Quay lại</a>
+                </th:block>
             </div>
         </div>
     </div>

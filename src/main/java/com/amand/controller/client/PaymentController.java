@@ -28,6 +28,22 @@ import java.util.Objects;
 @Controller
 public class PaymentController {
 
+    @Autowired
+    private ControllerUtils controllerUtils;
+
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private IBagService bagService;
+
+    @Autowired
+    private IProductBagService productBagService;
+
+    @Autowired
+    private IProductService productService;
+
+
     @GetMapping("/giao-dich-thanh-cong")
     public ModelAndView paymentSuccess(Model model, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("/client/views/PaymentSuccess");
@@ -47,24 +63,9 @@ public class PaymentController {
 
     @GetMapping("/giao-dich-that-bai")
     public ModelAndView paymentFailed() {
-
-        return null;
+        ModelAndView mav = new ModelAndView("/client/views/PaymentFailed");
+        return mav;
     }
-
-    @Autowired
-    private ControllerUtils controllerUtils;
-
-    @Autowired
-    private IUserService userService;
-
-    @Autowired
-    private IBagService bagService;
-
-    @Autowired
-    private IProductBagService productBagService;
-
-    @Autowired
-    private IProductService productService;
 
 
     @GetMapping("/thanh-toan")

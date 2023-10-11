@@ -44,4 +44,16 @@ public class ControllerUtils {
         mav.addObject("page", page);
         mav.addObject("limit", limit);
     }
+
+    public void searchRoles(ModelAndView mav) {
+        List<String> roles = SecurityUtils.getAuthorities();
+        boolean isAdmin = false;
+        for (String role : roles) {
+            if ("ROLE_ADMIN".equals(role)) {
+                isAdmin = true;
+                break;
+            }
+        }
+        mav.addObject("isAdmin", isAdmin);
+    }
 }

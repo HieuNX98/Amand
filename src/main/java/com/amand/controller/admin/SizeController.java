@@ -9,6 +9,7 @@ import com.amand.service.ISizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -41,7 +42,7 @@ public class SizeController {
                                  Model model) {
         ModelAndView mav = new ModelAndView("admin/views/ListSize");
         controllerUtils.setPageAndLimit(mav, page, limit);
-        Pageable pageable = PageRequest.of(page-1, limit);
+        Pageable pageable = PageRequest.of(page-1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
         int totalItem = sizeService.getTotalItem(SystemConstant.ACTIVE_STATUS);
@@ -112,7 +113,7 @@ public class SizeController {
                                           @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideSize");
         controllerUtils.setPageAndLimit(mav, page, limit);
-        Pageable pageable = PageRequest.of(page - 1, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<SizeDto> sizeDtos = sizeService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("sizeDtos", sizeDtos);
         mav.addObject("totalPages", (int) Math.ceil((double) sizeService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));

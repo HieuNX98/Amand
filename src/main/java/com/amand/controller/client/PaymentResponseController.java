@@ -87,7 +87,8 @@ public class PaymentResponseController {
             mav.setViewName("redirect:/500");
             return mav;
         } else {
-            return new ModelAndView("client/views/PaymentFailed");
+            mav.setViewName("redirect:/giao-dich-that-bai");
+            return mav;
         }
     }
 

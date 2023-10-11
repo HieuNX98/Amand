@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/masterlayout.html}"
@@ -57,7 +57,7 @@
                             <td th:text="${@getUtils.formatMoney(item.totalPrice)}"></td>
                             <td>
                                 <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-                                   title="Chi tiết đơn hàng" th:href="@{/admin/chi-tiet-don-hang(orderId=${item.id})}">
+                                   title="Chi tiết đơn hàng" th:href="@{/admin/chi-tiet-don-hang-moi(orderId=${item.id})}">
                                     <i class="bi bi-three-dots"></i>
                                 </a>
                             </td>
@@ -81,20 +81,19 @@
 </div>
 <script layout:fragment="js" th:inline="javascript">
     var currentPage = [[${page}]];
-    var totalPages = [[${totalPages}]];
-
+    var totalPages = [[${totalPages}]]
     $(function () {
        window.pagObj = $('#pagination').twbsPagination({
           totalPages : totalPages,
-           startPage : currentPage,
-           visiblePages : 10,
-           onPageClick : function (event, page) {
+          startPage : currentPage,
+          visiblePages : 10,
+          onPageClick : function (event, page) {
               if (currentPage != page) {
                   $('#page').val(page);
                   $('#limit').val(5);
                   $('#formSubmit').submit();
               }
-           }
+          }
        });
     });
 </script>

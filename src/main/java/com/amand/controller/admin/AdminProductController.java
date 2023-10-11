@@ -13,6 +13,7 @@ import com.amand.service.ISizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +46,7 @@ public class AdminProductController {
     public ModelAndView listProduct(@RequestParam(value = "page", defaultValue = "1") int page,
                                     @RequestParam (value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListProduct");
-        Pageable pageable = PageRequest.of(page - 1, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<ProductDto> productDtos = productService.findAll(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("productDtos", productDtos);
         int totalPages = (int) Math.ceil((double) productService.getTotalItem(SystemConstant.ACTIVE_STATUS) / limit);
@@ -56,7 +57,7 @@ public class AdminProductController {
     }
 
     @GetMapping("/chinh-sua-thong-tin-san-pham")
-    public ModelAndView editProduct(@RequestParam(value = "id") Integer id, RedirectAttributes redirectAttributes) {
+    public ModelAndView editProduct(@RequestParam(value = "id", required = false) Integer id, RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("admin/views/EditProduct");
         ProductDto productDto = productService.findOneById(id);
         if (productDto == null) {
@@ -104,7 +105,7 @@ public class AdminProductController {
     public ModelAndView listHideProduct(@RequestParam(value = "page", defaultValue = "1") int page,
                                         @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideProduct");
-        Pageable pageable = PageRequest.of(page-1, limit);
+        Pageable pageable = PageRequest.of(page-1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<ProductDto> productDtos = productService.findAll(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("productDtos", productDtos);
         controllerUtils.setPageAndLimit(mav, page, limit);

@@ -1,6 +1,7 @@
 package com.amand.service;
 
 import com.amand.dto.ProductDto;
+import com.amand.entity.ProductEntity;
 import com.amand.form.ProductForm;
 import org.springframework.data.domain.Pageable;
 
@@ -9,6 +10,8 @@ import java.util.Map;
 
 public interface IProductService {
     ProductDto save(ProductForm productForm);
+
+    void save(ProductEntity productEntity);
 
     Map<String, String> validate(ProductForm productForm, boolean isRegister);
 
@@ -27,5 +30,7 @@ public interface IProductService {
     ProductDto outstandingProduct(Integer status, Integer limit);
 
     List<ProductDto> search(Pageable pageable, String name, String season, Integer categoryId, Boolean salePrice);
+
+    ProductEntity findById(Integer id);
 
 }

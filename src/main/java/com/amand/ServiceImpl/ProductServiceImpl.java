@@ -96,6 +96,11 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public void save(ProductEntity productEntity) {
+        productRepository.save(productEntity);
+    }
+
+    @Override
     public Map<String, String> validate(ProductForm productForm, boolean isRegister) {
         Map<String, String> results = new HashMap<>();
         if (productForm.getCategoryId() == null) {
@@ -183,6 +188,9 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public ProductDto findOneById(Integer id) {
         ProductEntity productEntity = productRepository.findOneByIdAndStatus(id);
+        if (productEntity == null) {
+            return null;
+        }
         ProductDto productDto =  productConverter.toDto(productEntity);
         List<ColorEntity> colorEntities = productEntity.getColors();
         List<Integer> colorIds = new ArrayList<>();
@@ -244,6 +252,11 @@ public class ProductServiceImpl implements IProductService {
             productDtos.add(productDto);
         }
         return productDtos;
+    }
+
+    @Override
+    public ProductEntity findById(Integer id) {
+        return productRepository.findOneById(id);
     }
 
     private String getErrorImage(MultipartFile image, boolean isRegister) {
