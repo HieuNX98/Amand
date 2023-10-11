@@ -11,9 +11,11 @@ import com.amand.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class UserController {
     public ModelAndView listAdminAccount(@RequestParam(value = "page", defaultValue = "1") int page,
                                          @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListAdminAccount");
-        Pageable pageable = PageRequest.of(page - 1, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("userName"));
         List<UserDto> userDtos = userService.findAllByRoleCodeAndStatus(List.of(SystemConstant.ROLE_CODE_IMPLOY,
                         SystemConstant.ROLE_CODE_ADMIN), pageable, SystemConstant.ACTIVE_STATUS);
         int totalItem = userService.getTotalItem(SystemConstant.ACTIVE_STATUS, SystemConstant.ROLE_CODE_IMPLOY);
@@ -54,8 +56,14 @@ public class UserController {
     }
 
     @GetMapping("/quan-tri/chinh-sua-tai-khoan-admin")
-    public ModelAndView editAdminAccount(@RequestParam(value = "id", required = false) Integer id) {
+    public ModelAndView editAdminAccount(@RequestParam(value = "id", required = false) Integer id,
+                                         RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("admin/views/EditAdminAccount");
+        if (id == null) {
+            redirectAttributes.addFlashAttribute("messageError", "Tài khoản không tồn tại");
+            mav.setViewName("redirect:/500");
+            return mav;
+        }
         UserDto userDto = userService.findOneById(id);
         List<String> roleCodes = roleService.getRoleCodesByUserDto(userDto);
         mav.addObject("roleUsers", roleCodes);

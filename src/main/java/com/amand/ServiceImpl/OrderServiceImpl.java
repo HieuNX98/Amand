@@ -9,19 +9,15 @@ import com.amand.entity.*;
 import com.amand.form.OrderForm;
 import com.amand.repository.*;
 import com.amand.service.IOrderService;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements IOrderService {
@@ -58,21 +54,23 @@ public class OrderServiceImpl implements IOrderService {
         List<ProductOrderEntity> productOrderEntities = new ArrayList<>();
         if (orderForm.getBagId() == null) {
             orderEntity = orderConverter.toEntity(orderForm);
-            UserEntity userEntity = userRepository.findOneById(SecurityUtils.getPrincipal().getUserId());
+            UserEntity userEntity = userRepository.findOneById(Objects.requireNonNull(SecurityUtils.getPrincipal()).getUserId());
             orderEntity.setUser(userEntity);
             orderEntity.setTotalPrice(orderForm.getTotalPrice());
             orderEntity.setSubtotal(orderForm.getTotalPrice() - orderEntity.getTransportFee());
             orderEntity.setCodeOrder(generateRandomCodeOrder());
             productOrderEntity = productOrderConverter.toEntity(orderForm, orderEntity);
             ProductEntity productEntity = productRepository.findOneById(orderForm.getProductId());
+            productEntity.setAmount(productEntity.getAmount() - orderForm.getAmount());
+            productRepository.save(productEntity);
             productOrderEntity.setProduct(productEntity);
             orderEntity = orderRepository.save(orderEntity);
             productOrderRepository.save(productOrderEntity);
         } else {
-            Double subtotal = 0.0;
+            double subtotal = 0.0;
             BagEntity bagEntity = bagRepository.findOneById(orderForm.getBagId());
             orderEntity = orderConverter.toEntity(orderForm);
-            UserEntity userEntity = userRepository.findOneById(SecurityUtils.getPrincipal().getUserId());
+            UserEntity userEntity = userRepository.findOneById(Objects.requireNonNull(SecurityUtils.getPrincipal()).getUserId());
             orderEntity.setUser(userEntity);
             List<ProductBagEntity> productBagEntities = productBagRepository.findAllByBagId(bagEntity.getId());
             for (ProductBagEntity productBagEntity : productBagEntities) {
@@ -112,6 +110,34 @@ public class OrderServiceImpl implements IOrderService {
             }
         }
         return responseMsg;
+    }
+
+    @Override
+    public List<OrderDto> findAllByStatus(Pageable pageable, Integer status) {
+        List<OrderDto> orderDtos = new ArrayList<>();
+        List<OrderEntity> orderEntities = orderRepository.findAllByStatus(pageable, status);
+        for (OrderEntity orderEntity : orderEntities) {
+                OrderDto orderDto = orderConverter.toDto(orderEntity);
+                orderDtos.add(orderDto);
+        }
+        return orderDtos;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateStatusById(Integer id) {
+        try {
+            orderRepository.updateStatusById(id);
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public int getTotalItem(Integer status) {
+        return orderRepository.countByStatus(status);
     }
 
 

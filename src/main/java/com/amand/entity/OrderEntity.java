@@ -47,4 +47,6 @@ public class OrderEntity extends BaseEntity {
     @OneToOne(mappedBy = "order")
     private PayEntity pay;
 
+    private Integer status;
+
 }

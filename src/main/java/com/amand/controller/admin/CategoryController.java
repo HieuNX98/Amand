@@ -7,6 +7,7 @@ import com.amand.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +38,7 @@ public class CategoryController {
     public ModelAndView listCategory(@RequestParam(value = "page", defaultValue = "1") int page,
                                      @RequestParam(value = "limit", defaultValue = "5") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListCategories");
-        Pageable pageable = PageRequest.of(page - 1, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<CategoryDto> categoryDtos = categoryService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("categoryDtos", categoryDtos);
         int totalItem = categoryService.getTotalItem(SystemConstant.ACTIVE_STATUS);
@@ -67,7 +68,7 @@ public class CategoryController {
                                          @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideCategory");
         controllerUtils.setPageAndLimit(mav, page, limit);
-        Pageable pageable = PageRequest.of(page - 1, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<CategoryDto> categoryDtos = categoryService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("categoryDtos", categoryDtos);
         mav.addObject("totalPages", (int) Math.ceil( (double) categoryService.getTotalItem(SystemConstant.INACTIVE_STATUS) / limit));

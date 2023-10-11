@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/masterlayout.html}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết đơn hàng</title>
+</head>
+<body>
+<div class="page-heading" layout:fragment="pageheading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Danh sách đơn hàng</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Chi tiết đơn hàng</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                Dữ liệu đơn hàng
+            </div>
+            <div class="card-body">
+                <table class="table table-striped" id="table1">
+                    <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Màu sản phẩm</th>
+                        <th>Kích thước sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="item : ${productOrderDtos}">
+                        <tr>
+                            <td th:text="${item.productName}"></td>
+                            <td th:text="${item.colorName}"></td>
+                            <td th:text="${item.sizeName}"></td>
+                            <td th:text="${item.amount}"></td>
+                            <td th:text="${@getUtils.formatMoney(item.totalPrice)}"></td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</div>
+</body>
+</html>

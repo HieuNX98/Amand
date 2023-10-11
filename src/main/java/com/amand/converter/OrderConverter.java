@@ -16,11 +16,13 @@ public class OrderConverter {
         orderEntity.setNote(orderForm.getNote());
         orderEntity.setPhone(orderForm.getPhone());
         orderEntity.setTransportFee(SystemConstant.TRANSPORT_FEE);
+        orderEntity.setStatus(SystemConstant.INACTIVE_STATUS);
         return orderEntity;
     }
 
     public OrderDto toDto(OrderEntity orderEntity) {
         OrderDto orderDto = new OrderDto();
+        orderDto.setId(orderEntity.getId());
         orderDto.setCodeOrder(orderEntity.getCodeOrder());
         orderDto.setFullName(orderEntity.getFullName());
         orderDto.setAddress(orderEntity.getAddress());

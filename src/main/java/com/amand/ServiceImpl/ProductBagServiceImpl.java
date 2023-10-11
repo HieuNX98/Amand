@@ -41,4 +41,10 @@ public class ProductBagServiceImpl implements IProductBagService {
         }
         return productBagDtos;
     }
+
+    @Override
+    public ProductBagEntity findById(Integer id) {
+        ProductBagEntity productBagEntity = productBagRepository.findOneById(id);
+        return productBagEntity;
+    }
 }

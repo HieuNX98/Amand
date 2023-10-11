@@ -56,8 +56,8 @@
                             <td><input type="checkbox" name="checkOne" class="checkboxForProduct" th:id="'checkbox_'+${item.id}" th:value="${item.id}"></td>
                             <td th:text="${item.name}"></td>
                             <td th:text="${item.categoryName}"></td>
-                            <td th:text="${item.oldPrice}"></td>
-                            <td th:text="${item.salePrice}"></td>
+                            <td th:text="${@getUtils.formatMoney(item.oldPrice)}"></td>
+                            <td th:text="${@getUtils.formatMoney(item.salePrice)}"></td>
                             <td th:text="${item.amount}"></td>
                             <td>
                                 <th:block th:each = "color : ${item.colors}">

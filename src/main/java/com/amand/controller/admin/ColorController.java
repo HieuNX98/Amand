@@ -8,6 +8,7 @@ import com.amand.service.IColorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class ColorController {
     public ModelAndView listColor(@RequestParam(value = "page", defaultValue = "1") int page,
                                   @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListColor");
-        Pageable pageable = PageRequest.of(page -1, limit);
+        Pageable pageable = PageRequest.of(page -1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<ColorDto> colorDtos = colorService.findAllByStatus(pageable, SystemConstant.ACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
         controllerUtils.setPageAndLimit(mav, page, limit);
@@ -98,7 +99,7 @@ public class ColorController {
     public ModelAndView listHideColor(@RequestParam(value = "page", defaultValue = "1") int page,
                                       @RequestParam(value = "limit", defaultValue = "3") int limit) {
         ModelAndView mav = new ModelAndView("admin/views/ListHideColor");
-        Pageable pageable = PageRequest.of(page - 1, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<ColorDto> colorDtos = colorService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("colorDtos", colorDtos);
         controllerUtils.setPageAndLimit(mav, page, limit);

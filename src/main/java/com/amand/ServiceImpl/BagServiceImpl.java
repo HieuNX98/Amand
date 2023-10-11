@@ -73,6 +73,8 @@ public class BagServiceImpl implements IBagService {
         if (productEntity == null) {
             return false;
         }
+        productEntity.setAmount(productEntity.getAmount() - bagForm.getAmount());
+        productRepository.save(productEntity);
         int userId = Objects.requireNonNull(SecurityUtils.getPrincipal()).getUserId();
         UserEntity userEntity = userRepository.findOneById(userId);
         int totalItem = bagRepository.countByUserId(userId);

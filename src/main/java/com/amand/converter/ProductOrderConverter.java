@@ -1,5 +1,6 @@
 package com.amand.converter;
 
+import com.amand.dto.ProductOrderDto;
 import com.amand.entity.OrderEntity;
 import com.amand.entity.ProductBagEntity;
 import com.amand.entity.ProductOrderEntity;
@@ -26,5 +27,15 @@ public class ProductOrderConverter {
         productOrderEntity.setAmount(orderForm.getAmount());
         productOrderEntity.setOrder(orderEntity);
         return productOrderEntity;
+    }
+
+    public ProductOrderDto toDto(ProductOrderEntity productOrderEntity) {
+        ProductOrderDto productOrderDto = new ProductOrderDto();
+        productOrderDto.setId(productOrderEntity.getId());
+        productOrderDto.setAmount(productOrderEntity.getAmount());
+        productOrderDto.setColorName(productOrderEntity.getColorName());
+        productOrderDto.setSizeName(productOrderEntity.getSizeName());
+        productOrderDto.setProductName(productOrderEntity.getProduct().getName());
+        return productOrderDto;
     }
 }

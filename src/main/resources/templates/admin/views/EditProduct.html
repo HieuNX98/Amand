@@ -100,14 +100,14 @@
                             <div class="form-group">
                                 <label for="oldPrice">Giá</label>
                                 <input type="text" id="oldPrice" name="oldPrice" class="form-control"
-                                       placeholder="Giá sản phẩm" th:value="${productDto.oldPrice}">
+                                       placeholder="Giá sản phẩm" th:value="${@getUtils.formatMoney(productDto.oldPrice)}">
                             </div>
                             <p class="msg_error" id="msgOldPrice"></p>
 
                             <div class="form-group">
                                 <label for="salePrice">Giá sale</label>
                                 <input type="text" class="form-control" id="salePrice" name="salePrice"
-                                       placeholder="Giá sale" th:value="${productDto.salePrice}">
+                                       placeholder="Giá sale" th:value="${@getUtils.formatMoney(productDto.salePrice)}">
                             </div>
                             <p class="msg_error" id="msgSalePrice"></p>
 
