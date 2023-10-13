@@ -295,6 +295,9 @@
     color: #FF0000;
     line-height: 3.8rem;
 }
+.italic-text {
+    font-style: italic;
+}
 
 
 #radiobut{
@@ -544,6 +547,6 @@
 }
 
 #quantity{
-    width: 30px;
+    width: 40px;
 }
 

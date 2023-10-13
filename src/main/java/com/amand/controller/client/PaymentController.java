@@ -84,11 +84,9 @@ public class PaymentController {
     }
 
     @PostMapping("/thanh-toan")
-    public ModelAndView payment(@ModelAttribute ProductForm productForm) {
+    public ModelAndView payment(@ModelAttribute ProductForm productForm,
+                                RedirectAttributes redirectAttributes) {
         ModelAndView mav = new ModelAndView("/client/views/Payment");
-        int userId = Objects.requireNonNull(SecurityUtils.getPrincipal()).getUserId();
-        UserDto userDto = userService.findOneById(userId);
-        mav.addObject("userDto", userDto);
         ProductDto productDto = productService.findOneById(productForm.getId());
         mav.addObject("productForm", productForm);
         double subtotal;
@@ -102,6 +100,9 @@ public class PaymentController {
         mav.addObject("transportFee", SystemConstant.TRANSPORT_FEE);
         mav.addObject("totalPrice", totalPrice);
         mav.addObject("productDto", productDto);
+        int userId = Objects.requireNonNull(SecurityUtils.getPrincipal()).getUserId();
+        UserDto userDto = userService.findOneById(userId);
+        mav.addObject("userDto", userDto);
         controllerUtils.setModelAndViewClient(mav, SystemConstant.ACTIVE_STATUS);
         return mav;
     }
