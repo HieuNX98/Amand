@@ -27,5 +27,7 @@ public class ApiResponse {
         this.results = results;
     }
 
-
+    public ApiResponse(Integer status) {
+        this.status = status;
+    }
 }

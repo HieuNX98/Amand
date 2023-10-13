@@ -1,5 +1,8 @@
 package com.amand.api.client;
 
+import com.amand.constant.SystemConstant;
+import com.amand.dto.ApiResponse;
+import com.amand.dto.ProductDto;
 import com.amand.entity.ProductBagEntity;
 import com.amand.entity.ProductEntity;
 import com.amand.form.BagForm;
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -29,7 +35,6 @@ public class BagApi {
 
     @PostMapping("/add-bag")
     public ResponseEntity<?> addBag(@RequestBody BagForm bagForm) {
-
         if (bagService.addBag(bagForm)) {
             return ResponseEntity.ok().build();
         }

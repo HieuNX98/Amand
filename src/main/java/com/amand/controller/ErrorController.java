@@ -2,7 +2,6 @@ package com.amand.controller;
 
 import com.amand.Utils.ControllerUtils;
 import com.amand.Utils.SecurityUtils;
-import com.amand.dto.MyUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
