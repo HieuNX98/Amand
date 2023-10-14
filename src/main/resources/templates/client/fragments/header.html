@@ -17,7 +17,7 @@
                 </li>
                 <li class="header__navbar-item header__navbar-item-has-notifyy">
                     <label class="header__navbar-item-link">
-                        Bộ Sưu Tập
+                        Bộ sưu tập
                     </label>
                         <div class="header__notifyy">
                             <ul class="header__notifyy-list">
@@ -44,6 +44,7 @@
                         Về chúng tôi
                     </a>
                 </li>
+
             </ul>
 
             <ul class="header__navbar-list-right">
@@ -77,7 +78,7 @@
                         </a>
                     </li>
                     <li class="header__navbar-item">
-                        <a href="#" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong"
+                        <a th:href="@{/thong-tin-tai-khoan}" class="header__navbar-item-link header__navbar-item--separate  header__navbar-item--strong"
                            th:text= "'Hello ' + ${fullName}">
                         </a>
                     </li>

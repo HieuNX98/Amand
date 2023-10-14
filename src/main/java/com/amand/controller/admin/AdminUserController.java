@@ -5,7 +5,6 @@ import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.RoleDto;
 import com.amand.dto.UserDto;
-import com.amand.form.UserForm;
 import com.amand.service.IRoleService;
 import com.amand.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin")
-public class UserController {
+public class AdminUserController {
 
     @Autowired
     private IUserService userService;
