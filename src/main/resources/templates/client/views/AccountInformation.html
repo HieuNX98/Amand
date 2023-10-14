@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout/masterlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Thông tin tài khoản</title>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
+    <style>
+        .info-payment{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-payment-title {
+            font-size: 1.4rem;
+            padding: 4px 0;
+        }
+
+        .info-payment-txt {
+            font-size: 1.4rem;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+            </div>
+        </div>
+    </div>
+    <div class="cart">
+        <div class="grid wide">
+            <form id="formSubmit">
+                <div class="row">
+                    <div class="col l-6">
+                        <div class="infor__pay" >
+                            <div class="header__cart">
+                                <h3>Thông tin tài khoản</h3>
+                            </div>
+                            <form id="formSubmit">
+                                <div class = "info-payment">
+                                    <label class = "info-payment-title">Họ và tên</label>
+                                    <input class = "info-payment-txt" placeholder="Họ và tên" type="text"
+                                           name="fullName" th:value="${userDto.fullName}"/>
+                                </div>
+                                <p class="msg_error" id="msgFullname"><p>
+
+                                <div class = "info-payment">
+                                    <label class = "info-payment-title">Username</label>
+                                    <input class = "info-payment-txt" name="fullName" th:value="${userDto.userName}" disabled/>
+                                </div>
+
+                                <div class = "info-payment">
+                                    <label class = "info-payment-title">Số điện thoại</label>
+                                    <input class = "info-payment-txt" placeholder="Số điện thoại" type="text"
+                                           name="phone" th:value="${userDto.phone}"/>
+                                </div>
+                                <p class="msg_error" id="msgPhone"></p>
+
+                                <div class = "info-payment">
+                                    <label class = "info-payment-title">Email</label>
+                                    <input class = "info-payment-txt" placeholder="Email" type="text"
+                                           name="email" th:value="${userDto.email}"/>
+                                </div>
+                                <p class="msg_error" id="msgEmail"><p>
+
+                                <div class = "info-payment">
+                                    <label class = "info-payment-title">Địa chỉ</label>
+                                    <input class = "info-payment-txt" placeholder="Địa chỉ" type="text"
+                                           name="address" th:value="${userDto.address}"/>
+                                </div>
+                                <p class="msg_error" id="msgAddress"></p>
+
+                                <div class = "info-payment">
+                                    <label class = "info-payment-title">Ngày sinh</label>
+                                    <input class = "info-payment-txt" type="date"
+                                           name="date" th:value="${userDto.date}"/>
+                                </div>
+                                <p class="msg_error" id="msgDate"></p>
+                                <input type="hidden" id="id" name="id" th:value="${userDto.id}">
+                            </form>
+                            <button class="btn btn--primary" id="update">Cập nhật</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script layout:fragment="js" th:inline="javascript">
+
+    $('#update').click(function (e) {
+        e.preventDefault();
+        let form = new FormData($('#formSubmit')[0]);
+        $.ajax({
+            url: '/api/update-accountInformation',
+            type: 'PUT',
+            enctype: 'multipart/form-data',
+            data: form,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success : function (result) {
+                if (result.status === 0) {
+                    showMessageError(result);
+                } else {
+                    alert("Cập nhật thành công");
+                    window.location.replace('/trang-chu');
+                }
+            },
+            error : function (result) {
+                alert("Có lỗi xảy ra");
+                window.location.reload();
+            }
+        });
+    });
+
+    function showMessageError(result) {
+        $('.msg_error').hide();
+        if (result.error["messageFullName"]) {
+            $('#msgFullname').html(result.error["messageFullName"]);
+            $('#msgFullname').show();
+        }
+        if (result.error["messagePhone"]) {
+            $('#msgPhone').html(result.error["messagePhone"]);
+            $('#msgPhone').show();
+        }
+        if (result.error["messageAddress"]) {
+            $('#msgAddress').html(result.error["messageAddress"]);
+            $('#msgAddress').show();
+        }
+        if (result.error["messageEmail"]) {
+            $('#msgEmail').html(result.error["messageEmail"]);
+            $('#msgEmail').show();
+        }
+        if (result.error["messageDate"]) {
+            $('#msgDate').html(result.error["messageDate"]);
+            $('#msgDate').show();
+        }
+
+    }
+
+</script>
+</body>
+</html>
