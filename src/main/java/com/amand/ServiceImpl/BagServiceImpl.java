@@ -1,5 +1,6 @@
 package com.amand.ServiceImpl;
 
+import com.amand.Utils.ScheduleUtils;
 import com.amand.Utils.SecurityUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.converter.BagConverter;
@@ -16,11 +17,11 @@ import com.amand.repository.ProductRepository;
 import com.amand.repository.UserRepository;
 import com.amand.service.IBagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class BagServiceImpl implements IBagService {
@@ -42,6 +43,12 @@ public class BagServiceImpl implements IBagService {
 
     @Autowired
     private ProductBagConverter productBagConverter;
+
+    @Autowired
+    private ScheduleUtils scheduleUtils;
+
+    @Autowired
+    private MyEmailService myEmailService;
 
     @Override
     public BagDto findByUserId(Integer userId) {
@@ -89,7 +96,8 @@ public class BagServiceImpl implements IBagService {
             bagEntity = bagRepository.findByUserId(userId);
             bagEntity = bagConverter.toEntity(bagEntity, bagForm);
             bagEntity = bagRepository.save(bagEntity);
-            ProductBagEntity oldProductBagEntity = productBagRepository.findAllByBagIdAndSizeNameAndColorName(bagEntity.getId(),
+            ProductBagEntity oldProductBagEntity = productBagRepository.findAllByBagIdAndProductIdAndSizeNameAndColorName(bagEntity.getId(),
+                                                                                                              productEntity.getId(),
                                                                                                               bagForm.getSizeName(),
                                                                                                               bagForm.getColorName());
                 if (oldProductBagEntity != null) {
@@ -114,6 +122,25 @@ public class BagServiceImpl implements IBagService {
             bagRepository.deleteById(bagEntity.getId());
         }
         productBagRepository.deleteById(id);
+    }
+
+    @Override
+    @Scheduled(cron = "* * 9 * * *")
+    @Transactional
+    public void deleteByTimer() {
+        List<BagEntity> bagEntities = bagRepository.findAllByModifiedDate(scheduleUtils.timeSchedule());
+        List<Integer> userIds = new ArrayList<>();
+        for (BagEntity bagEntity : bagEntities) {
+            int userId = bagEntity.getUser().getId();
+            userIds.add(userId);
+            productBagRepository.deleteAllByBagId(bagEntity.getId());
+           bagRepository.deleteById(bagEntity.getId());
+        }
+        List<String> mails = userRepository.findEmailByIds(userIds);
+        String [] mailsArray = mails.toArray(new String[0]);
+        if (mails.size() > 0) {
+            myEmailService.sendEmail(mailsArray, SystemConstant.subject, SystemConstant.text);
+        }
     }
 
     @Override

@@ -36,4 +36,12 @@ public class SystemConstant {
 
     public static final int TRANSPORT_FEE = 30000;
 
+    public static final String username = "nguyenxuanhieu271098@gmail.com";
+
+    public static final String password = "aptfobhacpsxsheq";
+
+    public static final String subject = "Amand";
+
+    public static final String text = "Giỏ hàng của bạn đã được làm mới";
+
 }
