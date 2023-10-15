@@ -10,10 +10,12 @@ import java.util.List;
 
 public interface ProductBagRepository extends JpaRepository<ProductBagEntity, Integer> {
 
-    @Query(value = "SELECT p FROM ProductBagEntity p WHERE p.bag.id = :id AND p.sizeName = :sizeName AND p.colorName = :colorName")
-    ProductBagEntity findAllByBagIdAndSizeNameAndColorName(@Param("id") Integer bagId,
-                                                                 @Param("sizeName") String sizeName,
-                                                                 @Param("colorName") String colorName);
+    @Query(value = "SELECT p FROM ProductBagEntity p WHERE p.bag.id = :id AND p.product.id = :productId AND p.sizeName = :sizeName " +
+            "AND p.colorName = :colorName")
+    ProductBagEntity findAllByBagIdAndProductIdAndSizeNameAndColorName(@Param("id") Integer bagId,
+                                                                       @Param("productId") Integer productId,
+                                                                       @Param("sizeName") String sizeName,
+                                                                       @Param("colorName") String colorName);
 
     @Query(value = "SELECT p FROM ProductBagEntity p WHERE p.bag.id = :id")
     List<ProductBagEntity> findAllByBagId(@Param("id") Integer id);

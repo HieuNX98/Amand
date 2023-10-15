@@ -10,5 +10,7 @@ public interface IBagService {
 
     void deleteByProductBagId(Integer id);
 
+    void deleteByTimer();
+
     BagDto findOneById(Integer id);
 }
