@@ -16,8 +16,12 @@ public interface IOrderService {
 
     List<OrderDto> findAllByStatus(Pageable pageable, Integer status);
 
-    boolean updateStatusById(Integer id);
+    List<OrderDto> findAllByStatus(Integer status);
+
+    boolean updateStatusById(Integer id, Integer status);
 
     int getTotalItem(Integer status);
+
+    OrderDto findById(Integer id, Integer status);
 
 }

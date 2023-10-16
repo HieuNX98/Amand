@@ -32,6 +32,7 @@ public class OrderConverter {
         orderDto.setSubtotal(orderEntity.getTotalPrice());
         orderDto.setTransportFee(orderEntity.getTransportFee());
         orderDto.setTotalPrice(orderEntity.getTotalPrice());
+        orderDto.setCreatedDate(orderEntity.getCreatedDate());
         return orderDto;
     }
 }

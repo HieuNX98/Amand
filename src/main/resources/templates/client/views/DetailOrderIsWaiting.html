@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout/masterlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Chi tiết đơn hàng</title>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
+    <style>
+        .info-payment{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-payment-title {
+            font-size: 1.4rem;
+            padding: 4px 0;
+        }
+
+        .info-payment-txt {
+            font-size: 1.4rem;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" layout:fragment="content">
+    <div class="row">
+        <div class="col l-12">
+            <div class="product__distance">
+            </div>
+        </div>
+    </div>
+    <div class="cart">
+        <div class="grid wide">
+                <div class="row">
+                    <div class="col l-6">
+                        <div class="infor__pay" >
+                            <div class="header__cart">
+                                <h3>Thông tin thanh toán  </h3>
+                            </div>
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Email</label>
+                                <input class = "info-payment-txt" placeholder="Email" type="text"
+                                       name="email" th:value="${userDto.email}" disabled/>
+                            </div>
+                            <p class="msg_error" id="msgEmail"></p>
+
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Họ và tên</label>
+                                <input class = "info-payment-txt" placeholder="Họ và tên" type="text"
+                                       name="fullName" th:value="${userDto.fullName}" disabled/>
+                            </div>
+                            <p class="msg_error" id="msgFullName"></p>
+
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Số điện thoại</label>
+                                <input class = "info-payment-txt" placeholder="Số điện thoại" type="text"
+                                       name="phone" th:value="${userDto.phone}" disabled/>
+                            </div>
+                            <p class="msg_error" id="msgPhone"></p>
+
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Địa chỉ</label>
+                                <input class = "info-payment-txt" placeholder="Địa chỉ" type="text"
+                                       name="address" th:value="${userDto.address}" disabled/>
+                            </div>
+                            <p class="msg_error" id="msgAddress"></p>
+
+                            <div class = "info-payment">
+                                <label class = "info-payment-title">Ghi chú</label>
+                                <textarea class = "info-payment-txt" placeholder="Ghi chú (tuỳ chọn)" type="text"
+                                          name="note" th:value="${orderDto.note}" disabled></textarea>
+                            </div>
+
+                            <div class="infor__value">
+                                <span class="value__text">Giá Trị</span>
+                                <span class="infor__current" th:text="${@getUtils.formatMoney(orderDto.subtotal)}"></span>
+                            </div>
+
+                            <div class="infor__transport">
+                                <span class="transport__text">vận chuyển</span>
+                                <span class="transport__current" th:text="${@getUtils.formatMoney(orderDto.transportFee)}"></span>
+                            </div>
+
+                            <div class="infor__total">
+                                <span class="total__text">Tổng</span>
+                                <span class="total__current" th:text="${@getUtils.formatMoney(orderDto.totalPrice)}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-6">
+                        <div class="product__cart">
+                            <div class="header__cart">
+                                <h3>Danh sách sản phẩm</h3>
+                            </div>
+                                <th:block th:each="item : ${productOrderDtos}">
+                                    <div class="cart__infor">
+                                        <img th:src="${item.image1}" alt="" class="cart__img">
+
+                                        <div class="cart__intro">
+                                            <ul class="cart__list cart__list--active ">
+                                                <li class="cart__item-icon">
+                                                    <!-- <div class="cart__bonus"> -->
+                                                    <span class="icon__heading">Tên sản phẩm</span>
+                                                    <span class="icon__heading" th:text="${item.productName}"></span>
+
+                                                    <!-- </div> -->
+                                                </li>
+                                                <th:block th:if="${item.salePrice == null}">
+                                                    <li class="cart__item-icon">
+                                                        <span class="icon__heading">Giá sản phẩm </span>
+                                                        <span class="icon__heading" th:text="${@getUtils.formatMoney(item.oldPrice)}"></span>
+                                                    </li>
+                                                </th:block>
+
+                                                <th:block th:if="${item.salePrice != null}">
+                                                    <li class="cart__item-icon">
+                                                        <span class="icon__heading">Giá sản phẩm </span>
+                                                        <span class="icon__heading" th:text="${@getUtils.formatMoney(item.salePrice)}" ></span>
+                                                    </li>
+                                                </th:block>
+
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading" >Size sản phẩm </span>
+                                                    <span class="icon__heading" th:text="${item.sizeName}"></span>
+                                                </li>
+
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading" >Màu sản phẩm</span>
+                                                    <span class="icon__heading" th:text="${item.colorName}"></span>
+                                                </li>
+
+                                                <li class="cart__item-icon">
+                                                    <span class="icon__heading" >Số lượng</span>
+                                                    <span class="icon__heading" th:text="${item.amount}"></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </th:block>
+                                <button class="btn btn--primary" id="cancelOrder"  onclick=" warningBeforeCancel()">Huỷ đơn </button>
+                                <button class="btn btn--primary" id="back">Quay lại </button>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<script layout:fragment="js" th:inline="javascript">
+    $('#back').click(function (e) {
+        e.preventDefault();
+        window.location.replace("/don-hang-dang-cho");
+    });
+
+    function warningBeforeCancel() {
+        let text = "Bạn đã thanh toán đơn hàng, nếu huỷ đơn hàng bạn sẽ bị mất số tiền đã thanh toán.\n" +
+                " Bạn có chắc chắn muốn huỷ đơn hàng hay không";
+        let result = confirm(text);
+        if (result) {
+            let orderId = [[${orderDto.id}]];
+            cancelOrder(orderId);
+        }
+    };
+
+    function cancelOrder(data) {
+        $.ajax({
+            url: '/api/huy-don-hang',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success : function (result) {
+                alert('Huỷ thành công');
+                window.location.replace('/don-hang-dang-cho');
+            },
+            error : function (result) {
+                alert('Có lỗi xảy ra');
+                window.location.reload();
+            }
+        });
+    }
+</script>
+</body>
+</html>

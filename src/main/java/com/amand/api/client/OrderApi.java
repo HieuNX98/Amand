@@ -1,5 +1,6 @@
 package com.amand.api.client;
 
+import com.amand.constant.SystemConstant;
 import com.amand.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class OrderApi {
 
     @PostMapping("/confirmOrder")
     public ResponseEntity<?> confirmOrder(@RequestBody Integer orderId) {
-        if (orderService.updateStatusById(orderId)) {
+        if (orderService.updateStatusById(orderId, SystemConstant.ACTIVE_STATUS)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();

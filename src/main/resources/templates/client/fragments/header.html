@@ -56,8 +56,14 @@
                 </li>
 
                 <th:block th:if="${fullName != null}">
-                    <a th:href="@{/gio-hang}" class="header__navbar-item-link">
+                    <a th:href="@{/gio-hang}" class="header__navbar-item-link" title="Giỏ hàng">
                         <i class="fas header__navbar-icon-cart fa-shopping-cart"></i>
+                    </a>
+                </th:block>
+
+                <th:block th:if="${fullName != null}">
+                    <a th:href="@{/don-hang-dang-cho}" class="header__navbar-item-link" title="Chờ xác nhận">
+                        <i class="fas header__navbar-icon-cart fa-regular fa-hourglass-start"></i>
                     </a>
                 </th:block>
 

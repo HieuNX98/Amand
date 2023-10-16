@@ -124,10 +124,21 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public List<OrderDto> findAllByStatus(Integer status) {
+        List<OrderDto> orderDtos = new ArrayList<>();
+        List<OrderEntity> orderEntities = orderRepository.findAllByStatus(status);
+        for (OrderEntity orderEntity : orderEntities) {
+            OrderDto orderDto = orderConverter.toDto(orderEntity);
+            orderDtos.add(orderDto);
+        }
+        return orderDtos;
+    }
+
+    @Override
     @Transactional
-    public boolean updateStatusById(Integer id) {
+    public boolean updateStatusById(Integer id, Integer status) {
         try {
-            orderRepository.updateStatusById(id);
+            orderRepository.updateStatusById(status, id);
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -138,6 +149,16 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public int getTotalItem(Integer status) {
         return orderRepository.countByStatus(status);
+    }
+
+    @Override
+    public OrderDto findById(Integer id, Integer status) {
+        OrderEntity orderEntity = orderRepository.findByIdAndStatus(id, status);
+        if (orderEntity == null) {
+            return null;
+        }
+        OrderDto orderDto = orderConverter.toDto(orderEntity);
+        return orderDto;
     }
 
 
