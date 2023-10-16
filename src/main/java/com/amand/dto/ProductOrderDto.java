@@ -15,4 +15,10 @@ public class ProductOrderDto extends BaseDto {
 
     private double totalPrice;
 
+    private Double oldPrice;
+
+    private Double salePrice;
+
+    private String image1;
+
 }

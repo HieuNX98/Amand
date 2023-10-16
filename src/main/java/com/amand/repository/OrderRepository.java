@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
@@ -18,10 +19,18 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
     List<OrderEntity> findAllByStatus(@Param("status")Pageable pageable,
                                       Integer status);
 
+    @Query(value = "SELECT o FROM OrderEntity o WHERE o.status = :status ORDER BY o.modifiedDate DESC")
+    List<OrderEntity> findAllByStatus(@Param("status") Integer status);
+
     @Query(value = "SELECT count(o) FROM OrderEntity o WHERE o.status = :status")
     int countByStatus(@Param("status") Integer status);
 
-    @Query(value = "UPDATE OrderEntity o SET o.status = 1 WHERE o.id = :id")
     @Modifying
-    void updateStatusById(@Param("id") Integer id);
+    @Query(value = "UPDATE OrderEntity o SET o.status = :status WHERE o.id = :id")
+    void updateStatusById(@Param("status") Integer status,
+                          @Param("id") Integer id);
+
+    @Query(value = "SELECT o FROM OrderEntity o WHERE o.id = :orderId AND o.status = :status")
+    OrderEntity findByIdAndStatus(@Param("orderId") Integer orderId,
+                                  @Param("status") Integer status);
 }

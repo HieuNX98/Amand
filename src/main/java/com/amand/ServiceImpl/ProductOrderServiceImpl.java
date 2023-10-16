@@ -1,6 +1,8 @@
 package com.amand.ServiceImpl;
 
+import com.amand.constant.SystemConstant;
 import com.amand.converter.ProductOrderConverter;
+import com.amand.dto.ProductDto;
 import com.amand.dto.ProductOrderDto;
 import com.amand.entity.ProductEntity;
 import com.amand.entity.ProductOrderEntity;
@@ -21,6 +23,10 @@ public class ProductOrderServiceImpl implements IProductOrderService {
 
     @Autowired
     private ProductOrderConverter productOrderConverter;
+
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public List<ProductOrderDto> findAllByOrderId(Integer orderId, Integer status) {
         List<ProductOrderDto> productOrderDtos = new ArrayList<>();
@@ -36,6 +42,27 @@ public class ProductOrderServiceImpl implements IProductOrderService {
                 productOrderDto.setTotalPrice(price);
             }
 
+            productOrderDtos.add(productOrderDto);
+        }
+        return productOrderDtos;
+    }
+
+    @Override
+    public List<ProductOrderEntity> findByOrderId(Integer orderId, Integer status) {
+        List<ProductOrderEntity> productOrderEntities = productOrderRepository.findAllByOrderId(orderId, status);
+        return productOrderEntities;
+    }
+
+    @Override
+    public List<ProductOrderDto> findAllByOrderId(Integer orderId) {
+        List<ProductOrderDto> productOrderDtos = new ArrayList<>();
+        List<ProductOrderEntity> productOrderEntities = productOrderRepository.findAllByOrderId(orderId, SystemConstant.INACTIVE_STATUS);
+        for (ProductOrderEntity productOrderEntity : productOrderEntities) {
+            ProductOrderDto productOrderDto = productOrderConverter.toDto(productOrderEntity);
+            ProductEntity productEntity = productRepository.findOneById(productOrderEntity.getProduct().getId());
+            productOrderDto.setOldPrice(productEntity.getOldPrice());
+            productOrderDto.setSalePrice(productEntity.getSalePrice());
+            productOrderDto.setImage1(productEntity.getImage1());
             productOrderDtos.add(productOrderDto);
         }
         return productOrderDtos;

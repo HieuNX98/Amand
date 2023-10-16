@@ -137,7 +137,7 @@ public class BagServiceImpl implements IBagService {
            bagRepository.deleteById(bagEntity.getId());
         }
         List<String> mails = userRepository.findEmailByIds(userIds);
-        String [] mailsArray = mails.toArray(new String[0]);
+        String [] mailsArray = mails.toArray(new String[mails.size()]);
         if (mails.size() > 0) {
             myEmailService.sendEmail(mailsArray, SystemConstant.subject, SystemConstant.text);
         }

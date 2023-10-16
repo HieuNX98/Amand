@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{client/layout/masterlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title layout:fragment="title">Giỏ hàng</title>
+    <link rel="stylesheet" th:href="@{/client/assets/css/orders.css}">
+</head>
+<body>
+<div class="cart" layout:fragment="content">
+    <div class="grid wide">
+        <!-- START -->
+        <div class='wrapper'>
+            <div class='content'>
+                <div class='calender-info'>
+                    <p class='title'> Danh sách đơn hàng</p>
+                    <table class="table">
+                        <thead class='header-table'>
+                        <tr>
+                            <td class="table-title">Ngày đặt đơn</td>
+                            <td class="table-title">Mã đơn</td>
+                            <td class="table-title">Tổng tiền</td>
+                            <td class="table-title">Thao tác</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="item : ${orderDtos}">
+                                <tr class="css-row">
+                                    <td class="table-content" th:text="${item.createdDate}"></td>
+                                    <td class="table-content" th:text="${item.codeOrder}"></td>
+                                    <td class="table-content" th:text="${@getUtils.formatMoney(item.totalPrice)}"></td>
+                                    <td class="table-content">
+                                        <a th:href="@{/chi-tiet-don-hang-dang-cho(id=${item.id})}">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END -->
+    </div>
+</div>
+</body>
+</html>

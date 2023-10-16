@@ -6,6 +6,8 @@ public class SystemConstant {
 
     public static final int INACTIVE_STATUS = 0;
 
+    public static final int CANCEL_STATUS = 2;
+
     public static final int API_STATUS_OK = 1;
 
     public static final int API_STATUS_NG = 0;
