@@ -1,24 +1,24 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/layout/masterlayout.html}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách đơn hàng</title>
+    <title>Danh sách đơn hàng bị huỷ</title>
 </head>
 <body>
 <div class="page-heading" layout:fragment="pageheading">
     <div class="page-title">
         <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
-                <h3>Danh sách đơn hàng</h3>
+                <h3>Danh sách đơn hàng bị huỷ</h3>
             </div>
             <div class="col-12 col-md-6 order-md-2 order-first">
                 <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Danh sách đơn hàng</li>
+                        <li class="breadcrumb-item active" aria-current="page">Danh sách đơn hàng bị huỷ</li>
                     </ol>
                 </nav>
             </div>
@@ -27,7 +27,7 @@
     <section class="section">
         <div class="card">
             <div class="card-header">
-                Dữ liệu đơn hàng
+                Dữ liệu đơn hàng bị huỷ
             </div>
             <div class="card-body">
                 <table class="table table-striped" id="table1">
@@ -57,7 +57,7 @@
                             <td th:text="${@getUtils.formatMoney(item.totalPrice)}"></td>
                             <td>
                                 <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-                                   title="Chi tiết đơn hàng" th:href="@{/admin/chi-tiet-don-hang(orderId=${item.id})}">
+                                   title="Chi tiết đơn hàng" th:href="@{/admin/chi-tiet-don-hang-bi-huy(orderId=${item.id})}">
                                     <i class="bi bi-info"></i>
                                 </a>
                             </td>
@@ -80,23 +80,23 @@
     </section>
 </div>
 <script layout:fragment="js" th:inline="javascript">
-    var currentPage = [[${page}]];
     var totalPages = [[${totalPages}]];
+    var currentPage = [[${page}]];
 
     $(function () {
-       window.pagObj = $('#pagination').twbsPagination({
-          totalPages : totalPages,
-           startPage : currentPage,
-           visiblePages : 10,
-           onPageClick : function (event, page) {
-              if (currentPage != page) {
-                  $('#page').val(page);
-                  $('#limit').val(5);
-                  $('#formSubmit').submit();
-              }
-           }
-       });
-    });
+        window.pagObj = $('#pagination').twbsPagination({
+            totalPages : totalPages,
+            startPage : currentPage,
+            visiblePages : 10,
+            onPageClick : function (event, page) {
+                if (currentPage != page) {
+                    $('#page').val(page);
+                    $('#limit').val(5);
+                    $('#formSubmit').submit();
+                }
+            }
+        });
+    }) ;
 </script>
 </body>
 </html>

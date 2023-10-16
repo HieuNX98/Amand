@@ -70,10 +70,10 @@ public class AdminOrderController {
         return mav;
     }
 
-    @GetMapping("/don-hang-moi")
-    public ModelAndView newOrder(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    @GetMapping("/danh-sach-don-hang-moi")
+    public ModelAndView listNewOrders(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                  @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
-        ModelAndView mav= new ModelAndView("admin/views/NewOrders");
+        ModelAndView mav= new ModelAndView("admin/views/ListNewOrders");
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(Sort.Direction.DESC, "modifiedDate"));
         List<OrderDto> orderDtos = orderService.findAllByStatus(pageable, SystemConstant.INACTIVE_STATUS);
         mav.addObject("orderDtos", orderDtos);
@@ -96,6 +96,35 @@ public class AdminOrderController {
         List<ProductOrderDto> productOrderDtos = productOrderService.findAllByOrderId(orderId, SystemConstant.INACTIVE_STATUS);
         mav.addObject("productOrderDtos", productOrderDtos);
         mav.addObject("orderId", orderId);
+        controllerUtils.setModelAndView(mav);
+        return mav;
+    }
+
+    @GetMapping("/danh-sach-don-hang-bi-huy")
+    public ModelAndView listOrdersIsCancel(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                           @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
+        ModelAndView mav = new ModelAndView("/admin/views/ListOrdersIsCancelled");
+        Pageable pageable = PageRequest.of(page - 1, limit,Sort.by(Sort.Direction.DESC, "modifiedDate"));
+        List<OrderDto> orderDtos = orderService.findAllByStatus(pageable, SystemConstant.CANCEL_STATUS);
+        mav.addObject("orderDtos", orderDtos);
+        int totalItem = orderService.getTotalItem(SystemConstant.CANCEL_STATUS);
+        mav.addObject("totalPages", (int) Math.ceil((double) totalItem / limit));
+        controllerUtils.setModelAndView(mav);
+        controllerUtils.setPageAndLimit(mav, page, limit);
+        return mav;
+    }
+
+    @GetMapping("/chi-tiet-don-hang-bi-huy")
+    public ModelAndView detailCancelOrder(@RequestParam(value = "orderId", required = false) Integer orderId,
+                                          RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView("admin/views/DetailOrder");
+        if (orderId == null) {
+            redirectAttributes.addFlashAttribute("messageError", "Đơn hàng không tồn tại");
+            mav.setViewName("redirect:/500");
+            return mav;
+        }
+        List<ProductOrderDto> productOrderDtos = productOrderService.findAllByOrderId(orderId, SystemConstant.CANCEL_STATUS);
+        mav.addObject("productOrderDtos", productOrderDtos);
         controllerUtils.setModelAndView(mav);
         return mav;
     }
