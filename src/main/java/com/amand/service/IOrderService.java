@@ -1,6 +1,7 @@
 package com.amand.service;
 
 import com.amand.dto.OrderDto;
+import com.amand.dto.PayDto;
 import com.amand.entity.OrderEntity;
 import com.amand.form.OrderForm;
 import org.springframework.data.domain.Pageable;
@@ -23,5 +24,13 @@ public interface IOrderService {
     int getTotalItem(Integer status);
 
     OrderDto findById(Integer id, Integer status);
+
+    List<PayDto> findAllByDay(String time);
+
+    List<PayDto> findAllByDayToDay(String startDay, String endDay);
+
+    List<PayDto> findAllByMonthToMonth(String startMonth, String endMonth);
+
+    List<PayDto> findAllByYearToYear(String startYear, String endYear);
 
 }
