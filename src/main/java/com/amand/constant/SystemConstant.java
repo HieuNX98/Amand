@@ -46,4 +46,15 @@ public class SystemConstant {
 
     public static final String text = "Giỏ hàng của bạn đã được làm mới";
 
+    public static final String TODAY = "1";
+
+    public static final String YESTERDAY = "2";
+
+    public static final String THIS_WEEK = "3";
+
+    public static final String THIS_MONTH = "4";
+
+    public static final String THIS_YEAR = "5";
+
+    public static final String MORE = "6";
 }

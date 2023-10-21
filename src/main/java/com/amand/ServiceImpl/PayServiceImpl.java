@@ -18,4 +18,5 @@ public class PayServiceImpl implements IPayService {
     public void save(PayEntity payEntity) {
         payRepository.save(payEntity);
     }
+
 }

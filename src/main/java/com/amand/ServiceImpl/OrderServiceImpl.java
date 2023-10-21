@@ -5,14 +5,17 @@ import com.amand.constant.SystemConstant;
 import com.amand.converter.OrderConverter;
 import com.amand.converter.ProductOrderConverter;
 import com.amand.dto.OrderDto;
+import com.amand.dto.PayDto;
 import com.amand.entity.*;
 import com.amand.form.OrderForm;
+import com.amand.form.PayForm;
 import com.amand.repository.*;
 import com.amand.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -161,6 +164,29 @@ public class OrderServiceImpl implements IOrderService {
         return orderDto;
     }
 
+    @Override
+    public List<PayDto> findAllByDay(String time) {
+        List<PayDto> payDtos = orderRepository.findAllByDay(time);
+        return payDtos;
+    }
+
+    @Override
+    public List<PayDto> findAllByDayToDay(String startDay, String endDay) {
+        List<PayDto> payDtos = orderRepository.findAllByDayToDay(startDay, endDay);
+        return payDtos;
+    }
+
+    @Override
+    public List<PayDto> findAllByMonthToMonth(String startMonth, String endMonth) {
+        List<PayDto> payDtos = orderRepository.findAllByMonthToMonth(startMonth, endMonth);
+        return payDtos;
+    }
+
+    @Override
+    public List<PayDto> findAllByYearToYear(String startYear, String endYear) {
+        List<PayDto> payDtos = orderRepository.findAllByYearToYear(startYear, endYear);
+        return payDtos;
+    }
 
     private String generateRandomCodeOrder() {
         long time = System.currentTimeMillis();

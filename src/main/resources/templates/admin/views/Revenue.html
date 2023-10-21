@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/layout/masterlayout.html}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doanh thu</title>
+    <style>
+        .msg_error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="page-heading" layout:fragment="pageheading" >
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Doanh thu</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/home">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Doanh thu</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Thông tin doanh thu</h4>
+            </div>
+            <div class="col-12 col-lg-12">
+                <div class="row">
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon purple">
+                                            <i class="iconly-boldShow"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Profile Views</h6>
+                                        <h6 class="font-extrabold mb-0">112.000</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon blue">
+                                            <i class="iconly-boldProfile"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Followers</h6>
+                                        <h6 class="font-extrabold mb-0">183.000</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon green">
+                                            <i class="iconly-boldAdd-User"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Following</h6>
+                                        <h6 class="font-extrabold mb-0">80.000</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body px-3 py-4-5">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="stats-icon red">
+                                            <i class="iconly-boldBookmark"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h6 class="text-muted font-semibold">Saved Post</h6>
+                                        <h6 class="font-extrabold mb-0">112</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <form id="formSubmit" th:action="@{/admin/quan-tri/doanh-thu}" method="POST">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <h6 th:if="${messageError != null}" th:text="${messageError}"></h6>
+                                <label class="col-sm-3 control-label no-padding-right" for="select">Chọn</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="select" name="select">
+                                        <option value="1" th:if="${select == null || !'1'.equals(select)}">Hôm nay</option>
+                                        <option value="1" th:if="${select != null && '1'.equals(select)}" selected="selected">
+                                            Hôm nay</option>
+                                        <option value="2" th:if="${select == null || !'2'.equals(select)}">Hôm qua</option>
+                                        <option value="2" th:if="${select != null && '2'.equals(select)}" selected="selected">
+                                            Hôm qua</option>
+                                        <option value="3" th:if="${select == null || !'3'.equals(select)}">Tuần này</option>
+                                        <option value="3" th:if="${select != null && '3'.equals(select)}" selected="selected">
+                                            Tuần này</option>
+                                        <option value="4" th:if="${select == null || !'4'.equals(select)}">Tháng này</option>
+                                        <option value="4" th:if="${select != null && '4'.equals(select)}" selected="selected">
+                                            Tháng này</option>
+                                        <option value="5" th:if="${select == null || !'5'.equals(select)}">Năm nay</option>
+                                        <option value="5" th:if="${select != null && '5'.equals(select)}" selected="selected">
+                                            Năm nay</option>
+                                        <option value="6" th:if="${select == null || !'6'.equals(select)}">Nhiều hơn</option>
+                                        <option value="6" th:if="${select != null && '6'.equals(select)}" selected="selected">
+                                            Nhiều hơn</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                        </div>
+
+
+                        <div class="col-md-6 more" hidden>
+                            <div class="form-group">
+                                <label for="sinceDate">Từ Ngày</label>
+                                <input type="date" class="form-control" id="sinceDate" name="sinceDate" th:value="${sinceDate}">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 more" hidden>
+                            <div class="form-group">
+                                <label for="toDate">Đến Ngày</label>
+                                <input type="date" class="form-control" id="toDate" name="toDate" th:value="${toDate}">
+                            </div>
+                        </div>
+
+                        <table class="table table-striped" id="table1">
+                            <thead>
+                            <tr>
+                                <th>Thời Gian</th>
+                                <th>Số tiền</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <th:block th:each="item : ${payDtos}">
+                                <tr>
+                                    <td class="text-bold-500" th:text="${item.time}"></td>
+                                    <td class="text-bold-500" th:text="${@getUtils.formatMoney(item.money)}"></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Tổng tiền</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label th:text="${@getUtils.formatMoney(totalMoney)}"></label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit"
+                                class="btn btn-primary me-1 mb-1" id="search">Tìm</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script layout:fragment="js">
+    $('#select').on('change', function () {
+       let value = Number($(this).val());
+       if (value === 6) {
+        $('.more').removeAttr("hidden");
+       } else {
+           $('#sinceDate').val('');
+           $('#toDate').val('');
+           $('.more').prop("hidden", true);
+       }
+    });
+
+   let checkSelect = function () {
+       let value = Number($('#select').val());
+       if (value === 6) {
+           $('.more').removeAttr("hidden");
+       } else {
+           $('.more').prop("hidden", true);
+       }
+   }
+
+   checkSelect();
+
+
+
+
+</script>
+</body>
+</html>
