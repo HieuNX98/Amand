@@ -1,5 +1,6 @@
 package com.amand.api.admin;
 
+import com.amand.Utils.FileUtils;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.ApiResponse;
 import com.amand.dto.ProductDto;
@@ -12,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +27,7 @@ public class ProductApi {
     @Autowired
     private IProductService productService;
 
-    @PostMapping("/product")
+    @PostMapping("/create-product")
     public ResponseEntity<?> createProduct(@ModelAttribute ProductForm productForm) {
         Map<String, String> resultValidate = productService.validate(productForm, true);
         if (!CollectionUtils.isEmpty(resultValidate)) {
@@ -35,6 +38,23 @@ public class ProductApi {
             ApiResponse response = new ApiResponse(SystemConstant.API_STATUS_OK, List.of(result));
             return ResponseEntity.ok(response);
         }
+    }
+
+    @PostMapping("/create-file-product")
+    public ResponseEntity<?> createFileProduct(@RequestParam(name = "file") MultipartFile file) {
+        String messageError = productService.validateFile(file);
+        if (Strings.isBlank(messageError)) {
+            try {
+                List<ProductForm> productForms = FileUtils.readExcel(file);
+                productService.save(productForms);
+                ApiResponse apiResponse = new ApiResponse(SystemConstant.API_STATUS_OK);
+                return ResponseEntity.ok(apiResponse);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        ApiResponse apiResponse = new ApiResponse(SystemConstant.API_STATUS_NG, messageError);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PutMapping("/edit-product")

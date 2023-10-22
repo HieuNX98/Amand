@@ -4,6 +4,7 @@ import com.amand.dto.ProductDto;
 import com.amand.entity.ProductEntity;
 import com.amand.form.ProductForm;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,11 @@ public interface IProductService {
 
     void save(ProductEntity productEntity);
 
+    void save(List<ProductForm> productForms);
+
     Map<String, String> validate(ProductForm productForm, boolean isRegister);
+
+    String validateFile(MultipartFile file);
 
     List<ProductDto> findAll(Pageable pageable, Integer status);
 

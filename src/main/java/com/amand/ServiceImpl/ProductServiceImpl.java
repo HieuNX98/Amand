@@ -15,6 +15,8 @@ import com.amand.repository.ProductRepository;
 import com.amand.repository.SizeRepository;
 import com.amand.service.IProductService;
 import org.apache.logging.log4j.util.Strings;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -101,6 +103,24 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    @Transactional
+    public void save(List<ProductForm> productForms) {
+        List<ProductEntity> productEntities= new ArrayList<>();
+        for (ProductForm productForm : productForms) {
+            ProductEntity productEntity = productConverter.toEntity(productForm);
+            List<SizeEntity> sizeEntities = sizeRepository.findAllByNames(productForm.getSizeNames());
+            productEntity.setSizes(sizeEntities);
+            List<ColorEntity> colorEntities = colorRepository.findAllByNames(productForm.getColorNames());
+            productEntity.setColors(colorEntities);
+            CategoryEntity categoryEntity = categoryRepository.findByCode(productForm.getCategoryCode());
+            productEntity.setCategory(categoryEntity);
+            productEntities.add(productEntity);
+        }
+
+        productRepository.saveAll(productEntities);
+    }
+
+    @Override
     public Map<String, String> validate(ProductForm productForm, boolean isRegister) {
         Map<String, String> results = new HashMap<>();
         if (productForm.getCategoryId() == null) {
@@ -160,6 +180,20 @@ public class ProductServiceImpl implements IProductService {
             results.put("MessageImage4", errorImage4);
         }
         return results;
+    }
+
+    @Override
+    public String validateFile(MultipartFile file) {
+        String messageError = "";
+        if (file == null || file.isEmpty()) {
+             messageError = "Bạn không được để trống thông tin ảnh sản phẩm";
+             return messageError;
+        }
+        if (!file.getOriginalFilename().endsWith("xlsx") && !file.getOriginalFilename().endsWith("xls")) {
+            messageError = "Vui lòng upfile thuộc các định dạng sau 'xlsx', 'xls'";
+            return messageError;
+        }
+        return messageError;
     }
 
     @Override

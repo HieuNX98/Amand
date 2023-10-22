@@ -26,6 +26,9 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Intege
 
     List<CategoryEntity> findAllByStatus(Integer status);
 
+    @Query(value = "SELECT c FROM CategoryEntity c WHERE c.code = :categoryCode")
+    CategoryEntity findByCode(@Param("categoryCode") String categoryCode);
+
     @Query(value = "SELECT count(c) FROM CategoryEntity c WHERE c.status = :status")
     int countByStatus(@Param("status") Integer status);
 

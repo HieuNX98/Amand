@@ -57,4 +57,45 @@ public class SystemConstant {
     public static final String THIS_YEAR = "5";
 
     public static final String MORE = "6";
+
+    public static final int COLUMN_INDEX_NAME = 0;
+
+    public static final int COLUMN_INDEX_AMOUNT = 1;
+
+    public static final int COLUMN_INDEX_SALE_PRICE = 2;
+
+    public static final int COLUMN_INDEX_SEASON = 3;
+
+    public static final int COLUMN_INDEX_CATEGORY_CODE = 4;
+
+    public static final int COLUMN_INDEX_OLD_PRICE = 5;
+
+    public static final int COLUMN_INDEX_SIZE_M = 6;
+
+    public static final int COLUMN_INDEX_SIZE_L = 7;
+
+    public static final int COLUMN_INDEX_SIZE_38 = 8;
+
+    public static final int COLUMN_INDEX_SIZE_39 = 9;
+
+    public static final int COLUMN_INDEX_SIZE_40 = 10;
+
+    public static final int COLUMN_INDEX_SIZE_41 = 11;
+
+    public static final int COLUMN_INDEX_COLOR_WHITE = 12;
+
+    public static final int COLUMN_INDEX_COLOR_BROWN = 13;
+
+    public static final int COLUMN_INDEX_COLOR_BLACK = 14;
+
+    public static final int COLUMN_INDEX_COLOR_VIOLET = 15;
+
+    public static final int CELL_TYPE_NUMERIC = 0;
+
+    public static final int CELL_TYPE_STRING = 1;
+
+    public static final int CELL_TYPE_BLANK = 3;
+
+    public static final int CELL_TYPE_ERROR = 5;
+
 }

@@ -25,6 +25,9 @@ public interface SizeRepository extends JpaRepository<SizeEntity, Integer> {
 
     List<SizeEntity> findAllByStatus(Integer status);
 
+    @Query(value = "SELECT s FROM SizeEntity s WHERE s.name IN (:names)")
+    List<SizeEntity> findAllByNames(@Param("names") List<String> name);
+
     @Query(value = "SELECT count(s) FROM SizeEntity s WHERE s.status = :status")
     int countByStatus(@Param("status") Integer status);
 
