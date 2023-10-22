@@ -28,6 +28,10 @@ public class ProductForm extends BaseForm {
 
     private String sizeName;
 
+    private List<String> colorNames;
+
+    private List<String> sizeNames;
+
     private MultipartFile image1;
 
     private MultipartFile image2;
@@ -35,5 +39,7 @@ public class ProductForm extends BaseForm {
     private MultipartFile image3;
 
     private MultipartFile image4;
+
+    private String categoryCode;
 
 }

@@ -20,6 +20,9 @@ public interface ColorRepository extends JpaRepository<ColorEntity, Integer> {
     @Query(value = "SELECT c FROM ColorEntity c WHERE c.id IN (:ids)")
     List<ColorEntity> findAllByIds(@Param("ids") List<Integer> ids);
 
+    @Query(value = "SELECT c FROM ColorEntity c WHERE c.name IN (:names)")
+    List<ColorEntity> findAllByNames(@Param("names") List<String> names);
+
     List<ColorEntity> findAllByStatus(Pageable pageable, Integer status);
 
     List<ColorEntity> findAllByStatus(Integer status);

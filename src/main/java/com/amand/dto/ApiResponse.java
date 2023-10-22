@@ -14,12 +14,19 @@ public class ApiResponse {
 
     private Map<String, String> error;
 
+    private String message;
+
     public ApiResponse() {
     }
 
     public ApiResponse(Integer status, Map<String, String> error) {
         this.status = status;
         this.error = error;
+    }
+
+    public ApiResponse(Integer status, String message) {
+        this.status = status;
+        this.message = message;
     }
 
     public ApiResponse(Integer status, List<?> results) {

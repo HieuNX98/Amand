@@ -100,6 +100,13 @@ public class AdminProductController {
         return mav;
     }
 
+    @GetMapping("/them-file-san-pham")
+    public ModelAndView createFileProduct() {
+        ModelAndView mav = new ModelAndView("admin/views/CreateFileProduct");
+        controllerUtils.setModelAndView(mav);
+        return mav;
+    }
+
 
     @GetMapping("/danh-sach-san-pham-bi-an")
     public ModelAndView listHideProduct(@RequestParam(value = "page", defaultValue = "1") int page,
