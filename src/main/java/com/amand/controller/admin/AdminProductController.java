@@ -1,6 +1,7 @@
 package com.amand.controller.admin;
 
 import com.amand.Utils.ControllerUtils;
+import com.amand.Utils.ProductExcelExporter;
 import com.amand.constant.SystemConstant;
 import com.amand.dto.CategoryDto;
 import com.amand.dto.ColorDto;
@@ -21,6 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -107,6 +114,20 @@ public class AdminProductController {
         return mav;
     }
 
+    @GetMapping("/tao-file-excel")
+    public void createFileExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentTime = sdf.format(calendar.getTime());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=amand_" + currentTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        ProductExcelExporter productExcelExporter = new ProductExcelExporter();
+        productExcelExporter.export(response);
+
+    }
+
 
     @GetMapping("/danh-sach-san-pham-bi-an")
     public ModelAndView listHideProduct(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -120,4 +141,5 @@ public class AdminProductController {
         controllerUtils.setModelAndView(mav);
         return mav;
     }
+
 }

@@ -98,4 +98,35 @@ public class SystemConstant {
 
     public static final int CELL_TYPE_ERROR = 5;
 
+    public static final String NAME_PRODUCT = "Products Name";
+
+    public static final String AMOUNT = "Amount";
+
+    public static final String SALE_PRICE = "Sale price";
+
+    public static final String OLD_PRICE = "Old price";
+
+    public static final String SEASON = "Season";
+
+    public static final String CATEGORY_CODE = "Category code";
+
+    public static final String SIZE_M = "M";
+
+    public static final String SIZE_L = "L";
+
+    public static final String SIZE_38 = "38";
+
+    public static final String SIZE_39 = "39";
+
+    public static final String SIZE_40 = "40";
+
+    public static final String SIZE_41 = "41";
+
+    public static final String COLOR_WHITE = "Trắng";
+
+    public static final String COLOR_BROWN = "Nâu";
+
+    public static final String COLOR_BLACK = "Đen";
+
+    public static final String COLOR_VIOLET = "Tím";
 }
