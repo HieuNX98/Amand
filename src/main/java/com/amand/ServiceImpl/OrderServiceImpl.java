@@ -8,14 +8,12 @@ import com.amand.dto.OrderDto;
 import com.amand.dto.PayDto;
 import com.amand.entity.*;
 import com.amand.form.OrderForm;
-import com.amand.form.PayForm;
 import com.amand.repository.*;
 import com.amand.service.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -186,6 +184,16 @@ public class OrderServiceImpl implements IOrderService {
     public List<PayDto> findAllByYearToYear(String startYear, String endYear) {
         List<PayDto> payDtos = orderRepository.findAllByYearToYear(startYear, endYear);
         return payDtos;
+    }
+
+    @Override
+    public int getTotalItem(String time, int status) {
+        return orderRepository.countByCreatedDateAndStatus(time, status);
+    }
+
+    @Override
+    public int getTotalItem(String time) {
+        return orderRepository.countByCreatedDate(time);
     }
 
     private String generateRandomCodeOrder() {

@@ -55,7 +55,7 @@ public class ProductOrderServiceImpl implements IProductOrderService {
 
     @Override
     public List<ProductOrderDto> findAllByOrderId(Integer orderId) {
-        List<ProductOrderDto> productOrderDtos = new ArrayList<>();
+        /*List<ProductOrderDto> productOrderDtos = new ArrayList<>();
         List<ProductOrderEntity> productOrderEntities = productOrderRepository.findAllByOrderId(orderId, SystemConstant.INACTIVE_STATUS);
         for (ProductOrderEntity productOrderEntity : productOrderEntities) {
             ProductOrderDto productOrderDto = productOrderConverter.toDto(productOrderEntity);
@@ -64,8 +64,8 @@ public class ProductOrderServiceImpl implements IProductOrderService {
             productOrderDto.setSalePrice(productEntity.getSalePrice());
             productOrderDto.setImage1(productEntity.getImage1());
             productOrderDtos.add(productOrderDto);
-        }
-        /*List<ProductOrderDto> productOrderDtos = productOrderRepository.getProductDto(orderId);*/
+        }*/
+        List<ProductOrderDto> productOrderDtos = productOrderRepository.getProductDto(orderId);
         return productOrderDtos;
     }
 

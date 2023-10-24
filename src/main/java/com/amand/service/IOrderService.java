@@ -1,5 +1,6 @@
 package com.amand.service;
 
+import com.amand.constant.SystemConstant;
 import com.amand.dto.OrderDto;
 import com.amand.dto.PayDto;
 import com.amand.entity.OrderEntity;
@@ -32,5 +33,9 @@ public interface IOrderService {
     List<PayDto> findAllByMonthToMonth(String startMonth, String endMonth);
 
     List<PayDto> findAllByYearToYear(String startYear, String endYear);
+
+    int getTotalItem(String time, int status);
+
+    int getTotalItem(String time);
 
 }

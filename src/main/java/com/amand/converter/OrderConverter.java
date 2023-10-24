@@ -29,7 +29,7 @@ public class OrderConverter {
         orderDto.setEmail(orderEntity.getEmail());
         orderDto.setNote(orderEntity.getNote());
         orderDto.setPhone(orderEntity.getPhone());
-        orderDto.setSubtotal(orderEntity.getTotalPrice());
+        orderDto.setSubtotal(orderEntity.getSubtotal());
         orderDto.setTransportFee(orderEntity.getTransportFee());
         orderDto.setTotalPrice(orderEntity.getTotalPrice());
         orderDto.setCreatedDate(orderEntity.getCreatedDate());
