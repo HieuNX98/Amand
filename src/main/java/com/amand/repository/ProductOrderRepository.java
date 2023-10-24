@@ -16,17 +16,11 @@ public interface ProductOrderRepository extends JpaRepository<ProductOrderEntity
     List<ProductOrderEntity> findAllByOrderId(@Param("orderId") Integer orderId,
                                               @Param("status") Integer status);
 
-    @Query(value = "SELECT new com.amand.dto.ProductOrderDto(p.productName, p.salePrice, p.image1, p.oldPrice, po.amount, " +
-                                "po.colorName, po.sizeName) p.name AS productName, " +
-                              "p.sale_price AS salePrice, " +
-                              "p.image1 AS image1, " +
-                              "p.old_price AS oldPrice, " +
-                              "po.amount AS amount, " +
-                              "po.color_name AS colorName, " +
-                              "po.size_name AS sizeName " +
-                              "FROM amand.product AS p " +
-                              "INNER JOIN amand.product_oders AS po " +
-                              "ON p.id = po.product_id WHERE po.order_id = :orderId", nativeQuery = true)
+    @Query(value = "SELECT new com.amand.dto.ProductOrderDto(p.name, p.salePrice, p.image1, p.oldPrice, po.amount, " +
+                                "po.colorName, po.sizeName) " +
+                              "FROM ProductEntity p " +
+                              "INNER JOIN p.productOrders po " +
+                              "WHERE po.order.id = :orderId")
     List<ProductOrderDto> getProductDto(@Param("orderId") Integer orderId);
 
 }

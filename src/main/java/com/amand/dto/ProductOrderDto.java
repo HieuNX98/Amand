@@ -11,17 +11,17 @@ public class ProductOrderDto extends BaseDto {
 
     private String sizeName;
 
-    private int amount;
+    private Integer amount;
 
-    private double totalPrice;
+    private Double totalPrice;
 
-    private double oldPrice;
+    private Double oldPrice;
 
-    private double salePrice;
+    private Double salePrice;
 
     private String image1;
 
-    public ProductOrderDto(String productName, double salePrice, String image1, double oldPrice, int amount, String colorName, String sizeName ) {
+    public ProductOrderDto(String productName, Double salePrice, String image1, Double oldPrice, Integer amount, String colorName, String sizeName ) {
         this.productName = productName;
         this.salePrice = salePrice;
         this.image1 = image1;

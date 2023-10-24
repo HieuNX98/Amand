@@ -56,4 +56,13 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
             " GROUP BY DATE_FORMAT(o.createdDate, '%Y')")
     List<PayDto> findAllByYearToYear(@Param("startYear") String startYear,
                                      @Param("endYear") String endYear);
+
+    @Query(value = "SELECT COUNT(o) FROM OrderEntity o " +
+                    "WHERE DATE_FORMAT(o.createdDate, '%Y-%m') = DATE_FORMAT(:createdDate, '%Y-%m') AND o.status = :status")
+    int countByCreatedDateAndStatus(@Param("createdDate") String time,
+                                    @Param("status") Integer status);
+
+    @Query(value = "SELECT COUNT(o) FROM OrderEntity o " +
+                    "WHERE DATE_FORMAT(o.createdDate, '%Y-%m') = DATE_FORMAT(:createdDate, '%Y-%m')")
+    int countByCreatedDate(@Param("createdDate") String time);
 }
